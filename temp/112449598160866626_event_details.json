@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112449598160866626",
+      "type": "match",
+      "tournament": {
+        "id": "112449498998017060"
+      },
+      "league": {
+        "id": "98767991314006698",
+        "slug": "lpl",
+        "image": "http://static.lolesports.com/leagues/1592516115322_LPL-01-FullonDark.png",
+        "name": "LPL"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "101388912914513220",
+            "name": "Shenzhen NINJAS IN PYJAMAS",
+            "code": "NIP",
+            "image": "http://static.lolesports.com/teams/1673425724696_NIP-Symbol-RGB-NeonYellow1.png",
+            "result": {
+              "gameWins": 1
+            }
+          },
+          {
+            "id": "99566404853854212",
+            "name": "Bilibili Gaming",
+            "code": "BLG",
+            "image": "http://static.lolesports.com/teams/1682322954525_Bilibili_Gaming_logo_20211.png",
+            "result": {
+              "gameWins": 2
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112449598160866627",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "101388912914513220",
+                "side": "blue"
+              },
+              {
+                "id": "99566404853854212",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112449598160866628",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566404853854212",
+                "side": "blue"
+              },
+              {
+                "id": "101388912914513220",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112449598160866629",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "101388912914513220",
+                "side": "blue"
+              },
+              {
+                "id": "99566404853854212",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

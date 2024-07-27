@@ -1,0 +1,378 @@
+[
+  {
+    "name": "Corki",
+    "winrate": 67
+  },
+  {
+    "name": "Tristana",
+    "winrate": 48
+  },
+  {
+    "name": "Rumble",
+    "winrate": 63
+  },
+  {
+    "name": "Rell",
+    "winrate": 59
+  },
+  {
+    "name": "Skarner",
+    "winrate": 44
+  },
+  {
+    "name": "KSante",
+    "winrate": 50
+  },
+  {
+    "name": "Nautilus",
+    "winrate": 70
+  },
+  {
+    "name": "Hwei",
+    "winrate": 83
+  },
+  {
+    "name": "Taliyah",
+    "winrate": 27
+  },
+  {
+    "name": "Varus",
+    "winrate": 33
+  },
+  {
+    "name": "Sejuani",
+    "winrate": 35
+  },
+  {
+    "name": "Leona",
+    "winrate": 20
+  },
+  {
+    "name": "Ivern",
+    "winrate": 50
+  },
+  {
+    "name": "Kaisa",
+    "winrate": 68
+  },
+  {
+    "name": "Karthus",
+    "winrate": 90
+  },
+  {
+    "name": "Maokai",
+    "winrate": 44
+  },
+  {
+    "name": "Jinx",
+    "winrate": 45
+  },
+  {
+    "name": "Yone",
+    "winrate": 75
+  },
+  {
+    "name": "Renekton",
+    "winrate": 64
+  },
+  {
+    "name": "Ashe",
+    "winrate": 38
+  },
+  {
+    "name": "Ezreal",
+    "winrate": 36
+  },
+  {
+    "name": "LeBlanc",
+    "winrate": 25
+  },
+  {
+    "name": "Vi",
+    "winrate": 56
+  },
+  {
+    "name": "Zac",
+    "winrate": 60
+  },
+  {
+    "name": "Aatrox",
+    "winrate": 30
+  },
+  {
+    "name": "Ziggs",
+    "winrate": 67
+  },
+  {
+    "name": "Zyra",
+    "winrate": 50
+  },
+  {
+    "name": "Syndra",
+    "winrate": 43
+  },
+  {
+    "name": "Brand",
+    "winrate": 50
+  },
+  {
+    "name": "Kalista",
+    "winrate": 100
+  },
+  {
+    "name": "Senna",
+    "winrate": 57
+  },
+  {
+    "name": "Poppy",
+    "winrate": 71
+  },
+  {
+    "name": "Zeri",
+    "winrate": 40
+  },
+  {
+    "name": "Alistar",
+    "winrate": 57
+  },
+  {
+    "name": "Caitlyn",
+    "winrate": 0
+  },
+  {
+    "name": "Darius",
+    "winrate": 33
+  },
+  {
+    "name": "Gragas",
+    "winrate": 67
+  },
+  {
+    "name": "Jayce",
+    "winrate": 33
+  },
+  {
+    "name": "Azir",
+    "winrate": 29
+  },
+  {
+    "name": "Kindred",
+    "winrate": 50
+  },
+  {
+    "name": "Jax",
+    "winrate": 71
+  },
+  {
+    "name": "Malphite",
+    "winrate": 100
+  },
+  {
+    "name": "Zed",
+    "winrate": 67
+  },
+  {
+    "name": "Ornn",
+    "winrate": 14
+  },
+  {
+    "name": "Smolder",
+    "winrate": 86
+  },
+  {
+    "name": "Aurelion Sol",
+    "winrate": 50
+  },
+  {
+    "name": "Viego",
+    "winrate": 33
+  },
+  {
+    "name": "Xin Zhao",
+    "winrate": 33
+  },
+  {
+    "name": "Braum",
+    "winrate": 50
+  },
+  {
+    "name": "Camille",
+    "winrate": 50
+  },
+  {
+    "name": "Aphelios",
+    "winrate": 20
+  },
+  {
+    "name": "Jarvan IV",
+    "winrate": 67
+  },
+  {
+    "name": "Twisted Fate",
+    "winrate": 0
+  },
+  {
+    "name": "Volibear",
+    "winrate": 75
+  },
+  {
+    "name": "Jhin",
+    "winrate": 50
+  },
+  {
+    "name": "Gwen",
+    "winrate": 33
+  },
+  {
+    "name": "Karma",
+    "winrate": 33
+  },
+  {
+    "name": "Rengar",
+    "winrate": 0
+  },
+  {
+    "name": "Gnar",
+    "winrate": 0
+  },
+  {
+    "name": "Blitzcrank",
+    "winrate": 50
+  },
+  {
+    "name": "Thresh",
+    "winrate": 33
+  },
+  {
+    "name": "Vayne",
+    "winrate": 50
+  },
+  {
+    "name": "Lillia",
+    "winrate": 67
+  },
+  {
+    "name": "Cassiopeia",
+    "winrate": 0
+  },
+  {
+    "name": "Kennen",
+    "winrate": 100
+  },
+  {
+    "name": "Miss Fortune",
+    "winrate": 33
+  },
+  {
+    "name": "Riven",
+    "winrate": 100
+  },
+  {
+    "name": "Sion",
+    "winrate": 50
+  },
+  {
+    "name": "Swain",
+    "winrate": 0
+  },
+  {
+    "name": "Tryndamere",
+    "winrate": 0
+  },
+  {
+    "name": "Yasuo",
+    "winrate": 100
+  },
+  {
+    "name": "RekSai",
+    "winrate": 0
+  },
+  {
+    "name": "Amumu",
+    "winrate": 50
+  },
+  {
+    "name": "Galio",
+    "winrate": 50
+  },
+  {
+    "name": "Lucian",
+    "winrate": 0
+  },
+  {
+    "name": "Nasus",
+    "winrate": 50
+  },
+  {
+    "name": "Nidalee",
+    "winrate": 100
+  },
+  {
+    "name": "Olaf",
+    "winrate": 0
+  },
+  {
+    "name": "Rakan",
+    "winrate": 0
+  },
+  {
+    "name": "Sylas",
+    "winrate": 0
+  },
+  {
+    "name": "Seraphine",
+    "winrate": 50
+  },
+  {
+    "name": "Renata Glasc",
+    "winrate": 0
+  },
+  {
+    "name": "Milio",
+    "winrate": 0
+  },
+  {
+    "name": "Akali",
+    "winrate": 0
+  },
+  {
+    "name": "Diana",
+    "winrate": 100
+  },
+  {
+    "name": "Dr. Mundo",
+    "winrate": 0
+  },
+  {
+    "name": "Nami",
+    "winrate": 100
+  },
+  {
+    "name": "Nocturne",
+    "winrate": 0
+  },
+  {
+    "name": "Pantheon",
+    "winrate": 0
+  },
+  {
+    "name": "Shen",
+    "winrate": 0
+  },
+  {
+    "name": "Udyr",
+    "winrate": 0
+  },
+  {
+    "name": "Viktor",
+    "winrate": 0
+  },
+  {
+    "name": "Ekko",
+    "winrate": 100
+  },
+  {
+    "name": "Xayah",
+    "winrate": 0
+  }
+]

@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112552584942738034",
+      "type": "match",
+      "tournament": {
+        "id": "112552481837121929"
+      },
+      "league": {
+        "id": "107213827295848783",
+        "slug": "vcs",
+        "image": "http://static.lolesports.com/leagues/1677578094811_VCS_SYMBOL_TITANIUM_RGB.png",
+        "name": "VCS"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "109828279319224248",
+            "name": "MGN Blue Esports",
+            "code": "MBE",
+            "image": "http://static.lolesports.com/teams/1704187570236_Iconwhite.png",
+            "result": {
+              "gameWins": 1
+            }
+          },
+          {
+            "id": "98767991954244555",
+            "name": "GAM Esports",
+            "code": "GAM",
+            "image": "http://static.lolesports.com/teams/1643263093448_GAMyellow.png",
+            "result": {
+              "gameWins": 2
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112552584942738035",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "109828279319224248",
+                "side": "blue"
+              },
+              {
+                "id": "98767991954244555",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112552584942738036",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "109828279319224248",
+                "side": "blue"
+              },
+              {
+                "id": "98767991954244555",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112552584942738037",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "109828279319224248",
+                "side": "blue"
+              },
+              {
+                "id": "98767991954244555",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

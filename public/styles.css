@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.team-section {
+    margin-bottom: 20px;
+}
+
+.team-section h2 {
+    margin-bottom: 10px;
+}
+
+#results {
+    margin-top: 20px;
+}
+
+.small-input {
+    max-width: 100px;
+    display: block;
+    margin: 0 auto;
+}
+
+.champion-result {
+    display: inline-block;
+    text-align: center;
+    margin: 10px;
+}
+
+.champion-result img {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+}
+
+label {
+    text-align: center;
+    display: block;
+}
+
+.form-group {
+    text-align: center;
+}
+
+.highlight {
+    color: red; /* Alterar para a cor desejada */
+    font-weight: bold;
+}
+
+section {
+    border: 2px solid #ccc; /* Adiciona borda a cada seção */
+    padding: 10px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaçamento entre seções */
+}
+
+.container {
+    margin-bottom: 50px; /* Espaçamento do final da página */
+}
+
+.game {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    text-align: left;
+}
+
+.game img {
+    background-color: #584a4a; /* Cor de fundo especificada para as imagens dos logos */
+    padding: 5px; /* Espaçamento interno ao redor das imagens dos logos */
+}
+
+.teams-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo para remover fundo cinza das imagens do game results */
+.game-results img {
+    background-color: transparent;
+    border: none;
+}
+
+/* Estilo para ocultar os detalhes do evento por padrão */
+.event-details {
+    display: none;
+}
+
+/* Estilo para exibir os detalhes do evento quando ativo */
+.event-details.active {
+    display: block;
+}

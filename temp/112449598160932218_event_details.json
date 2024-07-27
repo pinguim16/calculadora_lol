@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112449598160932218",
+      "type": "match",
+      "tournament": {
+        "id": "112449498998017060"
+      },
+      "league": {
+        "id": "98767991314006698",
+        "slug": "lpl",
+        "image": "http://static.lolesports.com/leagues/1592516115322_LPL-01-FullonDark.png",
+        "name": "LPL"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "99566404850008779",
+            "name": "Suzhou LNG Ninebot Esports",
+            "code": "LNG",
+            "image": "http://static.lolesports.com/teams/1717487697003_LNGlogo.png",
+            "result": {
+              "gameWins": 2
+            }
+          },
+          {
+            "id": "99566404846951820",
+            "name": "LGD GAMING",
+            "code": "LGD",
+            "image": "http://static.lolesports.com/teams/LGD-FullonDark-1.png",
+            "result": {
+              "gameWins": 1
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112449598160932219",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566404850008779",
+                "side": "blue"
+              },
+              {
+                "id": "99566404846951820",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112449598160932220",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566404846951820",
+                "side": "blue"
+              },
+              {
+                "id": "99566404850008779",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112449598160932221",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566404850008779",
+                "side": "blue"
+              },
+              {
+                "id": "99566404846951820",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

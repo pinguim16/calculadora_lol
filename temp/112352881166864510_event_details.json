@@ -1,0 +1,205 @@
+{
+  "data": {
+    "event": {
+      "id": "112352881166864510",
+      "type": "match",
+      "tournament": {
+        "id": "112352881163915249"
+      },
+      "league": {
+        "id": "98767991302996019",
+        "slug": "lec",
+        "image": "http://static.lolesports.com/leagues/1592516184297_LEC-01-FullonDark.png",
+        "name": "LEC"
+      },
+      "match": {
+        "strategy": {
+          "count": 5
+        },
+        "teams": [
+          {
+            "id": "107563714667537640",
+            "name": "Team BDS",
+            "code": "BDS",
+            "image": "http://static.lolesports.com/teams/1641292031788_Team_BDSlogo_square.png",
+            "result": {
+              "gameWins": 3
+            }
+          },
+          {
+            "id": "111692118851466302",
+            "name": "Karmine Corp",
+            "code": "KC",
+            "image": "http://static.lolesports.com/teams/1704714951336_KC.png",
+            "result": {
+              "gameWins": 2
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112352881166864511",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "107563714667537640",
+                "side": "blue"
+              },
+              {
+                "id": "111692118851466302",
+                "side": "red"
+              }
+            ],
+            "vods": [
+              {
+                "id": "112853702532221553",
+                "parameter": "5NjJJtQxncU",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-26T15:00:02.811Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
+          },
+          {
+            "number": 2,
+            "id": "112352881166864512",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "107563714667537640",
+                "side": "blue"
+              },
+              {
+                "id": "111692118851466302",
+                "side": "red"
+              }
+            ],
+            "vods": [
+              {
+                "id": "112853811046451161",
+                "parameter": "YVd7hFatU94",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-26T15:56:09.047Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
+          },
+          {
+            "number": 3,
+            "id": "112352881166864513",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "111692118851466302",
+                "side": "blue"
+              },
+              {
+                "id": "107563714667537640",
+                "side": "red"
+              }
+            ],
+            "vods": [
+              {
+                "id": "112854116276764425",
+                "parameter": "xVztXzaRx44",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-26T16:40:16.748Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
+          },
+          {
+            "number": 4,
+            "id": "112352881166864514",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "111692118851466302",
+                "side": "blue"
+              },
+              {
+                "id": "107563714667537640",
+                "side": "red"
+              }
+            ],
+            "vods": [
+              {
+                "id": "112854297203025339",
+                "parameter": "D9O590hwdzE",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-26T17:36:47.852Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
+          },
+          {
+            "number": 5,
+            "id": "112352881166864515",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "107563714667537640",
+                "side": "blue"
+              },
+              {
+                "id": "111692118851466302",
+                "side": "red"
+              }
+            ],
+            "vods": [
+              {
+                "id": "112854486840922048",
+                "parameter": "rkuzFts9QDY",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-26T18:36:38.406Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

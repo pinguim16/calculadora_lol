@@ -1,0 +1,90 @@
+{
+  "data": {
+    "event": {
+      "id": "112452930845780131",
+      "type": "match",
+      "tournament": {
+        "id": "112452930844731446"
+      },
+      "league": {
+        "id": "98767991332355509",
+        "slug": "cblol-brazil",
+        "image": "http://static.lolesports.com/leagues/cblol-logo-symbol-offwhite.png",
+        "name": "CBLOL"
+      },
+      "match": {
+        "strategy": {
+          "count": 1
+        },
+        "teams": [
+          {
+            "id": "105397404796640412",
+            "name": "LOUD",
+            "code": "LLL",
+            "image": "http://static.lolesports.com/teams/Logo-LOUD-Esports_Original.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "100205576309502431",
+            "name": "FURIA",
+            "code": "FUR",
+            "image": "http://static.lolesports.com/teams/FURIA---black.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112452930845780132",
+            "state": "inProgress",
+            "teams": [
+              {
+                "id": "105397404796640412",
+                "side": "blue"
+              },
+              {
+                "id": "100205576309502431",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": [
+        {
+          "parameter": "cblol",
+          "locale": "pt-BR",
+          "mediaLocale": {
+            "locale": "pt-BR",
+            "englishName": "Portuguese (Brazil)",
+            "translatedName": "Português (Brasil)"
+          },
+          "provider": "twitch",
+          "countries": [
+            "BR"
+          ],
+          "offset": -40000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "-nMAmmJkFMI",
+          "locale": "pt-BR",
+          "mediaLocale": {
+            "locale": "pt-BR",
+            "englishName": "Portuguese (Brazil)",
+            "translatedName": "Português (Brasil)"
+          },
+          "provider": "youtube",
+          "countries": [],
+          "offset": -40000,
+          "statsStatus": "enabled"
+        }
+      ]
+    }
+  }
+}

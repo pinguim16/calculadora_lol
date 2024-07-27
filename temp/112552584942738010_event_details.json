@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112552584942738010",
+      "type": "match",
+      "tournament": {
+        "id": "112552481837121929"
+      },
+      "league": {
+        "id": "107213827295848783",
+        "slug": "vcs",
+        "image": "http://static.lolesports.com/leagues/1677578094811_VCS_SYMBOL_TITANIUM_RGB.png",
+        "name": "VCS"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "107251245690956393",
+            "name": "Viking Esports",
+            "code": "VKE",
+            "image": "http://static.lolesports.com/teams/1704789745043_1280X1280color.png",
+            "result": {
+              "gameWins": 2
+            }
+          },
+          {
+            "id": "107251374793416561",
+            "name": "CERBERUS ESPORTS",
+            "code": "CES",
+            "image": "http://static.lolesports.com/teams/1636526090059_900px-CERBERUS_Esports.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112552584942738011",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "107251245690956393",
+                "side": "blue"
+              },
+              {
+                "id": "107251374793416561",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112552584942738012",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "107251374793416561",
+                "side": "blue"
+              },
+              {
+                "id": "107251245690956393",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112552584942738013",
+            "state": "unneeded",
+            "teams": [
+              {
+                "id": "107251245690956393",
+                "side": "blue"
+              },
+              {
+                "id": "107251374793416561",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

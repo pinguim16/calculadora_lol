@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>League of Legends Winrate Checker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">League of Legends Winrate Checker</h1>
+        <div class="form-group">
+            <label for="league-select">Select League:</label>
+            <div class="input-group">
+                <select class="form-control" id="league-select">
+                    <option value="LPL">LPL</option>
+                    <option value="LCK">LCK</option>
+                    <option value="LCK CL">LCK CL</option>
+                    <option value="TCL">TCL</option>
+                    <option value="Ultraliga">Ultraliga</option>
+                    <option value="NLC">NLC</option>
+                    <option value="Prime League">Prime League</option>
+                    <option value="LFL">LFL</option>
+                    <option value="LVP">LVP</option>
+                    <option value="PCS">PCS</option>
+                    <option value="LEC">LEC</option>
+                    <option value="LIT">LIT</option>
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" onclick="scrapeData()">Scrape Data</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <h2 class="text-center">Team A</h2>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="team-a-name">Team A Name:</label>
+                    <input type="text" class="form-control" id="team-a-name" name="team-a-name">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-a-winrate">Winrate:</label>
+                    <input type="number" class="form-control small-input" id="team-a-winrate" name="team-a-winrate" min="0" max="100" step="0.01">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-a-recent-winrate">Recent Winrate:</label>
+                    <input type="number" class="form-control small-input" id="team-a-recent-winrate" name="team-a-recent-winrate" min="0" max="100" step="0.01">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-a-derretidos" data-toggle="tooltip" title="Usar em MD5">Derretidos</label>
+                    <input type="checkbox" id="team-a-derretidos" name="team-a-derretidos">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="team-a-champ-1">Champion 1</label>
+                    <select class="form-control" id="team-a-champ-1"></select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-a-champ-2">Champion 2</label>
+                    <select class="form-control" id="team-a-champ-2"></select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-a-champ-3">Champion 3</label>
+                    <select class="form-control" id="team-a-champ-3"></select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-a-champ-4">Champion 4</label>
+                    <select class="form-control" id="team-a-champ-4"></select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-a-champ-5">Champion 5</label>
+                    <select class="form-control" id="team-a-champ-5"></select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="team-section">
+            <h2 class="text-center">Team B</h2>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="team-b-name">Team B Name:</label>
+                    <input type="text" class="form-control" id="team-b-name" name="team-b-name">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-b-winrate">Winrate:</label>
+                    <input type="number" class="form-control small-input" id="team-b-winrate" name="team-b-winrate" min="0" max="100" step="0.01">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-b-recent-winrate">Recent Winrate:</label>
+                    <input type="number" class="form-control small-input" id="team-b-recent-winrate" name="team-b-recent-winrate" min="0" max="100" step="0.01">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-b-derretidos" data-toggle="tooltip" title="Usar em MD5">Derretidos</label>
+                    <input type="checkbox" id="team-b-derretidos" name="team-b-derretidos">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="team-b-champ-1">Champion 1</label>
+                    <select class="form-control" id="team-b-champ-1"></select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-b-champ-2">Champion 2</label>
+                    <select class="form-control" id="team-b-champ-2"></select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-b-champ-3">Champion 3</label>
+                    <select class="form-control" id="team-b-champ-3"></select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-b-champ-4">Champion 4</label>
+                    <select class="form-control" id="team-b-champ-4"></select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="team-b-champ-5">Champion 5</label>
+                    <select class="form-control" id="team-b-champ-5"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button class="btn btn-success" onclick="checkWinrates()">Check Winrates</button>
+        </div>
+        <div class="text-center mt-4">
+            <button class="btn btn-info" onclick="loadGamesOfDay()">Load Games of the Day</button>
+        </div>
+        <div class="text-center mt-4">
+            <button class="btn btn-secondary" onclick="printCache()">Print Cache</button>
+        </div>
+        <div id="results" class="mt-4 text-center">
+            <!-- Resultados serão exibidos aqui -->
+        </div>
+        
+        <div id="games" class="mt-4 text-center">
+            <!-- Jogos do dia serão exibidos aqui -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+    </script>
+</body>
+</html>

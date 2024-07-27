@@ -1,0 +1,318 @@
+[
+  {
+    "name": "Rumble",
+    "winrate": 64
+  },
+  {
+    "name": "Tristana",
+    "winrate": 55
+  },
+  {
+    "name": "Skarner",
+    "winrate": 48
+  },
+  {
+    "name": "Corki",
+    "winrate": 47
+  },
+  {
+    "name": "Leona",
+    "winrate": 47
+  },
+  {
+    "name": "Rell",
+    "winrate": 53
+  },
+  {
+    "name": "Jinx",
+    "winrate": 59
+  },
+  {
+    "name": "Taliyah",
+    "winrate": 69
+  },
+  {
+    "name": "Vi",
+    "winrate": 45
+  },
+  {
+    "name": "KSante",
+    "winrate": 43
+  },
+  {
+    "name": "Nautilus",
+    "winrate": 45
+  },
+  {
+    "name": "Ivern",
+    "winrate": 48
+  },
+  {
+    "name": "Ezreal",
+    "winrate": 61
+  },
+  {
+    "name": "Maokai",
+    "winrate": 48
+  },
+  {
+    "name": "Varus",
+    "winrate": 37
+  },
+  {
+    "name": "Sejuani",
+    "winrate": 54
+  },
+  {
+    "name": "Alistar",
+    "winrate": 59
+  },
+  {
+    "name": "Draven",
+    "winrate": 40
+  },
+  {
+    "name": "Orianna",
+    "winrate": 36
+  },
+  {
+    "name": "Ashe",
+    "winrate": 38
+  },
+  {
+    "name": "Xin Zhao",
+    "winrate": 43
+  },
+  {
+    "name": "Zyra",
+    "winrate": 42
+  },
+  {
+    "name": "Kaisa",
+    "winrate": 67
+  },
+  {
+    "name": "LeBlanc",
+    "winrate": 58
+  },
+  {
+    "name": "Renekton",
+    "winrate": 47
+  },
+  {
+    "name": "Hwei",
+    "winrate": 36
+  },
+  {
+    "name": "Ornn",
+    "winrate": 28
+  },
+  {
+    "name": "Aphelios",
+    "winrate": 27
+  },
+  {
+    "name": "Zeri",
+    "winrate": 41
+  },
+  {
+    "name": "Camille",
+    "winrate": 67
+  },
+  {
+    "name": "Braum",
+    "winrate": 56
+  },
+  {
+    "name": "Viego",
+    "winrate": 57
+  },
+  {
+    "name": "Kalista",
+    "winrate": 80
+  },
+  {
+    "name": "Jhin",
+    "winrate": 67
+  },
+  {
+    "name": "Brand",
+    "winrate": 64
+  },
+  {
+    "name": "Azir",
+    "winrate": 38
+  },
+  {
+    "name": "Rakan",
+    "winrate": 67
+  },
+  {
+    "name": "Gnar",
+    "winrate": 67
+  },
+  {
+    "name": "Caitlyn",
+    "winrate": 60
+  },
+  {
+    "name": "Syndra",
+    "winrate": 33
+  },
+  {
+    "name": "Lucian",
+    "winrate": 33
+  },
+  {
+    "name": "Sion",
+    "winrate": 80
+  },
+  {
+    "name": "Gragas",
+    "winrate": 58
+  },
+  {
+    "name": "Poppy",
+    "winrate": 57
+  },
+  {
+    "name": "Renata Glasc",
+    "winrate": 80
+  },
+  {
+    "name": "Jayce",
+    "winrate": 50
+  },
+  {
+    "name": "Twisted Fate",
+    "winrate": 0
+  },
+  {
+    "name": "Ahri",
+    "winrate": 40
+  },
+  {
+    "name": "Karthus",
+    "winrate": 33
+  },
+  {
+    "name": "Yone",
+    "winrate": 60
+  },
+  {
+    "name": "Gwen",
+    "winrate": 60
+  },
+  {
+    "name": "Jarvan IV",
+    "winrate": 67
+  },
+  {
+    "name": "Kennen",
+    "winrate": 60
+  },
+  {
+    "name": "Zac",
+    "winrate": 67
+  },
+  {
+    "name": "Aurelion Sol",
+    "winrate": 50
+  },
+  {
+    "name": "Belveth",
+    "winrate": 0
+  },
+  {
+    "name": "Nidalee",
+    "winrate": 20
+  },
+  {
+    "name": "Sivir",
+    "winrate": 100
+  },
+  {
+    "name": "Senna",
+    "winrate": 0
+  },
+  {
+    "name": "Aatrox",
+    "winrate": 0
+  },
+  {
+    "name": "Diana",
+    "winrate": 67
+  },
+  {
+    "name": "Jax",
+    "winrate": 50
+  },
+  {
+    "name": "Malphite",
+    "winrate": 33
+  },
+  {
+    "name": "Udyr",
+    "winrate": 50
+  },
+  {
+    "name": "Tahm Kench",
+    "winrate": 0
+  },
+  {
+    "name": "Galio",
+    "winrate": 50
+  },
+  {
+    "name": "Mordekaiser",
+    "winrate": 0
+  },
+  {
+    "name": "Volibear",
+    "winrate": 100
+  },
+  {
+    "name": "Ziggs",
+    "winrate": 100
+  },
+  {
+    "name": "Xayah",
+    "winrate": 50
+  },
+  {
+    "name": "Lillia",
+    "winrate": 67
+  },
+  {
+    "name": "Smolder",
+    "winrate": 67
+  },
+  {
+    "name": "Fiora",
+    "winrate": 100
+  },
+  {
+    "name": "Lissandra",
+    "winrate": 50
+  },
+  {
+    "name": "Nami",
+    "winrate": 0
+  },
+  {
+    "name": "Lee Sin",
+    "winrate": 0
+  },
+  {
+    "name": "Nasus",
+    "winrate": 0
+  },
+  {
+    "name": "Pantheon",
+    "winrate": 0
+  },
+  {
+    "name": "Urgot",
+    "winrate": 0
+  }
+]

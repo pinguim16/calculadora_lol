@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112435564214584354",
+      "type": "match",
+      "tournament": {
+        "id": "112435564213994193"
+      },
+      "league": {
+        "id": "98767991310872058",
+        "slug": "lck",
+        "image": "http://static.lolesports.com/leagues/lck-color-on-black.png",
+        "name": "LCK"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "99566404579461230",
+            "name": "kt Rolster",
+            "code": "KT",
+            "image": "http://static.lolesports.com/teams/kt_darkbackground.png",
+            "result": {
+              "gameWins": 1
+            }
+          },
+          {
+            "id": "98767991853197861",
+            "name": "T1",
+            "code": "T1",
+            "image": "http://static.lolesports.com/teams/1704375161752_T1_esports.png",
+            "result": {
+              "gameWins": 2
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112435564214584355",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566404579461230",
+                "side": "blue"
+              },
+              {
+                "id": "98767991853197861",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112435564214584356",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566404579461230",
+                "side": "blue"
+              },
+              {
+                "id": "98767991853197861",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112435564214584357",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "98767991853197861",
+                "side": "blue"
+              },
+              {
+                "id": "99566404579461230",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

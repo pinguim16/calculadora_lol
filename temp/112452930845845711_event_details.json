@@ -1,0 +1,61 @@
+{
+  "data": {
+    "event": {
+      "id": "112452930845845711",
+      "type": "match",
+      "tournament": {
+        "id": "112452930844731446"
+      },
+      "league": {
+        "id": "98767991332355509",
+        "slug": "cblol-brazil",
+        "image": "http://static.lolesports.com/leagues/cblol-logo-symbol-offwhite.png",
+        "name": "CBLOL"
+      },
+      "match": {
+        "strategy": {
+          "count": 1
+        },
+        "teams": [
+          {
+            "id": "99566408222831088",
+            "name": "Liberty",
+            "code": "LBR",
+            "image": "http://static.lolesports.com/teams/1643305707691_RXfNcFMU.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "99566408219409348",
+            "name": "Vivo Keyd Stars",
+            "code": "VKS",
+            "image": "http://static.lolesports.com/teams/1670542079678_vks.png",
+            "result": {
+              "gameWins": 1
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112452930845845712",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566408222831088",
+                "side": "blue"
+              },
+              {
+                "id": "99566408219409348",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}
