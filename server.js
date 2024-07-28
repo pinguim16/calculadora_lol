@@ -49,10 +49,8 @@ async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
 async function fetchAndSave(url, options, filename) {
     const response = await fetchWithRetry(url, options);
     const data = response.data;
-
-    const filePath = path.join(TEMP_DIR, filename);
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-
+    //const filePath = path.join(TEMP_DIR, filename);
+    //fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
     return data;
 }
 
@@ -346,16 +344,10 @@ async function fetchEventDetails(eventId) {
     const url = `https://esports-api.lolesports.com/persisted/gw/getEventDetails?hl=pt-BR&id=${encodeURIComponent(eventId)}`;
     try {
         const data = await fetchAndSave(url, { headers: { 'x-api-key': API_KEY } }, `${eventId}_event_details.json`);
-
-        console.log(`Fetching details for event: ${eventId}`);
-        console.log(`Event details data: ${JSON.stringify(data)}`);
-
         const gameDetailsPromises = data.data.event.match.games.map(async (game) => {
             const gameUrl = `https://feed.lolesports.com/livestats/v1/window/${game.id}`;
             try {
-                console.log(`Fetching game details from URL: ${gameUrl}`);
                 const gameResponse = await fetchWithRetry(gameUrl);
-                console.log(`Game details data: ${JSON.stringify(gameResponse.data)}`);
                 gameResponse.data.number = game.number;
                 gameResponse.data.state = game.state;
                 return gameResponse.data;
@@ -375,9 +367,6 @@ async function fetchEventDetails(eventId) {
     }
 }
 
-app.get('/cache', (req, res) => {
-    res.json({ gamesCache, playerCache });
-});
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

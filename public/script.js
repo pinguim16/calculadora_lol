@@ -2,6 +2,7 @@ let champions = [];
 let gamesCache = {};
 let playerCache = {};
 let players = [];
+let playersWinrate = [];
 
 function showSpinner() {
     const spinnerContainer = document.getElementById('spinner-container');
@@ -295,7 +296,7 @@ async function loadGamesOfDay() {
                             return {
                                 name: nameWithoutPrefix,
                                 team: blueTeam.name,
-                                champion: player.championId
+                                champion: player.championId,
                             };
                         }),
                         redTeam: gameDetail.gameMetadata.redTeamMetadata.participantMetadata.map(player => {
@@ -304,15 +305,23 @@ async function loadGamesOfDay() {
                             return {
                                 name: nameWithoutPrefix,
                                 team: redTeam.name,
-                                champion: player.championId
+                                champion: player.championId,
                             };
                         })
                     };
+                    // Update game details with modified player names
+                    gameDetail.gameMetadata.blueTeamMetadata.participantMetadata.forEach(player => {
+                        player.summonerName = player.summonerName.replace(new RegExp(`^${blueTeam.code}\\s*`), '').trim();
+                    });
+                    gameDetail.gameMetadata.redTeamMetadata.participantMetadata.forEach(player => {
+                        player.summonerName = player.summonerName.replace(new RegExp(`^${redTeam.code}\\s*`), '').trim();
+                    });
                     cache.push(players);
                 }
                 return cache;
             }, []);
         });
+        console.log(games);
         displayGames(games);
     } catch (error) {
         console.error('Failed to load games:', error);
@@ -322,13 +331,22 @@ async function loadGamesOfDay() {
 }
 
 function getChampionWinrate(playerName, championId) {
-    if (playerCache[playerName]) {
-        const championData = playerCache[playerName].champions.find(champ => champ.champion === championId);
+    let playerWinrate = playersWinrate.find(player => player.name.toLowerCase().trim() === playerName.toLowerCase().trim());
+    if (playerWinrate) {
+        console.log(playerWinrate.champions.find(champ => champ.champion.toLowerCase().trim() === championId.toLowerCase().trim()));
+        //const championData = playerWinrate.champions.find(champ => champ.champion === championId);
+        const championData = playerWinrate.champions.find(champ => {
+            let champArray = champ.champion.replace(/\s+/g, '').toLowerCase();
+            let champIdAux = championId.replace(/\s+/g, '').toLowerCase();
+            if (champArray === champIdAux) {
+                return true;
+            }
+        });
         if (championData) {
             return championData.winRate;
         }
     }
-    return 'N/A';
+    return '-1';
 }
 
 function displayGames(games) {
@@ -337,7 +355,8 @@ function displayGames(games) {
     games.forEach(async game => {
         const gameDiv = document.createElement('div');
         gameDiv.className = 'game';
-        const gameDetails = await loadGameDetails(game.id);
+        //const gameDetails = await loadGameDetails(game.id);
+
         gameDiv.innerHTML = `
             <h3>${game.league}</h3>
             <p class="game-details">Time: ${new Date(game.startTime).toLocaleString()} | State: ${game.state} | Block: ${game.blockName} | Match Format: Best of ${game.strategyCount}</p>
@@ -353,10 +372,6 @@ function displayGames(games) {
             </div>
             <button class="show-details-button" onclick="toggleDetails('${game.id}')">Show Details</button>
             <div id="details-${game.id}" class="event-details">
-                <h4>Event Details</h4>
-                <p>Event ID: ${game.id}</p>
-                <p>Event State: ${game.details?.data?.event?.state || 'N/A'}</p>
-                <p>Event Start Time: ${new Date(game.details?.data?.event?.startTime || game.startTime).toLocaleString()}</p>
                 <div>
                     <h4>Game Results</h4>
                     <div class="game-result">
@@ -388,10 +403,7 @@ function displayGames(games) {
                                                     champ.name === 'Wukong' ? 'Wukong' :
                                                     champ.name
                                                 ) : '';
-                                                let playerName = player.summonerName;
-                                                if (game.teams) {
-                                                    playerName = playerName.replace(new RegExp(`^${game.teams[0].code}\\s*`), '').trim();
-                                                }
+                                                const playerName = player.summonerName;
                                                 const winrate = getChampionWinrate(playerName, player.championId);
                                                 return `
                                                     <div class="champion-container">
@@ -426,10 +438,7 @@ function displayGames(games) {
                                                     champ.name === 'Wukong' ? 'Wukong' :
                                                     champ.name
                                                 ) : '';
-                                                let playerName = player.summonerName;
-                                                if (game.teams) {
-                                                    playerName = playerName.replace(new RegExp(`^${game.teams[1].code}\\s*`), '').trim();
-                                                }
+                                                const playerName = player.summonerName;
                                                 const winrate = getChampionWinrate(playerName, player.championId);
                                                 return `
                                                     <div class="champion-container">
@@ -453,38 +462,11 @@ function displayGames(games) {
     });
 }
 
-function saveGame(gameId) {
-    const game = gamesCache[gameId];
-    if (game) {
-        console.log('Saving game:', game);
-        const teamNames = game.teams.map(team => team.name);
-        const playerNames = game.details.data.event.match.games.map(gameDetail => {
-            if (gameDetail.gameMetadata && gameDetail.gameMetadata.blueTeamMetadata && gameDetail.gameMetadata.redTeamMetadata) {
-                return gameDetail.gameMetadata.blueTeamMetadata.participantMetadata.map(player => {
-                    const originalName = player.summonerName;
-                    const nameWithoutPrefix = originalName.replace(new RegExp(`^(${game.teams[0].code}\\s*)`), '').trim();
-                    console.log(`Original Name: ${originalName}, Name without Prefix: ${nameWithoutPrefix}`);
-                    return nameWithoutPrefix;
-                }).concat(
-                    gameDetail.gameMetadata.redTeamMetadata.participantMetadata.map(player => {
-                        const originalName = player.summonerName;
-                        const nameWithoutPrefix = originalName.replace(new RegExp(`^(${game.teams[1].code}\\s*)`), '').trim();
-                        console.log(`Original Name: ${originalName}, Name without Prefix: ${nameWithoutPrefix}`);
-                        return nameWithoutPrefix;
-                    })
-                );
-            }
-            return [];
-        }).flat();
-        console.log('Team Names:', teamNames);
-        console.log('Player Names without team prefix:', playerNames);
-    }
-}
-
 function printCache() {
     console.log('Games Cache:', gamesCache);
     console.log('Player Cache:', playerCache);
     console.log('Player :', players);
+    console.log('PlayerWinrate :', playersWinrate);
 }
 
 async function loadGameDetails(gameId) {
@@ -506,20 +488,6 @@ function toggleDetails(gameId) {
     detailsDiv.classList.toggle('active');
 }
 
-async function loadPlayerWinrates(player, champion) {
-    try {
-        const response = await fetch(`/playerWinrates?player=${encodeURIComponent(player)}&champion=${encodeURIComponent(champion)}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const winrateData = await response.json();
-        return winrateData;
-    } catch (error) {
-        console.error('Failed to load player winrates:', error);
-        return { playerName: player, championName: champion, championWinrate: 'N/A' };
-    }
-}
-
 // Função para carregar os jogadores e armazená-los em cache
 async function loadPlayers() {
     try {
@@ -527,33 +495,13 @@ async function loadPlayers() {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        players = await response.json();
-        console.log(`Loaded ${players.length} players`);
-        // Apenas carregar os jogadores, não exibir
-        playerCache = players.reduce((cache, player) => {
-            cache[player.name] = player;
-            return cache;
-        }, {});
+        playersWinrate = await response.json();
+        console.log(`Loaded ${playersWinrate.length} players`);
         alert('All players have been loaded!');
     } catch (error) {
         console.error('Failed to load players:', error);
     }
 }
-
-// Remover ou comentar a função displayPlayers
-
-/* function displayPlayers() {
-    const playersDiv = document.getElementById('players');
-    playersDiv.innerHTML = '<h2>Players List</h2>';
-    players.forEach(player => {
-        const playerDiv = document.createElement('div');
-        playerDiv.className = 'player';
-        playerDiv.innerHTML = `
-            <p>${player.name}: <a href="${player.profileLink}" target="_blank">${player.profileLink}</a></p>
-        `;
-        playersDiv.appendChild(playerDiv);
-    });
-} */
 
 // Carregar jogadores ao carregar a página, mas sem exibir
 window.onload = async () => {
