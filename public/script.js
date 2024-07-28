@@ -320,7 +320,6 @@ async function loadGamesOfDay() {
                 return cache;
             }, []);
         });
-        console.log(games);
         displayGames(games);
     } catch (error) {
         console.error('Failed to load games:', error);
@@ -332,7 +331,6 @@ async function loadGamesOfDay() {
 function getChampionWinrate(playerName, championId) {
     let playerWinrate = playersWinrate.find(player => player.name.toLowerCase().trim() === playerName.toLowerCase().trim());
     if (playerWinrate) {
-        console.log(playerWinrate.champions.find(champ => champ.champion.toLowerCase().trim() === championId.toLowerCase().trim()));
         const championData = playerWinrate.champions.find(champ => {
             let champArray = champ.champion.replace(/\s+/g, '').toLowerCase();
             let champIdAux = championId.replace(/\s+/g, '').toLowerCase();
@@ -351,11 +349,6 @@ function copyChampionsToSelect(gameId, gameIndex) {
     const gameDetails = gamesCache[gameId].details.data.event.match.games[gameIndex];
     const blueTeamChamps = gameDetails.gameMetadata.blueTeamMetadata.participantMetadata.map(player => player.championId);
     const redTeamChamps = gameDetails.gameMetadata.redTeamMetadata.participantMetadata.map(player => player.championId);
-
-    console.log(`Copying champions for Game ${gameIndex + 1}`);
-    console.log('Blue Team Champions:', blueTeamChamps);
-    console.log('Red Team Champions:', redTeamChamps);
-
     blueTeamChamps.forEach((champion, index) => {
         const select = document.getElementById(`team-a-champ-${index + 1}`);
         select.value = getFormattedChampionName(champion).displayName;
