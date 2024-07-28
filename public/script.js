@@ -71,6 +71,37 @@ function updateChampionSelects() {
     });
 }
 
+function getFormattedChampionName(champion) {
+    const nameMappings = {
+        'Leblanc': 'LeBlanc',
+        'Renata': 'Renata Glasc',
+        'MissFortune': 'Miss Fortune',
+        'TwistedFate': 'Twisted Fate',
+        'DrMundo': 'Dr. Mundo',
+        'LeeSin': 'Lee Sin',
+        'MonkeyKing': 'Wukong',
+        "AurelionSol" : "Aurelion Sol",
+        "XinZhao" : "Xin Zhao"
+        // Add more mappings as needed
+    };
+    const imageMappings = {
+        'LeBlanc': 'LeBlanc',
+        'Renata Glasc': 'Renata_Glasc',
+        'Miss Fortune': 'Miss_Fortune',
+        'Twisted Fate': 'Twisted_Fate',
+        'Dr. Mundo': 'Dr._Mundo',
+        'Lee Sin': 'Lee_Sin',
+        'Wukong': 'Wukong',
+        "Aurelion Sol" : "Aurelion_Sol",
+        "Xin Zhao" : "Xin_Zhao"
+        // Add more mappings as needed
+    };
+    return {
+        displayName: nameMappings[champion] || champion,
+        imageName: imageMappings[nameMappings[champion] || champion] || champion,
+    };
+}
+
 function checkWinrates() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
@@ -94,16 +125,7 @@ function checkWinrates() {
     teamADetails.innerHTML = '<h3>Team A Champions Winrates</h3>';
 
     selectedChampsTeamA.forEach(champ => {
-        const champData = champions.find(c => c.name === (
-            champ === 'Leblanc' ? 'LeBlanc' :
-            champ === 'Renata' ? 'Renata Glasc' :
-            champ === 'MissFortune' ? 'Miss Fortune' :
-            champ === 'TwistedFate' ? 'Twisted Fate' :
-            champ === 'DrMundo' ? 'Dr. Mundo' :
-            champ === 'LeeSin' ? 'Lee Sin' :
-            champ === 'MonkeyKing' ? 'Wukong' :
-            champ
-        ));
+        const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
         if (champData) {
             const winrate = champData.winrate >= 0 ? champData.winrate : 'N/A';
             if (champData.winrate >= 0) {
@@ -112,14 +134,7 @@ function checkWinrates() {
             }
             const result = document.createElement('div');
             result.className = 'champion-container';
-            const imgName = champData.name === 'Leblanc' ? 'LeBlanc' :
-                champData.name === 'Renata Glasc' ? 'Renata_Glasc' :
-                champData.name === 'Miss Fortune' ? 'Miss_Fortune' :
-                champData.name === 'Twisted Fate' ? 'Twisted_Fate' :
-                champData.name === 'Dr. Mundo' ? 'Dr._Mundo' :
-                champData.name === 'Lee Sin' ? 'Lee_Sin' :
-                champData.name === 'Wukong' ? 'Wukong' :
-                champData.name;
+            const imgName = getFormattedChampionName(champ).imageName;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
                 <div class="champion-info">${champData.name} - Winrate: ${winrate}%</div>`;
@@ -152,16 +167,7 @@ function checkWinrates() {
     teamBDetails.innerHTML = '<h3>Team B Champions Winrates</h3>';
 
     selectedChampsTeamB.forEach(champ => {
-        const champData = champions.find(c => c.name === (
-            champ === 'Leblanc' ? 'LeBlanc' :
-            champ === 'Renata' ? 'Renata Glasc' :
-            champ === 'MissFortune' ? 'Miss Fortune' :
-            champ === 'TwistedFate' ? 'Twisted Fate' :
-            champ === 'DrMundo' ? 'Dr. Mundo' :
-            champ === 'LeeSin' ? 'Lee Sin' :
-            champ === 'MonkeyKing' ? 'Wukong' :
-            champ
-        ));
+        const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
         if (champData) {
             const winrate = champData.winrate >= 0 ? champData.winrate : 'N/A';
             if (champData.winrate >= 0) {
@@ -170,14 +176,7 @@ function checkWinrates() {
             }
             const result = document.createElement('div');
             result.className = 'champion-container';
-            const imgName = champData.name === 'Leblanc' ? 'LeBlanc' :
-                champData.name === 'Renata Glasc' ? 'Renata_Glasc' :
-                champData.name === 'Miss Fortune' ? 'Miss_Fortune' :
-                champData.name === 'Twisted Fate' ? 'Twisted_Fate' :
-                champData.name === 'Dr. Mundo' ? 'Dr._Mundo' :
-                champData.name === 'Lee Sin' ? 'Lee_Sin' :
-                champData.name === 'Wukong' ? 'Wukong' :
-                champData.name;
+            const imgName = getFormattedChampionName(champ).imageName;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
                 <div class="champion-info">${champData.name} - Winrate: ${winrate}%</div>`;
@@ -348,10 +347,30 @@ function getChampionWinrate(playerName, championId) {
     return '-1';
 }
 
+function copyChampionsToSelect(gameId, gameIndex) {
+    const gameDetails = gamesCache[gameId].details.data.event.match.games[gameIndex];
+    const blueTeamChamps = gameDetails.gameMetadata.blueTeamMetadata.participantMetadata.map(player => player.championId);
+    const redTeamChamps = gameDetails.gameMetadata.redTeamMetadata.participantMetadata.map(player => player.championId);
+
+    console.log(`Copying champions for Game ${gameIndex + 1}`);
+    console.log('Blue Team Champions:', blueTeamChamps);
+    console.log('Red Team Champions:', redTeamChamps);
+
+    blueTeamChamps.forEach((champion, index) => {
+        const select = document.getElementById(`team-a-champ-${index + 1}`);
+        select.value = getFormattedChampionName(champion).displayName;
+    });
+
+    redTeamChamps.forEach((champion, index) => {
+        const select = document.getElementById(`team-b-champ-${index + 1}`);
+        select.value = getFormattedChampionName(champion).displayName;
+    });
+}
+
 function displayGames(games) {
     const gamesDiv = document.getElementById('games');
     gamesDiv.innerHTML = '<h2>Games of the Day</h2>';
-    games.forEach(async game => {
+    games.forEach(async (game, gameIndex) => {
         const gameDiv = document.createElement('div');
         gameDiv.className = 'game';
         const gameDetails = await loadGameDetails(game.id);
@@ -372,91 +391,52 @@ function displayGames(games) {
             <button class="show-details-button" onclick="toggleDetails('${game.id}')">Show Details</button>
             <div id="details-${game.id}" class="event-details">
                 <div>
-                    <h4>Game Results</h4>
-                    <div class="game-result">
-                        ${game.details?.data?.event?.match?.games?.map(gameDetail => {
-                            if (gameDetail.number && gameDetail.state) {
-                                return `
-                                    <div class="game-details-container">
-                                        <p>Game ${gameDetail.number}: ${gameDetail.state}</p>
-                                        <div class="game-metadata">
-                                            <div class="team-container">
-                                                <span class="team-info">Blue Team:</span>
-                                                ${gameDetail.gameMetadata?.blueTeamMetadata?.participantMetadata.map(player => {
-                                                    const champ = champions.find(c => c.name === (
-                                                        player.championId === 'Leblanc' ? 'LeBlanc' :
-                                                        player.championId === 'Renata' ? 'Renata Glasc' :
-                                                        player.championId === 'MissFortune' ? 'Miss Fortune' :
-                                                        player.championId === 'TwistedFate' ? 'Twisted Fate' :
-                                                        player.championId === 'DrMundo' ? 'Dr. Mundo' :
-                                                        player.championId === 'LeeSin' ? 'Lee Sin' :
-                                                        player.championId === 'MonkeyKing' ? 'Wukong' :
-                                                        player.championId
-                                                    ));
-                                                    const imgName = champ ? (
-                                                        champ.name === 'Leblanc' ? 'LeBlanc' :
-                                                        champ.name === 'Renata Glasc' ? 'Renata_Glasc' :
-                                                        champ.name === 'Miss Fortune' ? 'Miss_Fortune' :
-                                                        champ.name === 'Twisted Fate' ? 'Twisted_Fate' :
-                                                        champ.name === 'Dr. Mundo' ? 'Dr._Mundo' :
-                                                        champ.name === 'Lee Sin' ? 'Lee_Sin' :
-                                                        champ.name === 'Wukong' ? 'Wukong' :
-                                                        champ.name
-                                                    ) : '';
-                                                    const playerName = player.summonerName;
-                                                    const winrate = getChampionWinrate(playerName, player.championId);
-                                                    return `
-                                                        <div class="champion-container">
-                                                            <img src="/images/${imgName}.png" alt="${player.championId}" class="game-results">
-                                                            <div class="champion-info">
-                                                                <span>${playerName}</span>
-                                                                <span>Winrate: ${winrate}%</span>
-                                                            </div>
-                                                        </div>`;
-                                                }).join('') || 'N/A'}
-                                            </div>
-                                            <div class="team-container">
-                                                <span class="team-info">Red Team:</span>
-                                                ${gameDetail.gameMetadata?.redTeamMetadata?.participantMetadata.map(player => {
-                                                    const champ = champions.find(c => c.name === (
-                                                        player.championId === 'Leblanc' ? 'LeBlanc' :
-                                                        player.championId === 'Renata' ? 'Renata Glasc' :
-                                                        player.championId === 'MissFortune' ? 'Miss Fortune' :
-                                                        player.championId === 'TwistedFate' ? 'Twisted Fate' :
-                                                        player.championId === 'DrMundo' ? 'Dr. Mundo' :
-                                                        player.championId === 'LeeSin' ? 'Lee Sin' :
-                                                        player.championId === 'MonkeyKing' ? 'Wukong' :
-                                                        player.championId
-                                                    ));
-                                                    const imgName = champ ? (
-                                                        champ.name === 'Leblanc' ? 'LeBlanc' :
-                                                        champ.name === 'Renata Glasc' ? 'Renata_Glasc' :
-                                                        champ.name === 'Miss Fortune' ? 'Miss_Fortune' :
-                                                        champ.name === 'Twisted Fate' ? 'Twisted_Fate' :
-                                                        champ.name === 'Dr. Mundo' ? 'Dr._Mundo' :
-                                                        champ.name === 'Lee Sin' ? 'Lee_Sin' :
-                                                        champ.name === 'Wukong' ? 'Wukong' :
-                                                        champ.name
-                                                    ) : '';
-                                                    const playerName = player.summonerName;
-                                                    const winrate = getChampionWinrate(playerName, player.championId);
-                                                    return `
-                                                        <div class="champion-container">
-                                                            <img src="/images/${imgName}.png" alt="${player.championId}" class="game-results">
-                                                            <div class="champion-info">
-                                                                <span>${playerName}</span>
-                                                                <span>Winrate: ${winrate}%</span>
-                                                            </div>
-                                                        </div>`;
-                                                }).join('') || 'N/A'}
-                                            </div>
+                    ${game.details?.data?.event?.match?.games?.map((gameDetail, index) => {
+                        if (index < 5) { // Limitar a 5 jogos
+                            return `
+                                <div class="game-details-container">
+                                    <p>Game ${gameDetail.number}: ${gameDetail.state}</p>
+                                    <div class="game-metadata">
+                                        <div class="team-container">
+                                            <span class="team-info">Blue Team:</span>
+                                            ${gameDetail.gameMetadata?.blueTeamMetadata?.participantMetadata.map(player => {
+                                                const formattedName = getFormattedChampionName(player.championId);
+                                                console.log(formattedName)
+                                                const playerName = player.summonerName;
+                                                const winrate = getChampionWinrate(playerName, player.championId);
+                                                return `
+                                                    <div class="champion-container">
+                                                        <img src="/images/${formattedName.imageName}.png" alt="${player.championId}" class="game-results">
+                                                        <div class="champion-info">
+                                                            <span>${playerName}</span>
+                                                            <span>Winrate: ${winrate}%</span>
+                                                        </div>
+                                                    </div>`;
+                                            }).join('') || 'N/A'}
+                                        </div>
+                                        <div class="team-container">
+                                            <span class="team-info">Red Team:</span>
+                                            ${gameDetail.gameMetadata?.redTeamMetadata?.participantMetadata.map(player => {
+                                                const formattedName = getFormattedChampionName(player.championId);
+                                                const playerName = player.summonerName;
+                                                const winrate = getChampionWinrate(playerName, player.championId);
+                                                return `
+                                                    <div class="champion-container">
+                                                        <img src="/images/${formattedName.imageName}.png" alt="${player.championId}" class="game-results">
+                                                        <div class="champion-info">
+                                                            <span>${playerName}</span>
+                                                            <span>Winrate: ${winrate}%</span>
+                                                        </div>
+                                                    </div>`;
+                                            }).join('') || 'N/A'}
                                         </div>
                                     </div>
-                                `;
-                            }
-                            return ''; // Retorna uma string vazia se gameDetail.number ou gameDetail.state forem indefinidos
-                        }).join('') || 'No game details available'}
-                    </div>
+                                    <button class="btn btn-warning d-inline-block" onclick="copyChampionsToSelect('${game.id}', ${index})">Copy Champions for Game ${gameDetail.number}</button>
+                                </div>
+                            `;
+                        }
+                        return ''; // Retorna uma string vazia se gameDetail.number ou gameDetail.state forem indefinidos
+                    }).join('') || 'No game details available'}
                 </div>
             </div>
         `;
