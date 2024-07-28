@@ -363,6 +363,39 @@ function copyChampionsToSelect(gameId, gameIndex) {
     });
 }
 
+function copyChampionsToSelectInverse(gameId, gameIndex) {
+    const gameDetails = gamesCache[gameId].details.data.event.match.games[gameIndex];
+    const blueTeamChamps = gameDetails.gameMetadata.blueTeamMetadata.participantMetadata.map(player => player.championId);
+    const redTeamChamps = gameDetails.gameMetadata.redTeamMetadata.participantMetadata.map(player => player.championId);
+
+    console.log(`Copying champions inversely for Game ${gameIndex + 1}`);
+    console.log('Blue Team Champions:', blueTeamChamps);
+    console.log('Red Team Champions:', redTeamChamps);
+
+    blueTeamChamps.forEach((champion, index) => {
+        const select = document.getElementById(`team-b-champ-${index + 1}`);
+        select.value = getFormattedChampionName(champion).displayName;
+    });
+
+    redTeamChamps.forEach((champion, index) => {
+        const select = document.getElementById(`team-a-champ-${index + 1}`);
+        select.value = getFormattedChampionName(champion).displayName;
+    });
+}
+
+function copyTeamNames(gameId) {
+    const game = gamesCache[gameId];
+    const teamAName = game.teams[0].name;
+    const teamBName = game.teams[1].name;
+
+    console.log(`Copying team names for Game ${gameId}`);
+    console.log('Team A Name:', teamAName);
+    console.log('Team B Name:', teamBName);
+
+    document.getElementById('team-a-name').value = teamAName;
+    document.getElementById('team-b-name').value = teamBName;
+}
+
 function displayGames(games) {
     const gamesDiv = document.getElementById('games');
     gamesDiv.innerHTML = '<h2>Games of the Day</h2>';
@@ -385,6 +418,7 @@ function displayGames(games) {
                 }).join('')}
             </div>
             <button class="btn btn-info" onclick="toggleDetails('${game.id}')">Show Details</button>
+            <button class="btn btn-secondary ml-2" onclick="copyTeamNames('${game.id}')">Copy Team Names</button>
             <div id="details-${game.id}" class="event-details">
                 <div>
                     ${game.details?.data?.event?.match?.games?.map((gameDetail, index) => {
@@ -427,6 +461,7 @@ function displayGames(games) {
                                         </div>
                                     </div>
                                     <button class="btn btn-warning d-inline-block" onclick="copyChampionsToSelect('${game.id}', ${index})">Copy Champions for Game ${gameDetail.number}</button>
+                                    <button class="btn btn-danger d-inline-block ml-2" onclick="copyChampionsToSelectInverse('${game.id}', ${index})">Copy Champions Inversely</button>
                                 </div>
                             `;
                         }
