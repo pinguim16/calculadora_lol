@@ -32,7 +32,7 @@
             "code": "T1",
             "image": "http://static.lolesports.com/teams/1704375161752_T1_esports.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 2
             }
           }
         ],
@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112435564214584235",
-            "state": "inProgress",
+            "state": "completed",
             "teams": [
               {
                 "id": "99566404585387054",
@@ -56,7 +56,7 @@
           {
             "number": 2,
             "id": "112435564214584236",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "99566404585387054",
@@ -72,7 +72,7 @@
           {
             "number": 3,
             "id": "112435564214584237",
-            "state": "unstarted",
+            "state": "unneeded",
             "teams": [
               {
                 "id": "98767991853197861",
@@ -87,49 +87,7 @@
           }
         ]
       },
-      "streams": [
-        {
-          "parameter": "lck",
-          "locale": "en-US",
-          "mediaLocale": {
-            "locale": "en-US",
-            "englishName": "English (North America)",
-            "translatedName": "English (North America)"
-          },
-          "provider": "twitch",
-          "countries": [],
-          "offset": -40000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "aflol",
-          "locale": "ko-KR",
-          "mediaLocale": {
-            "locale": "ko-KR",
-            "englishName": "Korean (Korea)",
-            "translatedName": "한국어"
-          },
-          "provider": "afreecatv",
-          "countries": [],
-          "offset": -45000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "otplol_",
-          "locale": "fr-FR",
-          "mediaLocale": {
-            "locale": "fr-FR",
-            "englishName": "French (France)",
-            "translatedName": "Français"
-          },
-          "provider": "twitch",
-          "countries": [
-            "FR"
-          ],
-          "offset": -40000,
-          "statsStatus": "enabled"
-        }
-      ]
+      "streams": []
     }
   }
 }

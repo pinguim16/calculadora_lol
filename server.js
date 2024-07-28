@@ -1,14 +1,15 @@
 const express = require('express');
 const axios = require('axios');
+const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
-const cheerio = require('cheerio');
 const app = express();
 const port = 3000;
 
 app.use(express.static('public'));
 
 const API_KEY = '0TvQnueqKa5mxJntVWt0w4LpLfEkrV1Ta8rQBb9Z';
+
 const leagueUrls = {
     "LPL": "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LPL%20Summer%20Season%202024/",
     "LCK": "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LCK%20Summer%202024/",
@@ -26,13 +27,27 @@ const leagueUrls = {
 
 const TEMP_DIR = path.join(__dirname, 'temp');
 
-// Certifique-se de que a pasta temporária exista
 if (!fs.existsSync(TEMP_DIR)) {
     fs.mkdirSync(TEMP_DIR);
 }
 
+async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            return await axios.get(url, options);
+        } catch (error) {
+            if (i < retries - 1) {
+                console.error(`Failed to fetch ${url}. Retrying in ${delay}ms...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+                throw error;
+            }
+        }
+    }
+}
+
 async function fetchAndSave(url, options, filename) {
-    const response = await axios.get(url, options);
+    const response = await fetchWithRetry(url, options);
     const data = response.data;
 
     const filePath = path.join(TEMP_DIR, filename);
@@ -94,30 +109,28 @@ async function parseGames(data) {
                             [game.teams[0], game.teams[1]] = [game.teams[1], game.teams[0]];
                         }
 
-                        const blueTeam = gameDetail.gameMetadata.blueTeamMetadata.participantMetadata.map(player => {
-                            const originalName = player.summonerName;
-                            const nameWithoutPrefix = originalName.replace(new RegExp(`^${blueTeamCode}\\s*`), '').trim();
-                            return {
-                                name: nameWithoutPrefix,
-                                team: game.teams[0].name,
-                                champion: player.championId
-                            };
-                        });
-
-                        const redTeam = gameDetail.gameMetadata.redTeamMetadata.participantMetadata.map(player => {
-                            const originalName = player.summonerName;
-                            const nameWithoutPrefix = originalName.replace(new RegExp(`^${redTeamCode}\\s*`), '').trim();
-                            return {
-                                name: nameWithoutPrefix,
-                                team: game.teams[1].name,
-                                champion: player.championId
-                            };
-                        });
-
-                        playerCache[game.id] = {
-                            blueTeam,
-                            redTeam
+                        const players = {
+                            blueTeam: gameDetail.gameMetadata.blueTeamMetadata.participantMetadata.map(player => {
+                                const originalName = player.summonerName;
+                                const nameWithoutPrefix = originalName.replace(new RegExp(`^${blueTeamCode}\\s*`), '').trim();
+                                return {
+                                    name: nameWithoutPrefix,
+                                    team: game.teams[0].name,
+                                    champion: player.championId
+                                };
+                            }),
+                            redTeam: gameDetail.gameMetadata.redTeamMetadata.participantMetadata.map(player => {
+                                const originalName = player.summonerName;
+                                const nameWithoutPrefix = originalName.replace(new RegExp(`^${redTeamCode}\\s*`), '').trim();
+                                return {
+                                    name: nameWithoutPrefix,
+                                    team: game.teams[1].name,
+                                    champion: player.championId
+                                };
+                            })
                         };
+                        
+                        playerCache[game.id] = players;
                     }
                 });
             }
@@ -129,6 +142,77 @@ async function parseGames(data) {
     return games;
 }
 
+async function scrapePlayerProfile(profileUrl) {
+    try {
+        const response = await fetchWithRetry(profileUrl);
+        const $ = cheerio.load(response.data);
+        const champions = [];
+
+        $('table.table_list').each((index, table) => {
+            const captionText = $(table).find('caption').text().trim();
+            if (captionText.includes('champion pool')) {
+                $(table).find('tbody tr').each((index, element) => {
+                    const championName = $(element).find('td').first().find('a').text().trim();
+                    const nbGames = $(element).find('td').eq(1).text().trim();
+                    const winRate = $(element).find('td').eq(2).find('div.col-auto.pl-1').text().trim();
+                    const kda = $(element).find('td').last().text().trim(); // Adjusted to use .last() for capturing KDA
+
+                    if (championName && nbGames && winRate && kda) {
+                        champions.push({
+                            champion: championName,
+                            nbGames: parseInt(nbGames, 10),
+                            winRate: winRate.replace('%', '').trim(),
+                            kda: kda
+                        });
+                    }
+                });
+            }
+        });
+
+        return champions;
+    } catch (error) {
+        console.error(`Failed to scrape player profile from ${profileUrl}:`, error);
+        return [];
+    }
+}
+
+app.get('/scrapePlayers', async (req, res) => {
+    const url = 'https://gol.gg/players/list/season-S14/split-Summer/tournament-ALL/';
+    try {
+        const response = await fetchWithRetry(url);
+        const $ = cheerio.load(response.data);
+        const players = [];
+
+        const playerPromises = [];
+
+        $('table.playerslist tbody tr').each((index, element) => {
+            const playerCell = $(element).find('td').first().find('a');
+            const name = playerCell.text().trim();
+            let profileLink = playerCell.attr('href');
+            console.log(`Name: ${name}, Profile Link: ${profileLink}`);  // Log each player's name and profile link for debugging
+            if (name && profileLink) {
+                profileLink = profileLink.startsWith('.') ? profileLink.substring(1) : profileLink;
+                const fullProfileLink = `https://gol.gg/players${profileLink}`;
+                playerPromises.push(
+                    scrapePlayerProfile(fullProfileLink).then(champions => ({
+                        name,
+                        profileLink: fullProfileLink,
+                        champions
+                    }))
+                );
+            }
+        });
+
+        const playersWithChampions = await Promise.all(playerPromises);
+
+        console.log(`Total players scraped: ${playersWithChampions.length}`);  // Log the total number of players scraped
+        res.json(playersWithChampions);
+    } catch (error) {
+        console.error('Failed to scrape player data:', error);
+        res.status(500).send('Error occurred while scraping player data');
+    }
+});
+
 app.get('/scrape', async (req, res) => {
     const league = req.query.league;
     const url = leagueUrls[league];
@@ -137,7 +221,7 @@ app.get('/scrape', async (req, res) => {
     }
 
     try {
-        const response = await axios.get(url);
+        const response = await fetchWithRetry(url);
         const champions = await parseChampions(response.data);
         console.log(`Scraped ${champions.length} champions for league ${league}`);
         saveChampionsToFile(league, champions);
@@ -270,7 +354,7 @@ async function fetchEventDetails(eventId) {
             const gameUrl = `https://feed.lolesports.com/livestats/v1/window/${game.id}`;
             try {
                 console.log(`Fetching game details from URL: ${gameUrl}`);
-                const gameResponse = await axios.get(gameUrl);
+                const gameResponse = await fetchWithRetry(gameUrl);
                 console.log(`Game details data: ${JSON.stringify(gameResponse.data)}`);
                 gameResponse.data.number = game.number;
                 gameResponse.data.state = game.state;

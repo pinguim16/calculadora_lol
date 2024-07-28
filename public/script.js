@@ -1,6 +1,7 @@
 let champions = [];
 let gamesCache = {};
 let playerCache = {};
+let players = [];
 
 async function loadChampions(league) {
     try {
@@ -428,6 +429,7 @@ function saveGame(gameId) {
 function printCache() {
     console.log('Games Cache:', gamesCache);
     console.log('Player Cache:', playerCache);
+    console.log('Player :',players);
 }
 
 async function loadGameDetails(gameId) {
@@ -463,6 +465,33 @@ async function loadPlayerWinrates(player, champion) {
     }
 }
 
+async function loadPlayers() {
+    try {
+        const response = await fetch('/scrapePlayers');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        players = await response.json();
+        console.log(`Loaded ${players.length} players`);
+        displayPlayers();
+    } catch (error) {
+        console.error('Failed to load players:', error);
+    }
+}
+
+function displayPlayers() {
+    const playersDiv = document.getElementById('players');
+    playersDiv.innerHTML = '<h2>Players List</h2>';
+    players.forEach(player => {
+        const playerDiv = document.createElement('div');
+        playerDiv.className = 'player';
+        playerDiv.innerHTML = `
+            <p>${player.name}: <a href="${player.profileLink}" target="_blank">${player.profileLink}</a></p>
+        `;
+        playersDiv.appendChild(playerDiv);
+    });
+}
+
 window.onload = async () => {
     const leagueSelect = document.getElementById('league-select');
     leagueSelect.onchange = async () => {
@@ -470,4 +499,5 @@ window.onload = async () => {
         await loadChampions(league);
     };
     await loadChampions(leagueSelect.value);
+    await loadPlayers();
 };

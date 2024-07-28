@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112435564214584351",
-            "state": "unstarted",
+            "state": "inProgress",
             "teams": [
               {
                 "id": "99566404579461230",
@@ -87,7 +87,49 @@
           }
         ]
       },
-      "streams": []
+      "streams": [
+        {
+          "parameter": "lck",
+          "locale": "en-US",
+          "mediaLocale": {
+            "locale": "en-US",
+            "englishName": "English (North America)",
+            "translatedName": "English (North America)"
+          },
+          "provider": "twitch",
+          "countries": [],
+          "offset": -31000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "aflol",
+          "locale": "ko-KR",
+          "mediaLocale": {
+            "locale": "ko-KR",
+            "englishName": "Korean (Korea)",
+            "translatedName": "한국어"
+          },
+          "provider": "afreecatv",
+          "countries": [],
+          "offset": -40000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "otplol_",
+          "locale": "fr-FR",
+          "mediaLocale": {
+            "locale": "fr-FR",
+            "englishName": "French (France)",
+            "translatedName": "Français"
+          },
+          "provider": "twitch",
+          "countries": [
+            "FR"
+          ],
+          "offset": -35000,
+          "statsStatus": "enabled"
+        }
+      ]
     }
   }
 }
