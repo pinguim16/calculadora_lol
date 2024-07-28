@@ -392,7 +392,7 @@ function displayGames(games) {
             <div id="details-${game.id}" class="event-details">
                 <div>
                     ${game.details?.data?.event?.match?.games?.map((gameDetail, index) => {
-                        if (index < 5) { // Limitar a 5 jogos
+                        if (index < 5 && gameDetail.number && gameDetail.state) { // Limitar a 5 jogos e verificar se number e state não são undefined
                             return `
                                 <div class="game-details-container">
                                     <p>Game ${gameDetail.number}: ${gameDetail.state}</p>
@@ -401,7 +401,6 @@ function displayGames(games) {
                                             <span class="team-info">Blue Team:</span>
                                             ${gameDetail.gameMetadata?.blueTeamMetadata?.participantMetadata.map(player => {
                                                 const formattedName = getFormattedChampionName(player.championId);
-                                                console.log(formattedName)
                                                 const playerName = player.summonerName;
                                                 const winrate = getChampionWinrate(playerName, player.championId);
                                                 return `
