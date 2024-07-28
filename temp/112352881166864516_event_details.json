@@ -23,7 +23,7 @@
             "code": "G2",
             "image": "http://static.lolesports.com/teams/G2-FullonDark.png",
             "result": {
-              "gameWins": 2
+              "gameWins": 3
             }
           },
           {
@@ -115,12 +115,28 @@
                 "side": "red"
               }
             ],
-            "vods": []
+            "vods": [
+              {
+                "id": "112859744253294657",
+                "parameter": "FoYOmy_k5Lc",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-27T16:40:20.418Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
           },
           {
             "number": 4,
             "id": "112352881166864520",
-            "state": "inProgress",
+            "state": "completed",
             "teams": [
               {
                 "id": "107563714667537640",
@@ -131,12 +147,28 @@
                 "side": "red"
               }
             ],
-            "vods": []
+            "vods": [
+              {
+                "id": "112859962315815196",
+                "parameter": "dXVPL26ENQg",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-27T17:33:32.548Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
           },
           {
             "number": 5,
             "id": "112352881166864521",
-            "state": "unstarted",
+            "state": "unneeded",
             "teams": [
               {
                 "id": "107563714667537640",
@@ -151,405 +183,7 @@
           }
         ]
       },
-      "streams": [
-        {
-          "parameter": "litofficial",
-          "locale": "it-IT",
-          "mediaLocale": {
-            "locale": "it-IT",
-            "englishName": "Italian (Italy)",
-            "translatedName": "Italiano"
-          },
-          "provider": "twitch",
-          "countries": [],
-          "offset": -35000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "gamersloungegr",
-          "locale": "el-GR",
-          "mediaLocale": {
-            "locale": "el-GR",
-            "englishName": "Greek (Greece)",
-            "translatedName": "Ελληνικά"
-          },
-          "provider": "twitch",
-          "countries": [],
-          "offset": -52000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "polsatgames",
-          "locale": "pl-PL",
-          "mediaLocale": {
-            "locale": "pl-PL",
-            "englishName": "Polish (Poland)",
-            "translatedName": "Polski"
-          },
-          "provider": "twitch",
-          "countries": [
-            "PL"
-          ],
-          "offset": -39000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "esport2tv",
-          "locale": "hu-HU",
-          "mediaLocale": {
-            "locale": "hu-HU",
-            "englishName": "Hungarian (Hungary)",
-            "translatedName": "Magyar"
-          },
-          "provider": "twitch",
-          "countries": [],
-          "offset": -39000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "tolkin",
-          "locale": "de-DE",
-          "mediaLocale": {
-            "locale": "de-DE",
-            "englishName": "German (Germany)",
-            "translatedName": "Deutsch"
-          },
-          "provider": "twitch",
-          "countries": [],
-          "offset": -34000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "eks2gtM4lac",
-          "locale": "sr-SR",
-          "mediaLocale": {
-            "locale": "sr-SR",
-            "englishName": "Serbian",
-            "translatedName": "Srpski"
-          },
-          "provider": "youtube",
-          "countries": [],
-          "offset": -37000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "lvpes",
-          "locale": "es-ES",
-          "mediaLocale": {
-            "locale": "es-ES",
-            "englishName": "Spanish (Spain)",
-            "translatedName": "Español (España)"
-          },
-          "provider": "twitch",
-          "countries": [],
-          "offset": -33000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "hitpointcz",
-          "locale": "cs-CZ",
-          "mediaLocale": {
-            "locale": "cs-CZ",
-            "englishName": "Czech (Czechia)",
-            "translatedName": "Čeština"
-          },
-          "provider": "twitch",
-          "countries": [],
-          "offset": -38000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "otplol_",
-          "locale": "fr-FR",
-          "mediaLocale": {
-            "locale": "fr-FR",
-            "englishName": "French (France)",
-            "translatedName": "Français"
-          },
-          "provider": "twitch",
-          "countries": [
-            "FR"
-          ],
-          "offset": -37000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "bR7j1pZR5Dw",
-          "locale": "en-GB",
-          "mediaLocale": {
-            "locale": "en-GB",
-            "englishName": "English (Europe)",
-            "translatedName": "English (Europe)"
-          },
-          "provider": "youtube",
-          "countries": [
-            "US",
-            "GB"
-          ],
-          "offset": -25000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "lec",
-          "locale": "en-GB",
-          "mediaLocale": {
-            "locale": "en-GB",
-            "englishName": "English (Europe)",
-            "translatedName": "English (Europe)"
-          },
-          "provider": "twitch",
-          "countries": [
-            "GB",
-            "ZW",
-            "ZM",
-            "YE",
-            "EH",
-            "WF",
-            "VE",
-            "VN",
-            "VU",
-            "VA",
-            "UZ",
-            "UM",
-            "UY",
-            "US",
-            "AE",
-            "UA",
-            "UG",
-            "VI",
-            "TV",
-            "TC",
-            "TM",
-            "TR",
-            "TN",
-            "TT",
-            "TO",
-            "TK",
-            "TG",
-            "TH",
-            "TZ",
-            "TJ",
-            "TW",
-            "CH",
-            "SY",
-            "SE",
-            "SZ",
-            "SJ",
-            "SR",
-            "SD",
-            "LK",
-            "ES",
-            "SS",
-            "ZA",
-            "GS",
-            "KR",
-            "SK",
-            "SI",
-            "SB",
-            "SG",
-            "SX",
-            "SL",
-            "SC",
-            "SN",
-            "SA",
-            "ST",
-            "SM",
-            "WS",
-            "VC",
-            "PM",
-            "MF",
-            "LC",
-            "KN",
-            "SH",
-            "BL",
-            "RW",
-            "RE",
-            "RO",
-            "CG",
-            "RU",
-            "PR",
-            "QA",
-            "PT",
-            "PL",
-            "PN",
-            "PH",
-            "PE",
-            "PG",
-            "PY",
-            "PA",
-            "PS",
-            "PW",
-            "PK",
-            "OM",
-            "NO",
-            "MP",
-            "KP",
-            "NU",
-            "NF",
-            "NG",
-            "NE",
-            "NI",
-            "NZ",
-            "NC",
-            "NP",
-            "NR",
-            "NA",
-            "MM",
-            "MZ",
-            "MA",
-            "ME",
-            "MS",
-            "MN",
-            "MC",
-            "MD",
-            "FM",
-            "MX",
-            "YT",
-            "MU",
-            "MR",
-            "MQ",
-            "MH",
-            "MT",
-            "ML",
-            "MV",
-            "MY",
-            "MW",
-            "MG",
-            "MK",
-            "MO",
-            "LU",
-            "LT",
-            "LI",
-            "LY",
-            "LR",
-            "LS",
-            "LV",
-            "LB",
-            "LA",
-            "KG",
-            "KW",
-            "KI",
-            "XK",
-            "JE",
-            "JO",
-            "KZ",
-            "KE",
-            "JP",
-            "JM",
-            "CI",
-            "IT",
-            "IL",
-            "IE",
-            "IM",
-            "IQ",
-            "IR",
-            "ID",
-            "IN",
-            "IS",
-            "HU",
-            "HK",
-            "HN",
-            "HM",
-            "GY",
-            "GW",
-            "HT",
-            "GN",
-            "GG",
-            "GT",
-            "GU",
-            "GD",
-            "GP",
-            "GL",
-            "GR",
-            "GI",
-            "GH",
-            "DE",
-            "GE",
-            "GM",
-            "GA",
-            "TF",
-            "PF",
-            "GF",
-            "FR",
-            "FI",
-            "FJ",
-            "FO",
-            "FK",
-            "ET",
-            "EE",
-            "ER",
-            "GQ",
-            "SV",
-            "EG",
-            "EC",
-            "TL",
-            "DO",
-            "DM",
-            "DJ",
-            "DK",
-            "CD",
-            "CZ",
-            "CY",
-            "CW",
-            "CU",
-            "HR",
-            "CR",
-            "KM",
-            "CK",
-            "CO",
-            "CC",
-            "CX",
-            "CN",
-            "CL",
-            "TD",
-            "CF",
-            "KY",
-            "CA",
-            "CM",
-            "CV",
-            "KH",
-            "BF",
-            "BI",
-            "BG",
-            "BN",
-            "VG",
-            "IO",
-            "BR",
-            "BV",
-            "BW",
-            "BA",
-            "BQ",
-            "BO",
-            "BT",
-            "BM",
-            "BJ",
-            "BZ",
-            "BY",
-            "BB",
-            "BD",
-            "BH",
-            "BS",
-            "AT",
-            "AZ",
-            "AU",
-            "AW",
-            "AM",
-            "AR",
-            "AG",
-            "AQ",
-            "AI",
-            "AO",
-            "AD",
-            "AS",
-            "DZ",
-            "AL",
-            "AF",
-            "AX"
-          ],
-          "offset": -34000,
-          "statsStatus": "enabled"
-        }
-      ]
+      "streams": []
     }
   }
 }

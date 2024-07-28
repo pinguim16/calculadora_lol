@@ -23,7 +23,7 @@
             "code": "SR",
             "image": "http://static.lolesports.com/teams/1701424227458_Teams204_Shopify_1632869404072.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 1
             }
           },
           {
@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112523566482611690",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "111504538396430510",
@@ -56,14 +56,14 @@
           {
             "number": 2,
             "id": "112523566482611691",
-            "state": "unstarted",
+            "state": "inProgress",
             "teams": [
               {
-                "id": "111504538396430510",
+                "id": "98926509883054987",
                 "side": "blue"
               },
               {
-                "id": "98926509883054987",
+                "id": "111504538396430510",
                 "side": "red"
               }
             ],
@@ -87,7 +87,34 @@
           }
         ]
       },
-      "streams": []
+      "streams": [
+        {
+          "parameter": "lcs",
+          "locale": "en-US",
+          "mediaLocale": {
+            "locale": "en-US",
+            "englishName": "English (North America)",
+            "translatedName": "English (North America)"
+          },
+          "provider": "twitch",
+          "countries": [],
+          "offset": -35000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "na3UxBNSiYw",
+          "locale": "en-US",
+          "mediaLocale": {
+            "locale": "en-US",
+            "englishName": "English (North America)",
+            "translatedName": "English (North America)"
+          },
+          "provider": "youtube",
+          "countries": [],
+          "offset": -30000,
+          "statsStatus": "enabled"
+        }
+      ]
     }
   }
 }

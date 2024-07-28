@@ -1,7 +1,7 @@
 {
   "data": {
     "event": {
-      "id": "112452930845780131",
+      "id": "112452930845780125",
       "type": "match",
       "tournament": {
         "id": "112452930844731446"
@@ -27,47 +27,31 @@
             }
           },
           {
-            "id": "100205576309502431",
-            "name": "FURIA",
-            "code": "FUR",
-            "image": "http://static.lolesports.com/teams/FURIA---black.png",
+            "id": "109480056092207899",
+            "name": "Fluxo",
+            "code": "FX",
+            "image": "http://static.lolesports.com/teams/1670539056915_fluxo_escudo_w.png",
             "result": {
-              "gameWins": 1
+              "gameWins": 0
             }
           }
         ],
         "games": [
           {
             "number": 1,
-            "id": "112452930845780132",
-            "state": "completed",
+            "id": "112452930845780126",
+            "state": "unstarted",
             "teams": [
               {
                 "id": "105397404796640412",
                 "side": "blue"
               },
               {
-                "id": "100205576309502431",
+                "id": "109480056092207899",
                 "side": "red"
               }
             ],
-            "vods": [
-              {
-                "id": "112860543514993649",
-                "parameter": "Q7-hWW707CA",
-                "locale": "pt-BR",
-                "mediaLocale": {
-                  "locale": "pt-BR",
-                  "englishName": "Portuguese (Brazil)",
-                  "translatedName": "Português (Brasil)"
-                },
-                "provider": "youtube",
-                "offset": 0,
-                "firstFrameTime": "2024-07-27T17:00:48.025Z",
-                "startMillis": null,
-                "endMillis": null
-              }
-            ]
+            "vods": []
           }
         ]
       },

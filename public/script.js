@@ -1,4 +1,6 @@
 let champions = [];
+let gamesCache = {};
+let playerCache = {};
 
 async function loadChampions(league) {
     try {
@@ -245,7 +247,6 @@ async function scrapeData() {
     }
 }
 
-// Função para carregar os jogos do dia
 async function loadGamesOfDay() {
     try {
         const response = await fetch('/games');
@@ -253,7 +254,47 @@ async function loadGamesOfDay() {
             throw new Error('Network response was not ok');
         }
         const games = await response.json();
-        console.log('Games of the day:', games); // Add this line to log games
+        console.log('Games of the day:', games);
+        games.forEach(game => {
+            gamesCache[game.id] = game;
+            playerCache[game.id] = game.details.data.event.match.games.reduce((cache, gameDetail) => {
+                if (gameDetail.gameMetadata && gameDetail.gameMetadata.blueTeamMetadata && gameDetail.gameMetadata.redTeamMetadata) {
+                    let blueTeam = game.teams[0];
+                    let redTeam = game.teams[1];
+
+                    // Validate and correct team codes if necessary
+                    const firstBluePlayer = gameDetail.gameMetadata.blueTeamMetadata.participantMetadata[0].summonerName;
+                    const firstRedPlayer = gameDetail.gameMetadata.redTeamMetadata.participantMetadata[0].summonerName;
+                    if (!firstBluePlayer.startsWith(blueTeam.code) && firstRedPlayer.startsWith(blueTeam.code)) {
+                        [blueTeam, redTeam] = [redTeam, blueTeam];
+                        [game.teams[0], game.teams[1]] = [game.teams[1], game.teams[0]];
+                    }
+
+                    const players = {
+                        blueTeam: gameDetail.gameMetadata.blueTeamMetadata.participantMetadata.map(player => {
+                            const originalName = player.summonerName;
+                            const nameWithoutPrefix = originalName.replace(new RegExp(`^${blueTeam.code}\\s*`), '').trim();
+                            return {
+                                name: nameWithoutPrefix,
+                                team: blueTeam.name,
+                                champion: player.championId
+                            };
+                        }),
+                        redTeam: gameDetail.gameMetadata.redTeamMetadata.participantMetadata.map(player => {
+                            const originalName = player.summonerName;
+                            const nameWithoutPrefix = originalName.replace(new RegExp(`^${redTeam.code}\\s*`), '').trim();
+                            return {
+                                name: nameWithoutPrefix,
+                                team: redTeam.name,
+                                champion: player.championId
+                            };
+                        })
+                    };
+                    cache.push(players);
+                }
+                return cache;
+            }, []);
+        });
         displayGames(games);
     } catch (error) {
         console.error('Failed to load games:', error);
@@ -315,7 +356,7 @@ function displayGames(games) {
                                     ) : '';
                                     let playerName = player.summonerName;
                                     if (game.teams) {
-                                        playerName = playerName.replace(new RegExp(`^${game.teams[0].code}|^${game.teams[1].code}`), '');
+                                        playerName = playerName.replace(new RegExp(`^${game.teams[0].code}\\s*`), '').trim();
                                     }
                                     return `${playerName} (${player.championId}) <img src="/images/${imgName}.png" alt="${player.championId}" class="game-results" style="width: 20px; height: 20px;">`;
                                 }).join(', ') || 'N/A'}
@@ -342,7 +383,7 @@ function displayGames(games) {
                                     ) : '';
                                     let playerName = player.summonerName;
                                     if (game.teams) {
-                                        playerName = playerName.replace(new RegExp(`^${game.teams[0].code}|^${game.teams[1].code}`), '');
+                                        playerName = playerName.replace(new RegExp(`^${game.teams[1].code}\\s*`), '').trim();
                                     }
                                     return `${playerName} (${player.championId}) <img src="/images/${imgName}.png" alt="${player.championId}" class="game-results" style="width: 20px; height: 20px;">`;
                                 }).join(', ') || 'N/A'}
@@ -352,9 +393,41 @@ function displayGames(games) {
                 </div>
             </div>
         `;
-        console.log('Game details:', game.details); // Add this line to log game details
         gamesDiv.appendChild(gameDiv);
     });
+}
+
+function saveGame(gameId) {
+    const game = gamesCache[gameId];
+    if (game) {
+        console.log('Saving game:', game);
+        const teamNames = game.teams.map(team => team.name);
+        const playerNames = game.details.data.event.match.games.map(gameDetail => {
+            if (gameDetail.gameMetadata && gameDetail.gameMetadata.blueTeamMetadata && gameDetail.gameMetadata.redTeamMetadata) {
+                return gameDetail.gameMetadata.blueTeamMetadata.participantMetadata.map(player => {
+                    const originalName = player.summonerName;
+                    const nameWithoutPrefix = originalName.replace(new RegExp(`^(${game.teams[0].code}\\s*)`), '').trim();
+                    console.log(`Original Name: ${originalName}, Name without Prefix: ${nameWithoutPrefix}`);
+                    return nameWithoutPrefix;
+                }).concat(
+                    gameDetail.gameMetadata.redTeamMetadata.participantMetadata.map(player => {
+                        const originalName = player.summonerName;
+                        const nameWithoutPrefix = originalName.replace(new RegExp(`^(${game.teams[1].code}\\s*)`), '').trim();
+                        console.log(`Original Name: ${originalName}, Name without Prefix: ${nameWithoutPrefix}`);
+                        return nameWithoutPrefix;
+                    })
+                );
+            }
+            return [];
+        }).flat();
+        console.log('Team Names:', teamNames);
+        console.log('Player Names without team prefix:', playerNames);
+    }
+}
+
+function printCache() {
+    console.log('Games Cache:', gamesCache);
+    console.log('Player Cache:', playerCache);
 }
 
 async function loadGameDetails(gameId) {

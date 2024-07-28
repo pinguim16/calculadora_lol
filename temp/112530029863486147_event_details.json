@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112530029863486147",
+      "type": "match",
+      "tournament": {
+        "id": "112528884625788027"
+      },
+      "league": {
+        "id": "109511549831443335",
+        "slug": "north_american_challenger_league",
+        "image": "http://static.lolesports.com/leagues/1671126494281_NACL23_Icon_WHT1.png",
+        "name": "NACL"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "99566405124618295",
+            "name": "Team Liquid Honda Challengers",
+            "code": "TLC",
+            "image": "http://static.lolesports.com/teams/1717424526172_TLXHONDALCSLockup_White.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "112551389497449257",
+            "name": "Fear x Starforge",
+            "code": "FXS",
+            "image": "http://static.lolesports.com/teams/1717397900441_Main_Logo_Full-Color.png",
+            "result": {
+              "gameWins": 2
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112530029863486148",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566405124618295",
+                "side": "blue"
+              },
+              {
+                "id": "112551389497449257",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112530029863486149",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566405124618295",
+                "side": "blue"
+              },
+              {
+                "id": "112551389497449257",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112530029863486150",
+            "state": "unneeded",
+            "teams": [
+              {
+                "id": "99566405124618295",
+                "side": "blue"
+              },
+              {
+                "id": "112551389497449257",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

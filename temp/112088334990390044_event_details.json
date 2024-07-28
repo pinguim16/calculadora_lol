@@ -18,19 +18,19 @@
         },
         "teams": [
           {
-            "id": "107581212180071788",
-            "name": "Peek Gaming",
-            "code": "PK",
-            "image": "http://static.lolesports.com/teams/1641752023501_PEEK-ColorDark.png",
-            "result": {
-              "gameWins": 0
-            }
-          },
-          {
             "id": "107581765633427097",
             "name": "Fuego",
             "code": "FUE",
             "image": "http://static.lolesports.com/teams/1711010140737_FUEGO-C.png",
+            "result": {
+              "gameWins": 2
+            }
+          },
+          {
+            "id": "107581212180071788",
+            "name": "Peek Gaming",
+            "code": "PK",
+            "image": "http://static.lolesports.com/teams/1641752023501_PEEK-ColorDark.png",
             "result": {
               "gameWins": 0
             }
@@ -40,14 +40,14 @@
           {
             "number": 1,
             "id": "112088334990390045",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
-                "id": "107581212180071788",
+                "id": "107581765633427097",
                 "side": "blue"
               },
               {
-                "id": "107581765633427097",
+                "id": "107581212180071788",
                 "side": "red"
               }
             ],
@@ -56,14 +56,14 @@
           {
             "number": 2,
             "id": "112088334990390046",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
-                "id": "107581765633427097",
+                "id": "107581212180071788",
                 "side": "blue"
               },
               {
-                "id": "107581212180071788",
+                "id": "107581765633427097",
                 "side": "red"
               }
             ],
@@ -72,7 +72,7 @@
           {
             "number": 3,
             "id": "112088334990390047",
-            "state": "unstarted",
+            "state": "inProgress",
             "teams": [
               {
                 "id": "107581212180071788",
@@ -119,7 +119,21 @@
           }
         ]
       },
-      "streams": []
+      "streams": [
+        {
+          "parameter": "lvpnorte",
+          "locale": "es-MX",
+          "mediaLocale": {
+            "locale": "es-MX",
+            "englishName": "Spanish (Mexico)",
+            "translatedName": "Español (Latinoamérica)"
+          },
+          "provider": "twitch",
+          "countries": [],
+          "offset": -30000000,
+          "statsStatus": "enabled"
+        }
+      ]
     }
   }
 }

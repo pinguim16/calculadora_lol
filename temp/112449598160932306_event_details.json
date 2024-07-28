@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112449598160932306",
+      "type": "match",
+      "tournament": {
+        "id": "112449498998017060"
+      },
+      "league": {
+        "id": "98767991314006698",
+        "slug": "lpl",
+        "image": "http://static.lolesports.com/leagues/1592516115322_LPL-01-FullonDark.png",
+        "name": "LPL"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "98767991887166787",
+            "name": "Xi'an Team WE",
+            "code": "WE",
+            "image": "http://static.lolesports.com/teams/1634763008788_220px-Team_WE_logo.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "99566404848691211",
+            "name": "Invictus Gaming",
+            "code": "IG",
+            "image": "http://static.lolesports.com/teams/1634762917340_300px-Invictus_Gaming_logo.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112449598160932307",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "98767991887166787",
+                "side": "blue"
+              },
+              {
+                "id": "99566404848691211",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112449598160932308",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566404848691211",
+                "side": "blue"
+              },
+              {
+                "id": "98767991887166787",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112449598160932309",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "98767991887166787",
+                "side": "blue"
+              },
+              {
+                "id": "99566404848691211",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

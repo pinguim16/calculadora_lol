@@ -32,7 +32,7 @@
             "code": "RED",
             "image": "http://static.lolesports.com/teams/1631820575924_red-2021-worlds.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 1
             }
           }
         ],
@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112452930845780142",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "109480056092207899",
@@ -51,7 +51,23 @@
                 "side": "red"
               }
             ],
-            "vods": []
+            "vods": [
+              {
+                "id": "112860545144987524",
+                "parameter": "EURkhIfbcfE",
+                "locale": "pt-BR",
+                "mediaLocale": {
+                  "locale": "pt-BR",
+                  "englishName": "Portuguese (Brazil)",
+                  "translatedName": "Português (Brasil)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-27T18:46:23.280Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
           }
         ]
       },

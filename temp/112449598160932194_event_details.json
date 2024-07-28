@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112449598160932194",
+      "type": "match",
+      "tournament": {
+        "id": "112449498998017060"
+      },
+      "league": {
+        "id": "98767991314006698",
+        "slug": "lpl",
+        "image": "http://static.lolesports.com/leagues/1592516115322_LPL-01-FullonDark.png",
+        "name": "LPL"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "99566404853058754",
+            "name": "WeiboGaming TapTap",
+            "code": "WBG",
+            "image": "http://static.lolesports.com/teams/1641202879910_3.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "99566404855553726",
+            "name": "FunPlus Phoenix",
+            "code": "FPX",
+            "image": "http://static.lolesports.com/teams/1627457887494_7_720.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112449598160932195",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566404853058754",
+                "side": "blue"
+              },
+              {
+                "id": "99566404855553726",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112449598160932196",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566404855553726",
+                "side": "blue"
+              },
+              {
+                "id": "99566404853058754",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112449598160932197",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566404853058754",
+                "side": "blue"
+              },
+              {
+                "id": "99566404855553726",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

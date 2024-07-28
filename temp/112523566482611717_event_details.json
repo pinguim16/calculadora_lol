@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112523566482611717",
+      "type": "match",
+      "tournament": {
+        "id": "112523529392628088"
+      },
+      "league": {
+        "id": "98767991299243165",
+        "slug": "lcs",
+        "image": "http://static.lolesports.com/leagues/1706356907418_LCSNew-01-FullonDark.png",
+        "name": "LCS"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "98926509892121852",
+            "name": "FlyQuest",
+            "code": "FLY",
+            "image": "http://static.lolesports.com/teams/flyquest-new-on-dark.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "99294153828264740",
+            "name": "100 Thieves",
+            "code": "100",
+            "image": "http://static.lolesports.com/teams/1631819887423_100t-2021-worlds.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112523566482611718",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "98926509892121852",
+                "side": "blue"
+              },
+              {
+                "id": "99294153828264740",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112523566482611719",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99294153828264740",
+                "side": "blue"
+              },
+              {
+                "id": "98926509892121852",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112523566482611720",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "98926509892121852",
+                "side": "blue"
+              },
+              {
+                "id": "99294153828264740",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

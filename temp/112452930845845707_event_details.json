@@ -32,7 +32,7 @@
             "code": "LOS",
             "image": "http://static.lolesports.com/teams/1686087430642_logo_los_white_newest.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 1
             }
           }
         ],
@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112452930845845708",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "99566408221114231",
@@ -51,7 +51,23 @@
                 "side": "red"
               }
             ],
-            "vods": []
+            "vods": [
+              {
+                "id": "112860546197233542",
+                "parameter": "cvdAMEV_5sQ",
+                "locale": "pt-BR",
+                "mediaLocale": {
+                  "locale": "pt-BR",
+                  "englishName": "Portuguese (Brazil)",
+                  "translatedName": "Português (Brasil)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-27T20:02:38.231Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
           }
         ]
       },

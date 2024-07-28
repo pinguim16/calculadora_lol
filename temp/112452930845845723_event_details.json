@@ -1,7 +1,7 @@
 {
   "data": {
     "event": {
-      "id": "112452930845845711",
+      "id": "112452930845845723",
       "type": "match",
       "tournament": {
         "id": "112452930844731446"
@@ -18,10 +18,10 @@
         },
         "teams": [
           {
-            "id": "99566408222831088",
-            "name": "Liberty",
-            "code": "LBR",
-            "image": "http://static.lolesports.com/teams/1643305707691_RXfNcFMU.png",
+            "id": "99566408217116828",
+            "name": "INTZ",
+            "code": "ITZ",
+            "image": "http://static.lolesports.com/teams/1643056732785_INTZ_Logo_Principal_2022.png",
             "result": {
               "gameWins": 0
             }
@@ -32,18 +32,18 @@
             "code": "VKS",
             "image": "http://static.lolesports.com/teams/1670542079678_vks.png",
             "result": {
-              "gameWins": 1
+              "gameWins": 0
             }
           }
         ],
         "games": [
           {
             "number": 1,
-            "id": "112452930845845712",
-            "state": "completed",
+            "id": "112452930845845724",
+            "state": "unstarted",
             "teams": [
               {
-                "id": "99566408222831088",
+                "id": "99566408217116828",
                 "side": "blue"
               },
               {
@@ -51,23 +51,7 @@
                 "side": "red"
               }
             ],
-            "vods": [
-              {
-                "id": "112860542514438014",
-                "parameter": "VQRWFdheRUo",
-                "locale": "pt-BR",
-                "mediaLocale": {
-                  "locale": "pt-BR",
-                  "englishName": "Portuguese (Brazil)",
-                  "translatedName": "Português (Brasil)"
-                },
-                "provider": "youtube",
-                "offset": 0,
-                "firstFrameTime": "2024-07-27T16:06:13.892Z",
-                "startMillis": null,
-                "endMillis": null
-              }
-            ]
+            "vods": []
           }
         ]
       },

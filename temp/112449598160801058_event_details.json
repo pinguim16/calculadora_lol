@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112449598160801058",
+      "type": "match",
+      "tournament": {
+        "id": "112449498998017060"
+      },
+      "league": {
+        "id": "98767991314006698",
+        "slug": "lpl",
+        "image": "http://static.lolesports.com/leagues/1592516115322_LPL-01-FullonDark.png",
+        "name": "LPL"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "99566404850008779",
+            "name": "Suzhou LNG Ninebot Esports",
+            "code": "LNG",
+            "image": "http://static.lolesports.com/teams/1717487697003_LNGlogo.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "99566404856367466",
+            "name": "Anyone's Legend",
+            "code": "AL",
+            "image": "http://static.lolesports.com/teams/1641199582689_.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112449598160801059",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566404850008779",
+                "side": "blue"
+              },
+              {
+                "id": "99566404856367466",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112449598160801060",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566404856367466",
+                "side": "blue"
+              },
+              {
+                "id": "99566404850008779",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112449598160801061",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566404850008779",
+                "side": "blue"
+              },
+              {
+                "id": "99566404856367466",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

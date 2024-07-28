@@ -41,6 +41,94 @@ async function fetchAndSave(url, options, filename) {
     return data;
 }
 
+const gamesCache = {};
+const playerCache = {};
+
+async function parseGames(data) {
+    const games = [];
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+
+    for (const event of data.data.schedule.events) {
+        const startTime = new Date(event.startTime);
+        const startDateString = startTime.toISOString().split('T')[0];
+        if (startDateString === todayStr && event.type === 'match') {
+            const gameDetails = await fetchEventDetails(event.match.id);
+            const game = {
+                id: event.match.id,
+                startTime: event.startTime,
+                state: event.state,
+                strategy: event.match.strategy.type,
+                strategyCount: event.match.strategy.count,
+                league: event.league.name,
+                teams: event.match.teams.map(team => ({
+                    name: team.name,
+                    code: team.code,
+                    image: team.image,
+                    result: team.result,
+                    record: team.record
+                })),
+                blockName: event.blockName,
+                details: gameDetails
+            };
+            games.push(game);
+
+            // Save to cache
+            gamesCache[event.match.id] = game;
+
+            // Process players for caching
+            if (gameDetails && gameDetails.data && gameDetails.data.event && gameDetails.data.event.match && gameDetails.data.event.match.games) {
+                gameDetails.data.event.match.games.forEach(gameDetail => {
+                    if (gameDetail.gameMetadata && gameDetail.gameMetadata.blueTeamMetadata && gameDetail.gameMetadata.redTeamMetadata) {
+                        let blueTeamCode = game.teams[0].code;
+                        let redTeamCode = game.teams[1].code;
+
+                        // Correct team codes if they are swapped
+                        const firstBluePlayer = gameDetail.gameMetadata.blueTeamMetadata.participantMetadata[0].summonerName;
+                        const firstRedPlayer = gameDetail.gameMetadata.redTeamMetadata.participantMetadata[0].summonerName;
+                        if (!firstBluePlayer.startsWith(blueTeamCode) && firstRedPlayer.startsWith(blueTeamCode)) {
+                            [blueTeamCode, redTeamCode] = [redTeamCode, blueTeamCode];
+                            [game.teams[0], game.teams[1]] = [game.teams[1], game.teams[0]];
+                        }
+
+                        const blueTeam = gameDetail.gameMetadata.blueTeamMetadata.participantMetadata.map(player => {
+                            const originalName = player.summonerName;
+                            const nameWithoutPrefix = originalName.replace(new RegExp(`^${blueTeamCode}\\s*`), '').trim();
+                            return {
+                                name: nameWithoutPrefix,
+                                team: game.teams[0].name,
+                                champion: player.championId
+                            };
+                        });
+
+                        const redTeam = gameDetail.gameMetadata.redTeamMetadata.participantMetadata.map(player => {
+                            const originalName = player.summonerName;
+                            const nameWithoutPrefix = originalName.replace(new RegExp(`^${redTeamCode}\\s*`), '').trim();
+                            return {
+                                name: nameWithoutPrefix,
+                                team: game.teams[1].name,
+                                champion: player.championId
+                            };
+                        });
+
+                        playerCache[game.id] = {
+                            blueTeam,
+                            redTeam
+                        };
+                    }
+                });
+            }
+        }
+    }
+
+    games.sort((a, b) => (a.state === 'completed' ? 1 : -1));
+
+    return games;
+}
+
 app.get('/scrape', async (req, res) => {
     const league = req.query.league;
     const url = leagueUrls[league];
@@ -170,54 +258,14 @@ app.get('/eventDetails', async (req, res) => {
     }
 });
 
-async function parseGames(data) {
-    const games = [];
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    const yyyy = today.getFullYear();
-    const todayStr = `${yyyy}-${mm}-${dd}`; // ISO format for comparison
-
-    for (const event of data.data.schedule.events) {
-        const startTime = new Date(event.startTime);
-        const startDateString = startTime.toISOString().split('T')[0];
-        if (startDateString === todayStr && event.type === 'match') {
-            const gameDetails = await fetchEventDetails(event.match.id);
-            games.push({
-                id: event.match.id,
-                startTime: event.startTime,
-                state: event.state, // Adiciona o estado da série
-                strategy: event.match.strategy.type, // Adiciona o tipo de estratégia
-                strategyCount: event.match.strategy.count, // Adiciona a contagem da estratégia
-                league: event.league.name,
-                teams: event.match.teams.map(team => ({
-                    name: team.name,
-                    code: team.code,
-                    image: team.image,
-                    result: team.result,
-                    record: team.record
-                })),
-                blockName: event.blockName,
-                details: gameDetails
-            });
-        }
-    }
-
-    // Ordenar jogos, colocando os jogos "completed" por último
-    games.sort((a, b) => (a.state === 'completed' ? 1 : -1));
-
-    return games;
-}
-
 async function fetchEventDetails(eventId) {
     const url = `https://esports-api.lolesports.com/persisted/gw/getEventDetails?hl=pt-BR&id=${encodeURIComponent(eventId)}`;
     try {
         const data = await fetchAndSave(url, { headers: { 'x-api-key': API_KEY } }, `${eventId}_event_details.json`);
-        
+
         console.log(`Fetching details for event: ${eventId}`);
         console.log(`Event details data: ${JSON.stringify(data)}`);
 
-        // Buscar detalhes dos jogos dentro do evento
         const gameDetailsPromises = data.data.event.match.games.map(async (game) => {
             const gameUrl = `https://feed.lolesports.com/livestats/v1/window/${game.id}`;
             try {
@@ -234,7 +282,7 @@ async function fetchEventDetails(eventId) {
         });
 
         const gameDetails = await Promise.all(gameDetailsPromises);
-        data.data.event.match.games = gameDetails.filter(detail => detail !== null); // Adicionar detalhes dos jogos ao evento
+        data.data.event.match.games = gameDetails.filter(detail => detail !== null);
 
         return data;
     } catch (error) {
@@ -242,6 +290,10 @@ async function fetchEventDetails(eventId) {
         return null;
     }
 }
+
+app.get('/cache', (req, res) => {
+    res.json({ gamesCache, playerCache });
+});
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

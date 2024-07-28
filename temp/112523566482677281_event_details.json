@@ -23,7 +23,7 @@
             "code": "C9",
             "image": "http://static.lolesports.com/teams/1631820065346_cloud9-2021-worlds.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 2
             }
           },
           {
@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112523566482677282",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "98767991877340524",
@@ -51,28 +51,60 @@
                 "side": "red"
               }
             ],
-            "vods": []
+            "vods": [
+              {
+                "id": "112860507369225057",
+                "parameter": "LD8lLm6hmhE",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-27T19:29:50.072Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
           },
           {
             "number": 2,
             "id": "112523566482677283",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
-                "id": "98767991877340524",
+                "id": "106972778172351142",
                 "side": "blue"
               },
               {
-                "id": "106972778172351142",
+                "id": "98767991877340524",
                 "side": "red"
               }
             ],
-            "vods": []
+            "vods": [
+              {
+                "id": "112860762659601478",
+                "parameter": "Wa2t0icKItU",
+                "locale": "en-US",
+                "mediaLocale": {
+                  "locale": "en-US",
+                  "englishName": "English (North America)",
+                  "translatedName": "English (North America)"
+                },
+                "provider": "youtube",
+                "offset": 0,
+                "firstFrameTime": "2024-07-27T20:54:18.345Z",
+                "startMillis": null,
+                "endMillis": null
+              }
+            ]
           },
           {
             "number": 3,
             "id": "112523566482677284",
-            "state": "unstarted",
+            "state": "unneeded",
             "teams": [
               {
                 "id": "106972778172351142",

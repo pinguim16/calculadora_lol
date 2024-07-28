@@ -1,0 +1,135 @@
+{
+  "data": {
+    "event": {
+      "id": "112435564214584234",
+      "type": "match",
+      "tournament": {
+        "id": "112435564213994193"
+      },
+      "league": {
+        "id": "98767991310872058",
+        "slug": "lck",
+        "image": "http://static.lolesports.com/leagues/lck-color-on-black.png",
+        "name": "LCK"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "99566404585387054",
+            "name": "DRX",
+            "code": "DRX",
+            "image": "http://static.lolesports.com/teams/1672910733664_01.Basic_W.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "98767991853197861",
+            "name": "T1",
+            "code": "T1",
+            "image": "http://static.lolesports.com/teams/1704375161752_T1_esports.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112435564214584235",
+            "state": "inProgress",
+            "teams": [
+              {
+                "id": "99566404585387054",
+                "side": "blue"
+              },
+              {
+                "id": "98767991853197861",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112435564214584236",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566404585387054",
+                "side": "blue"
+              },
+              {
+                "id": "98767991853197861",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112435564214584237",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "98767991853197861",
+                "side": "blue"
+              },
+              {
+                "id": "99566404585387054",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": [
+        {
+          "parameter": "lck",
+          "locale": "en-US",
+          "mediaLocale": {
+            "locale": "en-US",
+            "englishName": "English (North America)",
+            "translatedName": "English (North America)"
+          },
+          "provider": "twitch",
+          "countries": [],
+          "offset": -40000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "aflol",
+          "locale": "ko-KR",
+          "mediaLocale": {
+            "locale": "ko-KR",
+            "englishName": "Korean (Korea)",
+            "translatedName": "한국어"
+          },
+          "provider": "afreecatv",
+          "countries": [],
+          "offset": -45000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "otplol_",
+          "locale": "fr-FR",
+          "mediaLocale": {
+            "locale": "fr-FR",
+            "englishName": "French (France)",
+            "translatedName": "Français"
+          },
+          "provider": "twitch",
+          "countries": [
+            "FR"
+          ],
+          "offset": -40000,
+          "statsStatus": "enabled"
+        }
+      ]
+    }
+  }
+}

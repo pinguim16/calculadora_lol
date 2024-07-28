@@ -1,0 +1,61 @@
+{
+  "data": {
+    "event": {
+      "id": "112452930845780135",
+      "type": "match",
+      "tournament": {
+        "id": "112452930844731446"
+      },
+      "league": {
+        "id": "98767991332355509",
+        "slug": "cblol-brazil",
+        "image": "http://static.lolesports.com/leagues/cblol-logo-symbol-offwhite.png",
+        "name": "CBLOL"
+      },
+      "match": {
+        "strategy": {
+          "count": 1
+        },
+        "teams": [
+          {
+            "id": "99566408221961358",
+            "name": "RED Kalunga",
+            "code": "RED",
+            "image": "http://static.lolesports.com/teams/1631820575924_red-2021-worlds.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "99566408221114231",
+            "name": "KaBuM!",
+            "code": "KBM",
+            "image": "http://static.lolesports.com/teams/1671197541491_LOGO-KABUM-ESPORTS-2023-NEGATIVO-FUNDOPRETO.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112452930845780136",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "99566408221961358",
+                "side": "blue"
+              },
+              {
+                "id": "99566408221114231",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

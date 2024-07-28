@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112530029863486111",
+      "type": "match",
+      "tournament": {
+        "id": "112528884625788027"
+      },
+      "league": {
+        "id": "109511549831443335",
+        "slug": "north_american_challenger_league",
+        "image": "http://static.lolesports.com/leagues/1671126494281_NACL23_Icon_WHT1.png",
+        "name": "NACL"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "99566405126602853",
+            "name": "FlyQuest NZXT Challengers",
+            "code": "FLYC",
+            "image": "http://static.lolesports.com/teams/1717424349486_FlyQuest_NZXT.png",
+            "result": {
+              "gameWins": 1
+            }
+          },
+          {
+            "id": "110534712174898632",
+            "name": "Blue Otter",
+            "code": "BLUE",
+            "image": "http://static.lolesports.com/teams/1686625849125_BlueOtter.png",
+            "result": {
+              "gameWins": 2
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112530029863486112",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566405126602853",
+                "side": "blue"
+              },
+              {
+                "id": "110534712174898632",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112530029863486113",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566405126602853",
+                "side": "blue"
+              },
+              {
+                "id": "110534712174898632",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112530029863486114",
+            "state": "completed",
+            "teams": [
+              {
+                "id": "99566405126602853",
+                "side": "blue"
+              },
+              {
+                "id": "110534712174898632",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}

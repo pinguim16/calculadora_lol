@@ -1,0 +1,93 @@
+{
+  "data": {
+    "event": {
+      "id": "112552584942738046",
+      "type": "match",
+      "tournament": {
+        "id": "112552481837121929"
+      },
+      "league": {
+        "id": "107213827295848783",
+        "slug": "vcs",
+        "image": "http://static.lolesports.com/leagues/1677578094811_VCS_SYMBOL_TITANIUM_RGB.png",
+        "name": "VCS"
+      },
+      "match": {
+        "strategy": {
+          "count": 3
+        },
+        "teams": [
+          {
+            "id": "107251295460371069",
+            "name": "Team Secret",
+            "code": "TS",
+            "image": "http://static.lolesports.com/teams/1656693717651_TS.png",
+            "result": {
+              "gameWins": 0
+            }
+          },
+          {
+            "id": "108573042084687884",
+            "name": "TEAM WHALES",
+            "code": "TW",
+            "image": "http://static.lolesports.com/teams/1674646643550_TEAMWHALE_LOGO_VERSIONS_W_fullwhite-06-svg.png",
+            "result": {
+              "gameWins": 0
+            }
+          }
+        ],
+        "games": [
+          {
+            "number": 1,
+            "id": "112552584942738047",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "107251295460371069",
+                "side": "blue"
+              },
+              {
+                "id": "108573042084687884",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 2,
+            "id": "112552584942738048",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "108573042084687884",
+                "side": "blue"
+              },
+              {
+                "id": "107251295460371069",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          },
+          {
+            "number": 3,
+            "id": "112552584942738049",
+            "state": "unstarted",
+            "teams": [
+              {
+                "id": "107251295460371069",
+                "side": "blue"
+              },
+              {
+                "id": "108573042084687884",
+                "side": "red"
+              }
+            ],
+            "vods": []
+          }
+        ]
+      },
+      "streams": []
+    }
+  }
+}
