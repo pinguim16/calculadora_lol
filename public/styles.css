@@ -94,3 +94,72 @@ section {
 .event-details.active {
     display: block;
 }
+
+/* styles.css */
+
+.game-results {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.champion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.champions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.highlight {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.game-details-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.game-result {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.team-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.team-container:last-child {
+    margin-right: 0;
+}
+
+.team-info {
+    margin-bottom: 10px;
+}
+
+.game-metadata {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.team-info {
+    margin-right: 20px;
+}

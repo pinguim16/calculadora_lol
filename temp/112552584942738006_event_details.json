@@ -32,7 +32,7 @@
             "code": "CES",
             "image": "http://static.lolesports.com/teams/1636526090059_900px-CERBERUS_Esports.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 2
             }
           }
         ],
@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112552584942738007",
-            "state": "inProgress",
+            "state": "completed",
             "teams": [
               {
                 "id": "109828279319224248",
@@ -56,14 +56,14 @@
           {
             "number": 2,
             "id": "112552584942738008",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
-                "id": "107251374793416561",
+                "id": "109828279319224248",
                 "side": "blue"
               },
               {
-                "id": "109828279319224248",
+                "id": "107251374793416561",
                 "side": "red"
               }
             ],
@@ -72,7 +72,7 @@
           {
             "number": 3,
             "id": "112552584942738009",
-            "state": "unstarted",
+            "state": "unneeded",
             "teams": [
               {
                 "id": "109828279319224248",
@@ -87,21 +87,7 @@
           }
         ]
       },
-      "streams": [
-        {
-          "parameter": "LhMtoIdF_CY",
-          "locale": "vi-VN",
-          "mediaLocale": {
-            "locale": "vi-VN",
-            "englishName": "Vietnamese (Vietnam)",
-            "translatedName": "Tiếng Việt"
-          },
-          "provider": "youtube",
-          "countries": [],
-          "offset": -50000,
-          "statsStatus": "enabled"
-        }
-      ]
+      "streams": []
     }
   }
 }

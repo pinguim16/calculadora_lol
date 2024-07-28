@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112552584942738047",
-            "state": "unstarted",
+            "state": "inProgress",
             "teams": [
               {
                 "id": "107251295460371069",
@@ -87,7 +87,21 @@
           }
         ]
       },
-      "streams": []
+      "streams": [
+        {
+          "parameter": "tXqDhoLY2SI",
+          "locale": "vi-VN",
+          "mediaLocale": {
+            "locale": "vi-VN",
+            "englishName": "Vietnamese (Vietnam)",
+            "translatedName": "Tiếng Việt"
+          },
+          "provider": "youtube",
+          "countries": [],
+          "offset": -40000,
+          "statsStatus": "enabled"
+        }
+      ]
     }
   }
 }

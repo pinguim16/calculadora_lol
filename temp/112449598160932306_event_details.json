@@ -32,7 +32,7 @@
             "code": "IG",
             "image": "http://static.lolesports.com/teams/1634762917340_300px-Invictus_Gaming_logo.png",
             "result": {
-              "gameWins": 1
+              "gameWins": 2
             }
           }
         ],
@@ -56,7 +56,7 @@
           {
             "number": 2,
             "id": "112449598160932308",
-            "state": "inProgress",
+            "state": "completed",
             "teams": [
               {
                 "id": "99566404848691211",
@@ -72,7 +72,7 @@
           {
             "number": 3,
             "id": "112449598160932309",
-            "state": "unstarted",
+            "state": "unneeded",
             "teams": [
               {
                 "id": "98767991887166787",
@@ -87,34 +87,7 @@
           }
         ]
       },
-      "streams": [
-        {
-          "parameter": "lpl",
-          "locale": "en-US",
-          "mediaLocale": {
-            "locale": "en-US",
-            "englishName": "English (North America)",
-            "translatedName": "English (North America)"
-          },
-          "provider": "twitch",
-          "countries": [],
-          "offset": -30000,
-          "statsStatus": "enabled"
-        },
-        {
-          "parameter": "jYhPYcC9l4M",
-          "locale": "en-US",
-          "mediaLocale": {
-            "locale": "en-US",
-            "englishName": "English (North America)",
-            "translatedName": "English (North America)"
-          },
-          "provider": "youtube",
-          "countries": [],
-          "offset": -30000,
-          "statsStatus": "enabled"
-        }
-      ]
+      "streams": []
     }
   }
 }

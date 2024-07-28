@@ -18,19 +18,19 @@
         },
         "teams": [
           {
-            "id": "99566406490127625",
-            "name": "J Team",
-            "code": "JT",
-            "image": "http://static.lolesports.com/teams/1592588569647_JTeamJT-01-FullonDark.png",
-            "result": {
-              "gameWins": 0
-            }
-          },
-          {
             "id": "107760667929003738",
             "name": "Frank Esports",
             "code": "FAK",
             "image": "http://static.lolesports.com/teams/1656308269827_220621_FRANK_Final_Logo_W.png",
+            "result": {
+              "gameWins": 2
+            }
+          },
+          {
+            "id": "99566406490127625",
+            "name": "J Team",
+            "code": "JT",
+            "image": "http://static.lolesports.com/teams/1592588569647_JTeamJT-01-FullonDark.png",
             "result": {
               "gameWins": 0
             }
@@ -40,14 +40,14 @@
           {
             "number": 1,
             "id": "112518457388437962",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
-                "id": "99566406490127625",
+                "id": "107760667929003738",
                 "side": "blue"
               },
               {
-                "id": "107760667929003738",
+                "id": "99566406490127625",
                 "side": "red"
               }
             ],
@@ -56,14 +56,14 @@
           {
             "number": 2,
             "id": "112518457388437963",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
-                "id": "107760667929003738",
+                "id": "99566406490127625",
                 "side": "blue"
               },
               {
-                "id": "99566406490127625",
+                "id": "107760667929003738",
                 "side": "red"
               }
             ],
@@ -72,7 +72,7 @@
           {
             "number": 3,
             "id": "112518457388437964",
-            "state": "unstarted",
+            "state": "unneeded",
             "teams": [
               {
                 "id": "99566406490127625",

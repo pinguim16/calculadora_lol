@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112789307273541084",
-            "state": "unstarted",
+            "state": "inProgress",
             "teams": [
               {
                 "id": "107700199633958891",
@@ -87,7 +87,60 @@
           }
         ]
       },
-      "streams": []
+      "streams": [
+        {
+          "parameter": "lolpacificTW",
+          "locale": "zh-TW",
+          "mediaLocale": {
+            "locale": "zh-TW",
+            "englishName": "Chinese (Republic of China)",
+            "translatedName": "繁體中文"
+          },
+          "provider": "twitch",
+          "countries": [],
+          "offset": -145000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "S7ibpwFGRC4",
+          "locale": "zh-TW",
+          "mediaLocale": {
+            "locale": "zh-TW",
+            "englishName": "Chinese (Republic of China)",
+            "translatedName": "繁體中文"
+          },
+          "provider": "youtube",
+          "countries": [],
+          "offset": -145000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "lolpacific",
+          "locale": "en-SG",
+          "mediaLocale": {
+            "locale": "en-SG",
+            "englishName": "English (Singapore)",
+            "translatedName": "English (Singapore)"
+          },
+          "provider": "twitch",
+          "countries": [],
+          "offset": -145000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "PVbR7_Pc5uo",
+          "locale": "en-SG",
+          "mediaLocale": {
+            "locale": "en-SG",
+            "englishName": "English (Singapore)",
+            "translatedName": "English (Singapore)"
+          },
+          "provider": "youtube",
+          "countries": [],
+          "offset": -145000,
+          "statsStatus": "enabled"
+        }
+      ]
     }
   }
 }

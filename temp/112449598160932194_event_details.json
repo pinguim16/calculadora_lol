@@ -32,7 +32,7 @@
             "code": "FPX",
             "image": "http://static.lolesports.com/teams/1627457887494_7_720.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 1
             }
           }
         ],
@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112449598160932195",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "99566404853058754",
@@ -56,7 +56,7 @@
           {
             "number": 2,
             "id": "112449598160932196",
-            "state": "unstarted",
+            "state": "inProgress",
             "teams": [
               {
                 "id": "99566404855553726",

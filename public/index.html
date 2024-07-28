@@ -10,6 +10,9 @@
 <body>
     <div class="container mt-4">
         <h1 class="text-center">League of Legends Winrate Checker</h1>
+        <div id="spinner-container" class="spinner-border text-primary" role="status" style="display:none;">
+            <span class="sr-only">Loading...</span>
+        </div>
         <div class="form-group">
             <label for="league-select">Select League:</label>
             <div class="input-group">
@@ -138,12 +141,14 @@
             <!-- Jogos do dia serão exibidos aqui -->
         </div>
         
+        <!-- Removido ou comentado a seção de jogadores -->
+        <!--
         <div class="text-center mt-4">
             <button class="btn btn-primary" onclick="loadPlayers()">Load Players</button>
         </div>
         <div id="players" class="mt-4 text-center">
             <!-- Lista de jogadores será exibida aqui -->
-        </div>
+        <!-- </div> -->
     </div>
     <script src="script.js"></script>
     <script>

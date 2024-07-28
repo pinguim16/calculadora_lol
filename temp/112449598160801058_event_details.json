@@ -23,7 +23,7 @@
             "code": "LNG",
             "image": "http://static.lolesports.com/teams/1717487697003_LNGlogo.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 2
             }
           },
           {
@@ -32,7 +32,7 @@
             "code": "AL",
             "image": "http://static.lolesports.com/teams/1641199582689_.png",
             "result": {
-              "gameWins": 0
+              "gameWins": 1
             }
           }
         ],
@@ -40,7 +40,7 @@
           {
             "number": 1,
             "id": "112449598160801059",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "99566404850008779",
@@ -56,7 +56,7 @@
           {
             "number": 2,
             "id": "112449598160801060",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "99566404856367466",
@@ -72,7 +72,7 @@
           {
             "number": 3,
             "id": "112449598160801061",
-            "state": "unstarted",
+            "state": "completed",
             "teams": [
               {
                 "id": "99566404850008779",
@@ -87,7 +87,34 @@
           }
         ]
       },
-      "streams": []
+      "streams": [
+        {
+          "parameter": "lpl",
+          "locale": "en-US",
+          "mediaLocale": {
+            "locale": "en-US",
+            "englishName": "English (North America)",
+            "translatedName": "English (North America)"
+          },
+          "provider": "twitch",
+          "countries": [],
+          "offset": -30000,
+          "statsStatus": "enabled"
+        },
+        {
+          "parameter": "jYhPYcC9l4M",
+          "locale": "en-US",
+          "mediaLocale": {
+            "locale": "en-US",
+            "englishName": "English (North America)",
+            "translatedName": "English (North America)"
+          },
+          "provider": "youtube",
+          "countries": [],
+          "offset": -30000,
+          "statsStatus": "enabled"
+        }
+      ]
     }
   }
 }

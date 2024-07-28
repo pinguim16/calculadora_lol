@@ -3,7 +3,18 @@ let gamesCache = {};
 let playerCache = {};
 let players = [];
 
+function showSpinner() {
+    const spinnerContainer = document.getElementById('spinner-container');
+    spinnerContainer.style.display = 'block';
+}
+
+function hideSpinner() {
+    const spinnerContainer = document.getElementById('spinner-container');
+    spinnerContainer.style.display = 'none';
+}
+
 async function loadChampions(league) {
+    showSpinner();
     try {
         const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
         if (!response.ok) {
@@ -14,6 +25,8 @@ async function loadChampions(league) {
         updateChampionSelects();
     } catch (error) {
         console.error('Failed to load champions:', error);
+    } finally {
+        hideSpinner();
     }
 }
 
@@ -97,7 +110,7 @@ function checkWinrates() {
                 countValidWinratesTeamA++;
             }
             const result = document.createElement('div');
-            result.className = 'champion-result';
+            result.className = 'champion-container';
             const imgName = champData.name === 'Leblanc' ? 'LeBlanc' :
                 champData.name === 'Renata Glasc' ? 'Renata_Glasc' :
                 champData.name === 'Miss Fortune' ? 'Miss_Fortune' :
@@ -108,7 +121,7 @@ function checkWinrates() {
                 champData.name;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                ${champData.name} - Winrate: ${winrate}%`;
+                <div class="champion-info">${champData.name} - Winrate: ${winrate}%</div>`;
             teamADetails.appendChild(result);
         } else {
             console.error(`Champion data not found for ${champ}`);
@@ -155,7 +168,7 @@ function checkWinrates() {
                 countValidWinratesTeamB++;
             }
             const result = document.createElement('div');
-            result.className = 'champion-result';
+            result.className = 'champion-container';
             const imgName = champData.name === 'Leblanc' ? 'LeBlanc' :
                 champData.name === 'Renata Glasc' ? 'Renata_Glasc' :
                 champData.name === 'Miss Fortune' ? 'Miss_Fortune' :
@@ -166,7 +179,7 @@ function checkWinrates() {
                 champData.name;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                ${champData.name} - Winrate: ${winrate}%`;
+                <div class="champion-info">${champData.name} - Winrate: ${winrate}%</div>`;
             teamBDetails.appendChild(result);
         } else {
             console.error(`Champion data not found for ${champ}`);
@@ -234,6 +247,7 @@ function checkWinrates() {
 
 async function scrapeData() {
     const league = document.getElementById('league-select').value;
+    showSpinner();
     try {
         const response = await fetch(`/scrape?league=${encodeURIComponent(league)}`);
         if (!response.ok) {
@@ -245,10 +259,13 @@ async function scrapeData() {
         loadChampions(league); // Load champions from the newly scraped data
     } catch (error) {
         console.error('Failed to scrape data:', error);
+    } finally {
+        hideSpinner();
     }
 }
 
 async function loadGamesOfDay() {
+    showSpinner();
     try {
         const response = await fetch('/games');
         if (!response.ok) {
@@ -299,7 +316,19 @@ async function loadGamesOfDay() {
         displayGames(games);
     } catch (error) {
         console.error('Failed to load games:', error);
+    } finally {
+        hideSpinner();
     }
+}
+
+function getChampionWinrate(playerName, championId) {
+    if (playerCache[playerName]) {
+        const championData = playerCache[playerName].champions.find(champ => champ.champion === championId);
+        if (championData) {
+            return championData.winRate;
+        }
+    }
+    return 'N/A';
 }
 
 function displayGames(games) {
@@ -330,67 +359,93 @@ function displayGames(games) {
                 <p>Event Start Time: ${new Date(game.details?.data?.event?.startTime || game.startTime).toLocaleString()}</p>
                 <div>
                     <h4>Game Results</h4>
-                    ${game.details?.data?.event?.match?.games?.map(gameDetail => {
-                        return `
-                            <div>
-                                Game ${gameDetail.number}: ${gameDetail.state}
-                                <br>Blue Team: ${gameDetail.gameMetadata?.blueTeamMetadata?.participantMetadata.map(player => {
-                                    const champ = champions.find(c => c.name === (
-                                        player.championId === 'Leblanc' ? 'LeBlanc' :
-                                        player.championId === 'Renata' ? 'Renata Glasc' :
-                                        player.championId === 'MissFortune' ? 'Miss Fortune' :
-                                        player.championId === 'TwistedFate' ? 'Twisted Fate' :
-                                        player.championId === 'DrMundo' ? 'Dr. Mundo' :
-                                        player.championId === 'LeeSin' ? 'Lee Sin' :
-                                        player.championId === 'MonkeyKing' ? 'Wukong' :
-                                        player.championId
-                                    ));
-                                    const imgName = champ ? (
-                                        champ.name === 'Leblanc' ? 'LeBlanc' :
-                                        champ.name === 'Renata Glasc' ? 'Renata_Glasc' :
-                                        champ.name === 'Miss Fortune' ? 'Miss_Fortune' :
-                                        champ.name === 'Twisted Fate' ? 'Twisted_Fate' :
-                                        champ.name === 'Dr. Mundo' ? 'Dr._Mundo' :
-                                        champ.name === 'Lee Sin' ? 'Lee_Sin' :
-                                        champ.name === 'Wukong' ? 'Wukong' :
-                                        champ.name
-                                    ) : '';
-                                    let playerName = player.summonerName;
-                                    if (game.teams) {
-                                        playerName = playerName.replace(new RegExp(`^${game.teams[0].code}\\s*`), '').trim();
-                                    }
-                                    return `${playerName} (${player.championId}) <img src="/images/${imgName}.png" alt="${player.championId}" class="game-results" style="width: 20px; height: 20px;">`;
-                                }).join(', ') || 'N/A'}
-                                <br>Red Team: ${gameDetail.gameMetadata?.redTeamMetadata?.participantMetadata.map(player => {
-                                    const champ = champions.find(c => c.name === (
-                                        player.championId === 'Leblanc' ? 'LeBlanc' :
-                                        player.championId === 'Renata' ? 'Renata Glasc' :
-                                        player.championId === 'MissFortune' ? 'Miss Fortune' :
-                                        player.championId === 'TwistedFate' ? 'Twisted Fate' :
-                                        player.championId === 'DrMundo' ? 'Dr. Mundo' :
-                                        player.championId === 'LeeSin' ? 'Lee Sin' :
-                                        player.championId === 'MonkeyKing' ? 'Wukong' :
-                                        player.championId
-                                    ));
-                                    const imgName = champ ? (
-                                        champ.name === 'Leblanc' ? 'LeBlanc' :
-                                        champ.name === 'Renata Glasc' ? 'Renata_Glasc' :
-                                        champ.name === 'Miss Fortune' ? 'Miss_Fortune' :
-                                        champ.name === 'Twisted Fate' ? 'Twisted_Fate' :
-                                        champ.name === 'Dr. Mundo' ? 'Dr._Mundo' :
-                                        champ.name === 'Lee Sin' ? 'Lee_Sin' :
-                                        champ.name === 'Wukong' ? 'Wukong' :
-                                        champ.name
-                                    ) : '';
-                                    let playerName = player.summonerName;
-                                    if (game.teams) {
-                                        playerName = playerName.replace(new RegExp(`^${game.teams[1].code}\\s*`), '').trim();
-                                    }
-                                    return `${playerName} (${player.championId}) <img src="/images/${imgName}.png" alt="${player.championId}" class="game-results" style="width: 20px; height: 20px;">`;
-                                }).join(', ') || 'N/A'}
-                            </div>
-                        `;
-                    }).join('') || 'No game details available'}
+                    <div class="game-result">
+                        ${game.details?.data?.event?.match?.games?.map(gameDetail => {
+                            return `
+                                <div class="game-details-container">
+                                    <p>Game ${gameDetail.number}: ${gameDetail.state}</p>
+                                    <div class="game-metadata">
+                                        <div class="team-container">
+                                            <span class="team-info">Blue Team:</span>
+                                            ${gameDetail.gameMetadata?.blueTeamMetadata?.participantMetadata.map(player => {
+                                                const champ = champions.find(c => c.name === (
+                                                    player.championId === 'Leblanc' ? 'LeBlanc' :
+                                                    player.championId === 'Renata' ? 'Renata Glasc' :
+                                                    player.championId === 'MissFortune' ? 'Miss Fortune' :
+                                                    player.championId === 'TwistedFate' ? 'Twisted Fate' :
+                                                    player.championId === 'DrMundo' ? 'Dr. Mundo' :
+                                                    player.championId === 'LeeSin' ? 'Lee Sin' :
+                                                    player.championId === 'MonkeyKing' ? 'Wukong' :
+                                                    player.championId
+                                                ));
+                                                const imgName = champ ? (
+                                                    champ.name === 'Leblanc' ? 'LeBlanc' :
+                                                    champ.name === 'Renata Glasc' ? 'Renata_Glasc' :
+                                                    champ.name === 'Miss Fortune' ? 'Miss_Fortune' :
+                                                    champ.name === 'Twisted Fate' ? 'Twisted_Fate' :
+                                                    champ.name === 'Dr. Mundo' ? 'Dr._Mundo' :
+                                                    champ.name === 'Lee Sin' ? 'Lee_Sin' :
+                                                    champ.name === 'Wukong' ? 'Wukong' :
+                                                    champ.name
+                                                ) : '';
+                                                let playerName = player.summonerName;
+                                                if (game.teams) {
+                                                    playerName = playerName.replace(new RegExp(`^${game.teams[0].code}\\s*`), '').trim();
+                                                }
+                                                const winrate = getChampionWinrate(playerName, player.championId);
+                                                return `
+                                                    <div class="champion-container">
+                                                        <img src="/images/${imgName}.png" alt="${player.championId}" class="game-results">
+                                                        <div class="champion-info">
+                                                            <span>${playerName}</span>
+                                                            <span>Winrate: ${winrate}%</span>
+                                                        </div>
+                                                    </div>`;
+                                            }).join('') || 'N/A'}
+                                        </div>
+                                        <div class="team-container">
+                                            <span class="team-info">Red Team:</span>
+                                            ${gameDetail.gameMetadata?.redTeamMetadata?.participantMetadata.map(player => {
+                                                const champ = champions.find(c => c.name === (
+                                                    player.championId === 'Leblanc' ? 'LeBlanc' :
+                                                    player.championId === 'Renata' ? 'Renata Glasc' :
+                                                    player.championId === 'MissFortune' ? 'Miss Fortune' :
+                                                    player.championId === 'TwistedFate' ? 'Twisted Fate' :
+                                                    player.championId === 'DrMundo' ? 'Dr. Mundo' :
+                                                    player.championId === 'LeeSin' ? 'Lee Sin' :
+                                                    player.championId === 'MonkeyKing' ? 'Wukong' :
+                                                    player.championId
+                                                ));
+                                                const imgName = champ ? (
+                                                    champ.name === 'Leblanc' ? 'LeBlanc' :
+                                                    champ.name === 'Renata Glasc' ? 'Renata_Glasc' :
+                                                    champ.name === 'Miss Fortune' ? 'Miss_Fortune' :
+                                                    champ.name === 'Twisted Fate' ? 'Twisted_Fate' :
+                                                    champ.name === 'Dr. Mundo' ? 'Dr._Mundo' :
+                                                    champ.name === 'Lee Sin' ? 'Lee_Sin' :
+                                                    champ.name === 'Wukong' ? 'Wukong' :
+                                                    champ.name
+                                                ) : '';
+                                                let playerName = player.summonerName;
+                                                if (game.teams) {
+                                                    playerName = playerName.replace(new RegExp(`^${game.teams[1].code}\\s*`), '').trim();
+                                                }
+                                                const winrate = getChampionWinrate(playerName, player.championId);
+                                                return `
+                                                    <div class="champion-container">
+                                                        <img src="/images/${imgName}.png" alt="${player.championId}" class="game-results">
+                                                        <div class="champion-info">
+                                                            <span>${playerName}</span>
+                                                            <span>Winrate: ${winrate}%</span>
+                                                        </div>
+                                                    </div>`;
+                                            }).join('') || 'N/A'}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('') || 'No game details available'}
+                    </div>
                 </div>
             </div>
         `;
@@ -429,7 +484,7 @@ function saveGame(gameId) {
 function printCache() {
     console.log('Games Cache:', gamesCache);
     console.log('Player Cache:', playerCache);
-    console.log('Player :',players);
+    console.log('Player :', players);
 }
 
 async function loadGameDetails(gameId) {
@@ -465,6 +520,7 @@ async function loadPlayerWinrates(player, champion) {
     }
 }
 
+// Função para carregar os jogadores e armazená-los em cache
 async function loadPlayers() {
     try {
         const response = await fetch('/scrapePlayers');
@@ -473,13 +529,20 @@ async function loadPlayers() {
         }
         players = await response.json();
         console.log(`Loaded ${players.length} players`);
-        displayPlayers();
+        // Apenas carregar os jogadores, não exibir
+        playerCache = players.reduce((cache, player) => {
+            cache[player.name] = player;
+            return cache;
+        }, {});
+        alert('All players have been loaded!');
     } catch (error) {
         console.error('Failed to load players:', error);
     }
 }
 
-function displayPlayers() {
+// Remover ou comentar a função displayPlayers
+
+/* function displayPlayers() {
     const playersDiv = document.getElementById('players');
     playersDiv.innerHTML = '<h2>Players List</h2>';
     players.forEach(player => {
@@ -490,8 +553,9 @@ function displayPlayers() {
         `;
         playersDiv.appendChild(playerDiv);
     });
-}
+} */
 
+// Carregar jogadores ao carregar a página, mas sem exibir
 window.onload = async () => {
     const leagueSelect = document.getElementById('league-select');
     leagueSelect.onchange = async () => {
