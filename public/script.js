@@ -417,8 +417,10 @@ function displayGames(games) {
                     `;
                 }).join('')}
             </div>
-            <button class="btn btn-info" onclick="toggleDetails('${game.id}')">Show Details</button>
-            <button class="btn btn-secondary ml-2" onclick="copyTeamNames('${game.id}')">Copy Team Names</button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-info" onclick="toggleDetails('${game.id}')">Show Details</button>
+                <button class="btn btn-secondary ml-2" onclick="copyTeamNames('${game.id}')">Copy Team Names</button>
+            </div>
             <div id="details-${game.id}" class="event-details">
                 <div>
                     ${game.details?.data?.event?.match?.games?.map((gameDetail, index) => {
@@ -460,8 +462,10 @@ function displayGames(games) {
                                             }).join('') || 'N/A'}
                                         </div>
                                     </div>
-                                    <button class="btn btn-warning d-inline-block" onclick="copyChampionsToSelect('${game.id}', ${index})">Copy Champions for Game ${gameDetail.number}</button>
-                                    <button class="btn btn-danger d-inline-block ml-2" onclick="copyChampionsToSelectInverse('${game.id}', ${index})">Copy Champions Inversely</button>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-warning" onclick="copyChampionsToSelect('${game.id}', ${index})">Copy Champions for Game ${gameDetail.number}</button>
+                                        <button class="btn btn-danger ml-2" onclick="copyChampionsToSelectInverse('${game.id}', ${index})">Copy Champions Inversely</button>
+                                    </div>
                                 </div>
                             `;
                         }
