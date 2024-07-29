@@ -3,6 +3,10 @@ let gamesCache = {};
 let playerCache = {};
 let players = [];
 let playersWinrate = [];
+let selectedChampionsWinrate = {
+    teamA: [],
+    teamB: []
+};
 
 function showSpinner() {
     const spinnerContainer = document.getElementById('spinner-container');
@@ -98,12 +102,95 @@ function getFormattedChampionName(champion) {
     };
 }
 
+function getChampionWinrate(playerName, championId) {
+    let playerWinrate = playersWinrate.find(player => player.name.toLowerCase().trim() === playerName.toLowerCase().trim());
+    if (playerWinrate) {
+        const championData = playerWinrate.champions.find(champ => champ.champion.toLowerCase().trim() === championId.toLowerCase().trim());
+        if (championData) {
+            return championData.winRate;
+        }
+    }
+    return '-1';
+}
+
+function copyChampionsToSelect(gameId, gameIndex) {
+    const gameDetails = gamesCache[gameId].details.data.event.match.games[gameIndex];
+    const blueTeamChamps = gameDetails.gameMetadata.blueTeamMetadata.participantMetadata.map(player => player.championId);
+    const redTeamChamps = gameDetails.gameMetadata.redTeamMetadata.participantMetadata.map(player => player.championId);
+
+    selectedChampionsWinrate.teamA = [];
+    selectedChampionsWinrate.teamB = [];
+
+    console.log(`Copying champions for Game ${gameIndex + 1}`);
+    console.log('Blue Team Champions:', blueTeamChamps);
+    console.log('Red Team Champions:', redTeamChamps);
+
+    blueTeamChamps.forEach((champion, index) => {
+        const select = document.getElementById(`team-a-champ-${index + 1}`);
+        select.value = getFormattedChampionName(champion).displayName;
+        const winrate = getChampionWinrate(gameDetails.gameMetadata.blueTeamMetadata.participantMetadata[index].summonerName, champion);
+        selectedChampionsWinrate.teamA.push(winrate);
+    });
+
+    redTeamChamps.forEach((champion, index) => {
+        const select = document.getElementById(`team-b-champ-${index + 1}`);
+        select.value = getFormattedChampionName(champion).displayName;
+        const winrate = getChampionWinrate(gameDetails.gameMetadata.redTeamMetadata.participantMetadata[index].summonerName, champion);
+        selectedChampionsWinrate.teamB.push(winrate);
+    });
+
+    console.log('Selected Champions Winrate:', selectedChampionsWinrate);
+}
+
+function copyChampionsToSelectInverse(gameId, gameIndex) {
+    const gameDetails = gamesCache[gameId].details.data.event.match.games[gameIndex];
+    const blueTeamChamps = gameDetails.gameMetadata.blueTeamMetadata.participantMetadata.map(player => player.championId);
+    const redTeamChamps = gameDetails.gameMetadata.redTeamMetadata.participantMetadata.map(player => player.championId);
+
+    selectedChampionsWinrate.teamA = [];
+    selectedChampionsWinrate.teamB = [];
+
+    console.log(`Copying champions inversely for Game ${gameIndex + 1}`);
+    console.log('Blue Team Champions:', blueTeamChamps);
+    console.log('Red Team Champions:', redTeamChamps);
+
+    blueTeamChamps.forEach((champion, index) => {
+        const select = document.getElementById(`team-b-champ-${index + 1}`);
+        select.value = getFormattedChampionName(champion).displayName;
+        const winrate = getChampionWinrate(gameDetails.gameMetadata.blueTeamMetadata.participantMetadata[index].summonerName, champion);
+        selectedChampionsWinrate.teamB.push(winrate);
+    });
+
+    redTeamChamps.forEach((champion, index) => {
+        const select = document.getElementById(`team-a-champ-${index + 1}`);
+        select.value = getFormattedChampionName(champion).displayName;
+        const winrate = getChampionWinrate(gameDetails.gameMetadata.redTeamMetadata.participantMetadata[index].summonerName, champion);
+        selectedChampionsWinrate.teamA.push(winrate);
+    });
+
+    console.log('Selected Champions Winrate:', selectedChampionsWinrate);
+}
+
+function copyTeamNames(gameId) {
+    const game = gamesCache[gameId];
+    const teamAName = game.teams[0].name;
+    const teamBName = game.teams[1].name;
+
+    console.log(`Copying team names for Game ${gameId}`);
+    console.log('Team A Name:', teamAName);
+    console.log('Team B Name:', teamBName);
+
+    document.getElementById('team-a-name').value = teamAName;
+    document.getElementById('team-b-name').value = teamBName;
+}
+
 function checkWinrates() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
 
-    const weightChampionWinrate = 0.4;
-    const weightTeamWinrate = 0.3;
+    const weightChampionWinrate = 0.2;
+    const weightChampionPlayerWinrate = 0.3;
+    const weightTeamWinrate = 0.1;
     const weightRecentWinrate = 0.3;
     const detractorPercentage = 0.1;
 
@@ -123,9 +210,10 @@ function checkWinrates() {
     selectedChampsTeamA.forEach(champ => {
         const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
         if (champData) {
-            const winrate = champData.winrate >= 0 ? champData.winrate : 'N/A';
+            const winrate = champData.winrate >= 0 ? champData.winrate : 0;
             if (champData.winrate >= 0) {
                 totalWinrateTeamA += champData.winrate;
+                console.log("totalWinrateTeamA", totalWinrateTeamA);
                 countValidWinratesTeamA++;
             }
             const result = document.createElement('div');
@@ -145,9 +233,13 @@ function checkWinrates() {
         averageWinrateTeamA = totalWinrateTeamA / countValidWinratesTeamA;
     }
 
+    let selectedChampsTeamAWinrate = selectedChampionsWinrate.teamA.reduce((sum, winrate) => sum + parseFloat(winrate), 0) / selectedChampionsWinrate.teamA.length;
+
     let teamACombinedAndAverageResult = document.createElement('div');
     teamACombinedAndAverageResult.innerHTML = `<div><strong>Team A Combined Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
     teamACombinedAndAverageResult.innerHTML += `<div><strong>Team A Average Champion Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
+    teamACombinedAndAverageResult.innerHTML += `<div><strong>Team A Average Champion/Player Winrate: ${selectedChampsTeamAWinrate.toFixed(2)}%</strong></div>`;
+    teamADetails.appendChild(teamACombinedAndAverageResult);
 
     const selectedChampsTeamB = [
         document.getElementById('team-b-champ-1').value,
@@ -165,9 +257,10 @@ function checkWinrates() {
     selectedChampsTeamB.forEach(champ => {
         const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
         if (champData) {
-            const winrate = champData.winrate >= 0 ? champData.winrate : 'N/A';
+            const winrate = champData.winrate >= 0 ? champData.winrate : 0;
             if (champData.winrate >= 0) {
                 totalWinrateTeamB += champData.winrate;
+                console.log("totalWinrateTeamB", totalWinrateTeamB);
                 countValidWinratesTeamB++;
             }
             const result = document.createElement('div');
@@ -187,9 +280,13 @@ function checkWinrates() {
         averageWinrateTeamB = totalWinrateTeamB / countValidWinratesTeamB;
     }
 
+    let selectedChampsTeamBWinrate = selectedChampionsWinrate.teamB.reduce((sum, winrate) => sum + parseFloat(winrate), 0) / selectedChampionsWinrate.teamB.length;
+
     let teamBCombinedAndAverageResult = document.createElement('div');
     teamBCombinedAndAverageResult.innerHTML = `<div><strong>Team B Combined Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
     teamBCombinedAndAverageResult.innerHTML += `<div><strong>Team B Average Champion Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
+    teamBCombinedAndAverageResult.innerHTML += `<div><strong>Team B Average Champion/Player Winrate: ${selectedChampsTeamBWinrate.toFixed(2)}%</strong></div>`;
+    teamBDetails.appendChild(teamBCombinedAndAverageResult);
 
     const teamAWinrate = parseFloat(document.getElementById('team-a-winrate').value) || 0;
     const teamARecentWinrate = parseFloat(document.getElementById('team-a-recent-winrate').value) || 0;
@@ -197,10 +294,10 @@ function checkWinrates() {
     const teamBRecentWinrate = parseFloat(document.getElementById('team-b-recent-winrate').value) || 0;
 
     const teamAName = document.getElementById('team-a-name').value;
-    const teamBName = document.getElementById('team-b-name').value;
+    const teamBName = document.getElementById('team-b-name').value;weightChampionPlayerWinrate
 
-    const teamACombinedWinrate = (weightChampionWinrate * averageWinrateTeamA) + (weightTeamWinrate * teamAWinrate) + (weightRecentWinrate * teamARecentWinrate);
-    const teamBCombinedWinrate = (weightChampionWinrate * averageWinrateTeamB) + (weightTeamWinrate * teamBWinrate) + (weightRecentWinrate * teamBRecentWinrate);
+    const teamACombinedWinrate = (weightChampionWinrate * averageWinrateTeamA) + (weightTeamWinrate * teamAWinrate) + (weightRecentWinrate * teamARecentWinrate) + (selectedChampsTeamAWinrate  * weightChampionPlayerWinrate);
+    const teamBCombinedWinrate = (weightChampionWinrate * averageWinrateTeamB) + (weightTeamWinrate * teamBWinrate) + (weightRecentWinrate * teamBRecentWinrate) + (selectedChampsTeamBWinrate  * weightChampionPlayerWinrate);
 
     const teamAConsecutiveLosses = document.getElementById('team-a-derretidos').checked ? detractorPercentage : 0;
     const teamBConsecutiveLosses = document.getElementById('team-b-derretidos').checked ? detractorPercentage : 0;
@@ -208,11 +305,14 @@ function checkWinrates() {
     const finalTeamACombinedWinrate = teamACombinedWinrate * (1 - teamAConsecutiveLosses);
     const finalTeamBCombinedWinrate = teamBCombinedWinrate * (1 - teamBConsecutiveLosses);
 
-    teamACombinedAndAverageResult.innerHTML = `<div><strong>Team A Combined Winrate: ${finalTeamACombinedWinrate.toFixed(2)}%</strong></div>`;
-    teamACombinedAndAverageResult.innerHTML += `<div><strong>Team A Average Champion Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
+//    const finalTeamACombinedWinrateWithPlayerChamps = (finalTeamACombinedWinrate + selectedChampsTeamAWinrate) / 2;
+//    const finalTeamBCombinedWinrateWithPlayerChamps = (finalTeamBCombinedWinrate + selectedChampsTeamBWinrate) / 2;
+
+//    teamACombinedAndAverageResult.innerHTML = `<div><strong>Team A Combined Winrate: ${finalTeamACombinedWinrateWithPlayerChamps.toFixed(2)}%</strong></div>`;
+//    teamACombinedAndAverageResult.innerHTML += `<div><strong>Team A Average Champion Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
     
-    teamBCombinedAndAverageResult.innerHTML = `<div><strong>Team B Combined Winrate: ${finalTeamBCombinedWinrate.toFixed(2)}%</strong></div>`;
-    teamBCombinedAndAverageResult.innerHTML += `<div><strong>Team B Average Champion Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
+//    teamBCombinedAndAverageResult.innerHTML = `<div><strong>Team B Combined Winrate: ${finalTeamBCombinedWinrateWithPlayerChamps.toFixed(2)}%</strong></div>`;
+//    teamBCombinedAndAverageResult.innerHTML += `<div><strong>Team B Average Champion Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
 
     let betterTeamResult = document.createElement('div');
     betterTeamResult.innerHTML = '<h3>Better Team</h3>';
@@ -225,20 +325,9 @@ function checkWinrates() {
         betterTeamResult.innerHTML += `<strong>Both teams are equally good with a combined winrate of <span class="highlight">${finalTeamACombinedWinrate.toFixed(2)}%</span></strong>`;
     }
 
-    let sectionTeamA = document.createElement('section');
-    sectionTeamA.appendChild(teamADetails);
-    sectionTeamA.appendChild(teamACombinedAndAverageResult);
-
-    let sectionTeamB = document.createElement('section');
-    sectionTeamB.appendChild(teamBDetails);
-    sectionTeamB.appendChild(teamBCombinedAndAverageResult);
-
-    let sectionBetterTeam = document.createElement('section');
-    sectionBetterTeam.appendChild(betterTeamResult);
-
-    resultsDiv.appendChild(sectionTeamA);
-    resultsDiv.appendChild(sectionTeamB);
-    resultsDiv.appendChild(sectionBetterTeam);
+    resultsDiv.appendChild(teamADetails);
+    resultsDiv.appendChild(teamBDetails);
+    resultsDiv.appendChild(betterTeamResult);
 }
 
 async function scrapeData() {
@@ -323,77 +412,6 @@ async function loadGamesOfDay() {
     } finally {
         hideSpinner();
     }
-}
-
-function getChampionWinrate(playerName, championId) {
-    let playerWinrate = playersWinrate.find(player => player.name.toLowerCase().trim() === playerName.toLowerCase().trim());
-    if (playerWinrate) {
-        console.log(playerWinrate.champions.find(champ => champ.champion.toLowerCase().trim() === championId.toLowerCase().trim()));
-        const championData = playerWinrate.champions.find(champ => {
-            let champArray = champ.champion.replace(/\s+/g, '').toLowerCase();
-            let champIdAux = championId.replace(/\s+/g, '').toLowerCase();
-            if (champArray === champIdAux) {
-                return true;
-            }
-        });
-        if (championData) {
-            return championData.winRate;
-        }
-    }
-    return '-1';
-}
-
-function copyChampionsToSelect(gameId, gameIndex) {
-    const gameDetails = gamesCache[gameId].details.data.event.match.games[gameIndex];
-    const blueTeamChamps = gameDetails.gameMetadata.blueTeamMetadata.participantMetadata.map(player => player.championId);
-    const redTeamChamps = gameDetails.gameMetadata.redTeamMetadata.participantMetadata.map(player => player.championId);
-
-    console.log(`Copying champions for Game ${gameIndex + 1}`);
-    console.log('Blue Team Champions:', blueTeamChamps);
-    console.log('Red Team Champions:', redTeamChamps);
-
-    blueTeamChamps.forEach((champion, index) => {
-        const select = document.getElementById(`team-a-champ-${index + 1}`);
-        select.value = getFormattedChampionName(champion).displayName;
-    });
-
-    redTeamChamps.forEach((champion, index) => {
-        const select = document.getElementById(`team-b-champ-${index + 1}`);
-        select.value = getFormattedChampionName(champion).displayName;
-    });
-}
-
-function copyChampionsToSelectInverse(gameId, gameIndex) {
-    const gameDetails = gamesCache[gameId].details.data.event.match.games[gameIndex];
-    const blueTeamChamps = gameDetails.gameMetadata.blueTeamMetadata.participantMetadata.map(player => player.championId);
-    const redTeamChamps = gameDetails.gameMetadata.redTeamMetadata.participantMetadata.map(player => player.championId);
-
-    console.log(`Copying champions inversely for Game ${gameIndex + 1}`);
-    console.log('Blue Team Champions:', blueTeamChamps);
-    console.log('Red Team Champions:', redTeamChamps);
-
-    blueTeamChamps.forEach((champion, index) => {
-        const select = document.getElementById(`team-b-champ-${index + 1}`);
-        select.value = getFormattedChampionName(champion).displayName;
-    });
-
-    redTeamChamps.forEach((champion, index) => {
-        const select = document.getElementById(`team-a-champ-${index + 1}`);
-        select.value = getFormattedChampionName(champion).displayName;
-    });
-}
-
-function copyTeamNames(gameId) {
-    const game = gamesCache[gameId];
-    const teamAName = game.teams[0].name;
-    const teamBName = game.teams[1].name;
-
-    console.log(`Copying team names for Game ${gameId}`);
-    console.log('Team A Name:', teamAName);
-    console.log('Team B Name:', teamBName);
-
-    document.getElementById('team-a-name').value = teamAName;
-    document.getElementById('team-b-name').value = teamBName;
 }
 
 function displayGames(games) {
