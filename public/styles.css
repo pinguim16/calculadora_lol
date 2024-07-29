@@ -167,3 +167,22 @@ section {
 .btn-group button {
     min-width: 150px;
 }
+
+.team-details {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.champion-container-horizontal {
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.champion-container-horizontal img {
+    display: block;
+    margin: 0 auto;
+}
