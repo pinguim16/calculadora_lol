@@ -84,6 +84,8 @@ function getFormattedChampionName(champion) {
         'DrMundo': 'Dr. Mundo',
         'LeeSin': 'Lee Sin',
         'MonkeyKing': 'Wukong',
+        'JarvanIV': 'Jarvan IV',
+
         // Add more mappings as needed
     };
     const imageMappings = {
@@ -93,7 +95,7 @@ function getFormattedChampionName(champion) {
         'Twisted Fate': 'Twisted_Fate',
         'Dr. Mundo': 'Dr._Mundo',
         'Lee Sin': 'Lee_Sin',
-        'Wukong': 'Wukong',
+        'Jarvan IV': 'Jarvan_IV',
         // Add more mappings as needed
     };
     return {
@@ -188,12 +190,13 @@ function checkWinrates() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
 
-    const weightChampionWinrate = 0.2;
-    const weightChampionPlayerWinrate = 0.3;
+    const weightChampionWinrate = 0.3;
     const weightTeamWinrate = 0.1;
+    const weightChampionPlayerWinrate = 0.3;
     const weightRecentWinrate = 0.3;
+    
     const detractorPercentage = 0.1;
-
+    
     const selectedChampsTeamA = [
         document.getElementById('team-a-champ-1').value,
         document.getElementById('team-a-champ-2').value,
@@ -221,7 +224,7 @@ function checkWinrates() {
             const imgName = getFormattedChampionName(champ).imageName;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                <div class="champion-info">${champData.name} - Winrate: ${winrate}%</div>`;
+                <div class="champion-info">${champData.name} - Winrate League: ${winrate}%</div>`;
             teamADetails.appendChild(result);
         } else {
             console.error(`Champion data not found for ${champ}`);
@@ -234,6 +237,10 @@ function checkWinrates() {
     }
 
     let selectedChampsTeamAWinrate = selectedChampionsWinrate.teamA.reduce((sum, winrate) => sum + parseFloat(winrate), 0) / selectedChampionsWinrate.teamA.length;
+    console.log(selectedChampsTeamAWinrate)
+    if(!selectedChampsTeamAWinrate){
+        selectedChampsTeamAWinrate = 0;
+    }
 
     let teamACombinedAndAverageResult = document.createElement('div');
     teamACombinedAndAverageResult.innerHTML = `<div><strong>Team A Combined Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
@@ -268,7 +275,7 @@ function checkWinrates() {
             const imgName = getFormattedChampionName(champ).imageName;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                <div class="champion-info">${champData.name} - Winrate: ${winrate}%</div>`;
+                <div class="champion-info">${champData.name} - Winrate League: ${winrate}%</div>`;
             teamBDetails.appendChild(result);
         } else {
             console.error(`Champion data not found for ${champ}`);
@@ -281,6 +288,9 @@ function checkWinrates() {
     }
 
     let selectedChampsTeamBWinrate = selectedChampionsWinrate.teamB.reduce((sum, winrate) => sum + parseFloat(winrate), 0) / selectedChampionsWinrate.teamB.length;
+    if(!selectedChampsTeamBWinrate){
+        selectedChampsTeamBWinrate = 0;
+    }
 
     let teamBCombinedAndAverageResult = document.createElement('div');
     teamBCombinedAndAverageResult.innerHTML = `<div><strong>Team B Combined Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;

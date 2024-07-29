@@ -22,7 +22,8 @@ const leagueUrls = {
     "LVP": "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LVP%20SL%20Summer%202024/",
     "PCS": "https://gol.gg/tournament/tournament-stats/PCS%20Summer%202024/",
     "LEC": "https://gol.gg/tournament/tournament-stats/LEC%20Summer%20Season%202024/",
-    "LIT": "https://gol.gg/tournament/tournament-stats/LIT%20Summer%202024/"
+    "LIT": "https://gol.gg/tournament/tournament-stats/LIT%20Summer%202024/",
+    "CBLOL" :" https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Split%202%202024/"
 };
 
 const TEMP_DIR = path.join(__dirname, 'temp');
