@@ -524,7 +524,7 @@ async function loadPlayers() {
         }
         playersWinrate = await response.json();
         console.log(`Loaded ${playersWinrate.length} players`);
-        alert('All players have been loaded!');
+        console.log('All players have been loaded!');
     } catch (error) {
         console.error('Failed to load players:', error);
     }

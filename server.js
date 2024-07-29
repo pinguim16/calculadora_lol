@@ -174,37 +174,44 @@ async function scrapePlayerProfile(profileUrl) {
     }
 }
 
+
+let winratePlayersChampios = [];
+
 app.get('/scrapePlayers', async (req, res) => {
     const url = 'https://gol.gg/players/list/season-S14/split-Summer/tournament-ALL/';
     try {
-        const response = await fetchWithRetry(url);
-        const $ = cheerio.load(response.data);
-        const players = [];
+        if (winratePlayersChampios.length > 0) {
+            res.json(winratePlayersChampios);
+        } else {
+            const response = await fetchWithRetry(url);
+            const $ = cheerio.load(response.data);
+            const players = [];
 
-        const playerPromises = [];
+            const playerPromises = [];
 
-        $('table.playerslist tbody tr').each((index, element) => {
-            const playerCell = $(element).find('td').first().find('a');
-            const name = playerCell.text().trim();
-            let profileLink = playerCell.attr('href');
-            console.log(`Name: ${name}, Profile Link: ${profileLink}`);  // Log each player's name and profile link for debugging
-            if (name && profileLink) {
-                profileLink = profileLink.startsWith('.') ? profileLink.substring(1) : profileLink;
-                const fullProfileLink = `https://gol.gg/players${profileLink}`;
-                playerPromises.push(
-                    scrapePlayerProfile(fullProfileLink).then(champions => ({
-                        name,
-                        profileLink: fullProfileLink,
-                        champions
-                    }))
-                );
-            }
-        });
+            $('table.playerslist tbody tr').each((index, element) => {
+                const playerCell = $(element).find('td').first().find('a');
+                const name = playerCell.text().trim();
+                let profileLink = playerCell.attr('href');
+                console.log(`Name: ${name}, Profile Link: ${profileLink}`);  // Log each player's name and profile link for debugging
+                if (name && profileLink) {
+                    profileLink = profileLink.startsWith('.') ? profileLink.substring(1) : profileLink;
+                    const fullProfileLink = `https://gol.gg/players${profileLink}`;
+                    playerPromises.push(
+                        scrapePlayerProfile(fullProfileLink).then(champions => ({
+                            name,
+                            profileLink: fullProfileLink,
+                            champions
+                        }))
+                    );
+                }
+            });
 
-        const playersWithChampions = await Promise.all(playerPromises);
-
-        console.log(`Total players scraped: ${playersWithChampions.length}`);  // Log the total number of players scraped
-        res.json(playersWithChampions);
+            const playersWithChampions = await Promise.all(playerPromises);
+            console.log(`Total players scraped: ${playersWithChampions.length}`);  // Log the total number of players scraped
+            winratePlayersChampios = playersWithChampions; // Cache
+            res.json(playersWithChampions);
+        }
     } catch (error) {
         console.error('Failed to scrape player data:', error);
         res.status(500).send('Error occurred while scraping player data');
