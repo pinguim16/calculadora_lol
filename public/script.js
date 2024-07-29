@@ -85,6 +85,7 @@ function getFormattedChampionName(champion) {
         'LeeSin': 'Lee Sin',
         'MonkeyKing': 'Wukong',
         'JarvanIV': 'Jarvan IV',
+        'XinZhao': 'Xin Zhao',
 
         // Add more mappings as needed
     };
@@ -96,6 +97,7 @@ function getFormattedChampionName(champion) {
         'Dr. Mundo': 'Dr._Mundo',
         'Lee Sin': 'Lee_Sin',
         'Jarvan IV': 'Jarvan_IV',
+        'Xin Zhao': 'Xin_Zhao',
         // Add more mappings as needed
     };
     return {
