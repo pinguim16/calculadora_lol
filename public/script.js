@@ -422,9 +422,19 @@ async function loadGamesOfDay() {
 function displayGames(games) {
     const gamesDiv = document.getElementById('games');
     gamesDiv.innerHTML = '<h2>Games of the Day</h2>';
-    games.forEach(async (game, gameIndex) => {
+
+    // Ordenar os jogos por estado
+    const unstartedGames = games.filter(game => game.state === 'unstarted');
+    const inProgressGames = games.filter(game => game.state === 'inProgress');
+    const completedGames = games.filter(game => game.state === 'completed');
+
+    // Concatenar as listas para que os jogos sejam exibidos na ordem desejada
+    const orderedGames = [...inProgressGames, ...completedGames, ...unstartedGames];
+
+    orderedGames.forEach(async (game, gameIndex) => {
         const gameDiv = document.createElement('div');
-        gameDiv.className = 'game';
+        gameDiv.className = `game ${game.state.replace(' ', '-')}`;
+
         const gameDetails = await loadGameDetails(game.id);
 
         gameDiv.innerHTML = `
@@ -447,7 +457,7 @@ function displayGames(games) {
             <div id="details-${game.id}" class="event-details">
                 <div>
                     ${game.details?.data?.event?.match?.games?.map((gameDetail, index) => {
-                        if (index < 5 && gameDetail.number && gameDetail.state) { // Limitar a 5 jogos e verificar se number e state não são undefined
+                        if (index < 5 && gameDetail.number && gameDetail.state) {
                             return `
                                 <div class="game-details-container">
                                     <p>Game ${gameDetail.number}: ${gameDetail.state}</p>
@@ -492,7 +502,7 @@ function displayGames(games) {
                                 </div>
                             `;
                         }
-                        return ''; // Retorna uma string vazia se gameDetail.number ou gameDetail.state forem indefinidos
+                        return '';
                     }).join('') || 'No game details available'}
                 </div>
             </div>
@@ -554,6 +564,42 @@ function toggleTeamFields(team) {
     teamWinrateInput.disabled = isDisabled;
     teamRecentWinrateInput.disabled = isDisabled;
 }
+
+function swapTeams() {
+    // Trocar valores dos comboboxes de campeões
+    for (let i = 1; i <= 5; i++) {
+        const teamAChamp = document.getElementById(`team-a-champ-${i}`);
+        const teamBChamp = document.getElementById(`team-b-champ-${i}`);
+
+        const tempValue = teamAChamp.value;
+        teamAChamp.value = teamBChamp.value;
+        teamBChamp.value = tempValue;
+    }
+
+    // Trocar valores das outras informações das equipes
+    // const teamAName = document.getElementById('team-a-name');
+    // const teamAWinrate = document.getElementById('team-a-winrate');
+    // const teamARecentWinrate = document.getElementById('team-a-recent-winrate');
+    // const teamADerretidos = document.getElementById('team-a-derretidos');
+
+    // const teamBName = document.getElementById('team-b-name');
+    // const teamBWinrate = document.getElementById('team-b-winrate');
+    // const teamBRecentWinrate = document.getElementById('team-b-recent-winrate');
+    // const teamBDerretidos = document.getElementById('team-b-derretidos');
+
+    // [teamAName.value, teamBName.value] = [teamBName.value, teamAName.value];
+    // [teamAWinrate.value, teamBWinrate.value] = [teamBWinrate.value, teamAWinrate.value];
+    // [teamARecentWinrate.value, teamBRecentWinrate.value] = [teamBRecentWinrate.value, teamARecentWinrate.value];
+    // [teamADerretidos.checked, teamBDerretidos.checked] = [teamBDerretidos.checked, teamADerretidos.checked];
+
+    // Trocar valores nas variáveis selectedChampionsWinrate
+    [selectedChampionsWinrate.teamA, selectedChampionsWinrate.teamB] = [selectedChampionsWinrate.teamB, selectedChampionsWinrate.teamA];
+
+    console.log(selectedChampionsWinrate);
+    console.log('Teams swapped');
+}
+
+
 
 // Adicione a chamada dessa função em window.onload para garantir que os campos estejam no estado correto quando a página carregar
 window.onload = async () => {

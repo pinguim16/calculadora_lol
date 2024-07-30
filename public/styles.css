@@ -186,3 +186,23 @@ section {
     display: block;
     margin: 0 auto;
 }
+
+/* Adicione ao final de styles.css */
+
+.game.unstarted {
+    background-color: #f9f9f9;
+}
+
+.game.in-progress {
+    background-color: #ffffcc;
+}
+
+.game.completed {
+    background-color: #d4edda;
+}
+
+/* Adicione ao final de styles.css */
+
+.btn-group {
+    margin-top: 10px; /* Ajuste o valor conforme necessário */
+}
