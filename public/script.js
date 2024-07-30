@@ -542,7 +542,20 @@ async function loadPlayers() {
     }
 }
 
-// Carregar jogadores ao carregar a página, mas sem exibir
+function toggleTeamFields(team) {
+    const disableFieldsCheckbox = document.getElementById(`${team}-disable-fields`);
+    const isDisabled = disableFieldsCheckbox.checked;
+
+    const teamNameInput = document.getElementById(`${team}-name`);
+    const teamWinrateInput = document.getElementById(`${team}-winrate`);
+    const teamRecentWinrateInput = document.getElementById(`${team}-recent-winrate`);
+
+    teamNameInput.disabled = isDisabled;
+    teamWinrateInput.disabled = isDisabled;
+    teamRecentWinrateInput.disabled = isDisabled;
+}
+
+// Adicione a chamada dessa função em window.onload para garantir que os campos estejam no estado correto quando a página carregar
 window.onload = async () => {
     const leagueSelect = document.getElementById('league-select');
     leagueSelect.onchange = async () => {
@@ -551,4 +564,8 @@ window.onload = async () => {
     };
     await loadChampions(leagueSelect.value);
     await loadPlayers();
+
+    // Inicializar os campos desativados se os checkboxes estiverem marcados
+    toggleTeamFields('team-a');
+    toggleTeamFields('team-b');
 };

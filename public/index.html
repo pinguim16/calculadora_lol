@@ -30,8 +30,6 @@
                     <option value="LEC">LEC</option>
                     <option value="LIT">LIT</option>
                     <option value="LIT">CBLOL</option>
-
-                    
                 </select>
                 <div class="input-group-append">
                     <button class="btn btn-primary" onclick="scrapeData()">Scrape Data</button>
@@ -58,6 +56,10 @@
                     <label for="team-a-derretidos" data-toggle="tooltip" title="Usar em MD5">Derretidos</label>
                     <input type="checkbox" id="team-a-derretidos" name="team-a-derretidos">
                 </div>
+                <div class="form-group col-md-3">
+                    <label for="team-a-disable-fields" data-toggle="tooltip" title="Desativar campos">Desativar Campos</label>
+                    <input type="checkbox" id="team-a-disable-fields" name="team-a-disable-fields" onchange="toggleTeamFields('team-a')">
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-2">
@@ -82,7 +84,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="team-section">
             <h2 class="text-center">Team B</h2>
             <div class="form-row">
@@ -101,6 +103,10 @@
                 <div class="form-group col-md-2">
                     <label for="team-b-derretidos" data-toggle="tooltip" title="Usar em MD5">Derretidos</label>
                     <input type="checkbox" id="team-b-derretidos" name="team-b-derretidos">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="team-b-disable-fields" data-toggle="tooltip" title="Desativar campos">Desativar Campos</label>
+                    <input type="checkbox" id="team-b-disable-fields" name="team-b-disable-fields" onchange="toggleTeamFields('team-b')">
                 </div>
             </div>
             <div class="form-row">
@@ -136,11 +142,11 @@
         <div id="results" class="mt-4 text-center">
             <!-- Resultados serão exibidos aqui -->
         </div>
-        
+
         <div id="games" class="mt-4 text-center">
             <!-- Jogos do dia serão exibidos aqui -->
         </div>
-        
+
         <!-- Removido ou comentado a seção de jogadores -->
         <!--
         <div class="text-center mt-4">
