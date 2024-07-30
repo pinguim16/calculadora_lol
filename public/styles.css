@@ -47,7 +47,7 @@ label {
 }
 
 .highlight {
-    color: red; /* Alterar para a cor desejada */
+    color: rgba(255, 0, 0, 0.87); /* Alterar para a cor desejada */
     font-weight: bold;
 }
 
@@ -118,11 +118,6 @@ section {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-}
-
-.highlight {
-    color: #ffcc00;
-    font-weight: bold;
 }
 
 .game-details-container {
