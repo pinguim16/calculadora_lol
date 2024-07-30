@@ -193,8 +193,8 @@ section {
     background-color: #f9f9f9;
 }
 
-.game.in-progress {
-    background-color: #ffffcc;
+.game.inProgress {
+    background-color: #aee6f3;
 }
 
 .game.completed {
@@ -205,4 +205,8 @@ section {
 
 .btn-group {
     margin-top: 10px; /* Ajuste o valor conforme necessário */
+}
+
+.winrate{
+    margin-top: 20px;
 }

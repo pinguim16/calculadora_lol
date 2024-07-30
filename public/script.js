@@ -213,7 +213,7 @@ function checkWinrates() {
     teamADetails.className = 'team-details';
     teamADetails.innerHTML = '<h3>Team A Champions Winrates</h3>';
 
-    selectedChampsTeamA.forEach(champ => {
+    selectedChampsTeamA.forEach((champ, index) => {
         const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
         if (champData) {
             const winrate = champData.winrate >= 0 ? champData.winrate : 0;
@@ -226,7 +226,8 @@ function checkWinrates() {
             const imgName = getFormattedChampionName(champ).imageName;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                <div class="champion-info">${champData.name} - Winrate League: ${winrate}%</div>`;
+                <div class="champion-info">${champData.name} - Winrate League: ${winrate}%</div>
+                <div class="champion-info">Winrate Player With Champion : ${selectedChampionsWinrate.teamA[index]}%</div>`; // Adicionando o winrate selecionado
             teamADetails.appendChild(result);
         } else {
             console.error(`Champion data not found for ${champ}`);
@@ -239,13 +240,12 @@ function checkWinrates() {
     }
 
     let selectedChampsTeamAWinrate = selectedChampionsWinrate.teamA.reduce((sum, winrate) => sum + parseFloat(winrate), 0) / selectedChampionsWinrate.teamA.length;
-    console.log(selectedChampsTeamAWinrate)
-    if(!selectedChampsTeamAWinrate){
+    if (!selectedChampsTeamAWinrate) {
         selectedChampsTeamAWinrate = 0;
     }
 
     let teamACombinedAndAverageResult = document.createElement('div');
-    teamACombinedAndAverageResult.innerHTML = `<div><strong>Team A Combined Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
+    teamACombinedAndAverageResult.innerHTML = `<div style="margin-top: 20px"><strong>Team A Combined Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
     teamACombinedAndAverageResult.innerHTML += `<div><strong>Team A Average Champion Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
     teamACombinedAndAverageResult.innerHTML += `<div><strong>Team A Average Champion/Player Winrate: ${selectedChampsTeamAWinrate.toFixed(2)}%</strong></div>`;
     teamADetails.appendChild(teamACombinedAndAverageResult);
@@ -264,7 +264,7 @@ function checkWinrates() {
     teamBDetails.className = 'team-details';
     teamBDetails.innerHTML = '<h3>Team B Champions Winrates</h3>';
 
-    selectedChampsTeamB.forEach(champ => {
+    selectedChampsTeamB.forEach((champ, index) => {
         const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
         if (champData) {
             const winrate = champData.winrate >= 0 ? champData.winrate : 0;
@@ -277,7 +277,8 @@ function checkWinrates() {
             const imgName = getFormattedChampionName(champ).imageName;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                <div class="champion-info">${champData.name} - Winrate League: ${winrate}%</div>`;
+                <div class="champion-info">${champData.name} - Winrate League: ${winrate}%</div>
+                <div class="champion-info">Winrate Player With Champion: ${selectedChampionsWinrate.teamB[index]}%</div>`; // Adicionando o winrate selecionado
             teamBDetails.appendChild(result);
         } else {
             console.error(`Champion data not found for ${champ}`);
@@ -290,12 +291,12 @@ function checkWinrates() {
     }
 
     let selectedChampsTeamBWinrate = selectedChampionsWinrate.teamB.reduce((sum, winrate) => sum + parseFloat(winrate), 0) / selectedChampionsWinrate.teamB.length;
-    if(!selectedChampsTeamBWinrate){
+    if (!selectedChampsTeamBWinrate) {
         selectedChampsTeamBWinrate = 0;
     }
 
     let teamBCombinedAndAverageResult = document.createElement('div');
-    teamBCombinedAndAverageResult.innerHTML = `<div><strong>Team B Combined Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
+    teamBCombinedAndAverageResult.innerHTML = `<div style="margin-top: 20px"><strong>Team B Combined Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
     teamBCombinedAndAverageResult.innerHTML += `<div><strong>Team B Average Champion Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
     teamBCombinedAndAverageResult.innerHTML += `<div><strong>Team B Average Champion/Player Winrate: ${selectedChampsTeamBWinrate.toFixed(2)}%</strong></div>`;
     teamBDetails.appendChild(teamBCombinedAndAverageResult);
@@ -333,6 +334,7 @@ function checkWinrates() {
     resultsDiv.appendChild(teamBDetails);
     resultsDiv.appendChild(betterTeamResult);
 }
+
 
 
 async function scrapeData() {
@@ -424,14 +426,15 @@ function displayGames(games) {
     gamesDiv.innerHTML = '<h2>Games of the Day</h2>';
 
     // Ordenar os jogos por estado
-    const unstartedGames = games.filter(game => game.state === 'unstarted');
     const inProgressGames = games.filter(game => game.state === 'inProgress');
+    const unstartedGames = games.filter(game => game.state === 'unstarted');
     const completedGames = games.filter(game => game.state === 'completed');
 
     // Concatenar as listas para que os jogos sejam exibidos na ordem desejada
-    const orderedGames = [...inProgressGames, ...completedGames, ...unstartedGames];
+    const orderedGames = [...inProgressGames, ...unstartedGames, ...completedGames,];
 
     orderedGames.forEach(async (game, gameIndex) => {
+        console.log(game.state);
         const gameDiv = document.createElement('div');
         gameDiv.className = `game ${game.state.replace(' ', '-')}`;
 
