@@ -47,18 +47,18 @@ label {
 }
 
 .highlight {
-    color: rgba(255, 0, 0, 0.87); /* Alterar para a cor desejada */
+    color: rgba(255, 0, 0, 0.87);
     font-weight: bold;
 }
 
 section {
-    border: 2px solid #ccc; /* Adiciona borda a cada seção */
-    padding: 10px; /* Espaçamento interno */
-    margin-bottom: 20px; /* Espaçamento entre seções */
+    border: 2px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
 .container {
-    margin-bottom: 50px; /* Espaçamento do final da página */
+    margin-bottom: 50px;
 }
 
 .game {
@@ -66,11 +66,13 @@ section {
     padding: 10px;
     margin: 10px;
     text-align: left;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .game img {
-    background-color: #584a4a; /* Cor de fundo especificada para as imagens dos logos */
-    padding: 5px; /* Espaçamento interno ao redor das imagens dos logos */
+    background-color: #584a4a;
+    padding: 5px;
 }
 
 .teams-container {
@@ -94,8 +96,6 @@ section {
 .event-details.active {
     display: block;
 }
-
-/* styles.css */
 
 .game-results {
     width: 60px;
@@ -182,8 +182,6 @@ section {
     margin: 0 auto;
 }
 
-/* Adicione ao final de styles.css */
-
 .game.unstarted {
     background-color: #f9f9f9;
 }
@@ -196,12 +194,70 @@ section {
     background-color: #d4edda;
 }
 
-/* Adicione ao final de styles.css */
-
-.btn-group {
-    margin-top: 10px; /* Ajuste o valor conforme necessário */
+.game:hover {
+    background-color: #f1f1f1;
 }
 
-.winrate{
+.teams-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.game-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
+
+.btn-group {
+    margin-top: 10px;
+}
+
+.winrate {
     margin-top: 20px;
+}
+
+/* Estilos para as seções */
+.section {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+/* Estilos específicos para cada status */
+.section.inProgress {
+    border-left: 10px solid #17a2b8;
+}
+
+.section.unstarted {
+    border-left: 10px solid #ffc107;
+}
+
+.section.completed {
+    border-left: 10px solid #28a745;
+}
+
+.event-details {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.event-details.active {
+    display: block;
 }

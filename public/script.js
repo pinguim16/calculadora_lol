@@ -425,20 +425,15 @@ function displayGames(games) {
     const gamesDiv = document.getElementById('games');
     gamesDiv.innerHTML = '<h2>Games of the Day</h2>';
 
-    // Ordenar os jogos por estado
+    // Filter and group games by status
     const inProgressGames = games.filter(game => game.state === 'inProgress');
     const unstartedGames = games.filter(game => game.state === 'unstarted');
     const completedGames = games.filter(game => game.state === 'completed');
 
-    // Concatenar as listas para que os jogos sejam exibidos na ordem desejada
-    const orderedGames = [...inProgressGames, ...unstartedGames, ...completedGames,];
-
-    orderedGames.forEach(async (game, gameIndex) => {
-        console.log(game.state);
+    // Function to create game elements
+    const createGameElement = (game) => {
         const gameDiv = document.createElement('div');
         gameDiv.className = `game ${game.state.replace(' ', '-')}`;
-
-        const gameDetails = await loadGameDetails(game.id);
 
         gameDiv.innerHTML = `
             <h3>${game.league}</h3>
@@ -447,7 +442,7 @@ function displayGames(games) {
                 ${game.teams.map(team => {
                     return `
                         <div>
-                            <img class="game-logo" src="${team.image}" alt="${team.name}" style="width: 50px;" onerror="this.onerror=null;this.src='default_image_url.png';">
+                            <img class="game-logo" src="${team.image}" alt="${team.name}" onerror="this.onerror=null;this.src='default_image_url.png';">
                             ${team.name} (${team.code}) - Wins: ${team.record.wins}, Losses: ${team.record.losses}
                         </div>
                     `;
@@ -510,9 +505,27 @@ function displayGames(games) {
                 </div>
             </div>
         `;
-        gamesDiv.appendChild(gameDiv);
+        return gameDiv;
+    };
+
+    // Display grouped games
+    const sections = [
+        { title: 'In Progress', games: inProgressGames, className: 'inProgress' },
+        { title: 'Unstarted', games: unstartedGames, className: 'unstarted' },
+        { title: 'Completed', games: completedGames, className: 'completed' },
+    ];
+
+    sections.forEach(section => {
+        const sectionDiv = document.createElement('div');
+        sectionDiv.className = `section ${section.className}`;
+        sectionDiv.innerHTML = `<h3>${section.title}</h3>`;
+        section.games.forEach(game => {
+            sectionDiv.appendChild(createGameElement(game));
+        });
+        gamesDiv.appendChild(sectionDiv);
     });
 }
+
 
 function printCache() {
     console.log('Games Cache:', gamesCache);
