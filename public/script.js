@@ -22,12 +22,14 @@ async function loadChampions(league) {
     showSpinner();
     try {
         const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
+        console.log(response)
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            await scrapeData();
+        }else{
+            champions = await response.json();
+            console.log(`Loaded ${champions.length} champions for league ${league}`);
+            updateChampionSelects();
         }
-        champions = await response.json();
-        console.log(`Loaded ${champions.length} champions for league ${league}`);
-        updateChampionSelects();
     } catch (error) {
         console.error('Failed to load champions:', error);
     } finally {

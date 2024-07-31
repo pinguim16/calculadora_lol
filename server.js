@@ -11,20 +11,56 @@ app.use(express.static('public'));
 const API_KEY = '0TvQnueqKa5mxJntVWt0w4LpLfEkrV1Ta8rQBb9Z';
 
 const leagueUrls = {
-    "LPL": "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LPL%20Summer%20Season%202024/",
-    "LCK": "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LCK%20Summer%202024/",
-    "LCK CL": "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LCK%20CL%20Summer%202024/",
-    "TCL": "https://gol.gg/champion/list/season-S14/split-ALL/tournament-TCL%20Summer%202024/",
-    "Ultraliga": "https://gol.gg/champion/list/season-S14/split-ALL/tournament-Ultraliga%20Summer%202024/",
-    "NLC": "https://gol.gg/champion/list/season-S14/split-ALL/tournament-NLC%20Summer%202024/",
-    "Prime League": "https://gol.gg/champion/list/season-S14/split-ALL/tournament-Prime%20League%20Summer%202024/",
-    "LFL": "https://gol.gg/champion/list/season-S14/split-ALL/tournament-LFL%20Summer%202024/",
-    "LVP": "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LVP%20SL%20Summer%202024/",
-    "PCS": "https://gol.gg/tournament/tournament-stats/PCS%20Summer%202024/",
-    "LEC": "https://gol.gg/tournament/tournament-stats/LEC%20Summer%20Season%202024/",
-    "LIT": "https://gol.gg/tournament/tournament-stats/LIT%20Summer%202024/",
-    "CBLOL" :" https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Split%202%202024/"
+    "LPL": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LPL%20Summer%20Season%202024/",
+    ],
+    "LCK": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LCK%20Summer%202024/",
+        // Adicione mais URLs aqui se necessário
+    ],
+    "LCK CL": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LCK%20CL%20Summer%202024/",
+    ],
+    "TCL": [
+        "https://gol.gg/champion/list/season-S14/split-ALL/tournament-TCL%20Summer%202024/",
+    ],
+    "Ultraliga": [
+        "https://gol.gg/champion/list/season-S14/split-ALL/tournament-Ultraliga%20Summer%202024/",
+    ],
+    "NLC": [
+        "https://gol.gg/champion/list/season-S14/split-ALL/tournament-NLC%20Summer%202024/",
+    ],
+    "Prime_League": [
+        "https://gol.gg/champion/list/season-S14/split-ALL/tournament-Prime%20League%20Summer%202024/",
+    ],
+    "LFL": [
+        "https://gol.gg/champion/list/season-S14/split-ALL/tournament-LFL%20Summer%202024/",
+    ],
+    "LVP": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LVP%20SL%20Summer%202024/",
+    ],
+    "PCS": [
+        "https://gol.gg/tournament/tournament-stats/PCS%20Summer%202024/",
+    ],
+    "LEC": [
+        "https://gol.gg/tournament/tournament-stats/LEC%20Summer%20Season%202024/",
+    ],
+    "LIT": [
+        "https://gol.gg/tournament/tournament-stats/LIT%20Summer%202024/",
+    ],
+    "CBLOL": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Split%202%202024/",
+    ],
+    "LLA": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LLA%20Closing%202024/",
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LLA%20Closing%20Playoffs%202024/"
+    ],
+    "CBLOL_Academy": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Academy%20Split%202%202024/",
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Academy%20Split%202%20Playoffs%202024/"
+    ],
 };
+
 
 const TEMP_DIR = path.join(__dirname, 'temp');
 
@@ -221,22 +257,47 @@ app.get('/scrapePlayers', async (req, res) => {
 
 app.get('/scrape', async (req, res) => {
     const league = req.query.league;
-    const url = leagueUrls[league];
-    if (!url) {
-        return res.status(400).send('Invalid league');
+    const urls = leagueUrls[league];
+    if (!urls || urls.length === 0) {
+        return res.status(400).send('Invalid league or no URLs found');
     }
 
     try {
-        const response = await fetchWithRetry(url);
-        const champions = await parseChampions(response.data);
-        console.log(`Scraped ${champions.length} champions for league ${league}`);
-        saveChampionsToFile(league, champions);
-        res.json(champions);
+        let allChampions = [];
+
+        for (const url of urls) {
+            const response = await fetchWithRetry(url);
+            const champions = await parseChampions(response.data);
+            allChampions = combineChampions(allChampions, champions);
+        }
+
+        console.log(`Scraped and combined champions for league ${league}`);
+        saveChampionsToFile(league, allChampions);
+        res.json(allChampions);
     } catch (error) {
         console.error(error);
         res.status(500).send('Error occurred while scraping data');
     }
 });
+
+function combineChampions(existingChampions, newChampions) {
+    const championMap = {};
+
+    existingChampions.forEach(champion => {
+        championMap[champion.name] = champion;
+    });
+
+    newChampions.forEach(champion => {
+        if (championMap[champion.name]) {
+            // Combine data
+            championMap[champion.name].winrate = (championMap[champion.name].winrate + champion.winrate) / 2;
+        } else {
+            championMap[champion.name] = champion;
+        }
+    });
+
+    return Object.values(championMap);
+}
 
 async function parseChampions(html) {
     const $ = cheerio.load(html);
