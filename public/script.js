@@ -212,49 +212,6 @@ function checkWinrates() {
         document.getElementById('team-a-champ-5').value
     ].filter(champ => champ !== '');
 
-    let totalWinrateTeamA = 0;
-    let countValidWinratesTeamA = 0;
-    let teamADetails = document.createElement('div');
-    teamADetails.className = 'team-details';
-    teamADetails.innerHTML = `<h3>${teamAName} Champions Winrates</h3>`;
-
-    selectedChampsTeamA.forEach((champ, index) => {
-        const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
-        if (champData) {
-            const winrate = champData.winrate >= 0 ? champData.winrate : 0;
-            if (champData.winrate >= 0) {
-                totalWinrateTeamA += champData.winrate;
-                countValidWinratesTeamA++;
-            }
-            const result = document.createElement('div');
-            result.className = 'champion-container-horizontal';
-            const imgName = getFormattedChampionName(champ).imageName;
-            result.innerHTML = `
-                <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                <div class="champion-info">${champData.name} - Winrate League: ${winrate}% | Wins: ${champData.wins} | Losses: ${champData.losses}</div>
-                <div class="champion-info">Winrate Player With Champion: ${selectedChampionsWinrate.teamA[index]}%</div>`; // Adicionando o winrate selecionado
-            teamADetails.appendChild(result);
-        } else {
-            console.error(`Champion data not found for ${champ}`);
-        }
-    });
-
-    let averageWinrateTeamA = 0;
-    if (countValidWinratesTeamA > 0) {
-        averageWinrateTeamA = totalWinrateTeamA / countValidWinratesTeamA;
-    }
-
-    let selectedChampsTeamAWinrate = selectedChampionsWinrate.teamA.reduce((sum, winrate) => sum + parseFloat(winrate), 0) / selectedChampionsWinrate.teamA.length;
-    if (!selectedChampsTeamAWinrate) {
-        selectedChampsTeamAWinrate = 0;
-    }
-
-    let teamACombinedAndAverageResult = document.createElement('div');
-    teamACombinedAndAverageResult.innerHTML = `<div style="margin-top: 20px"><strong>Team A Combined Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
-    teamACombinedAndAverageResult.innerHTML += `<div><strong>Team A Average Champion Winrate: ${averageWinrateTeamA.toFixed(2)}%</strong></div>`;
-    teamACombinedAndAverageResult.innerHTML += `<div><strong>Team A Average Champion/Player Winrate: ${selectedChampsTeamAWinrate.toFixed(2)}%</strong></div>`;
-    teamADetails.appendChild(teamACombinedAndAverageResult);
-
     const selectedChampsTeamB = [
         document.getElementById('team-b-champ-1').value,
         document.getElementById('team-b-champ-2').value,
@@ -263,79 +220,156 @@ function checkWinrates() {
         document.getElementById('team-b-champ-5').value
     ].filter(champ => champ !== '');
 
-    let totalWinrateTeamB = 0;
-    let countValidWinratesTeamB = 0;
-    let teamBDetails = document.createElement('div');
-    teamBDetails.className = 'team-details';
-    teamBDetails.innerHTML = `<h3>${teamBName} Champions Winrates</h3>`;
+    const teamAData = getTeamData(selectedChampsTeamA, 'teamA', teamAName);
+    const teamBData = getTeamData(selectedChampsTeamB, 'teamB', teamBName);
 
-    selectedChampsTeamB.forEach((champ, index) => {
+    displayResultsTable(resultsDiv, teamAData, teamBData);
+
+    const teamACombinedWinrate = calculateCombinedWinrate(teamAData, 'team-a');
+    const teamBCombinedWinrate = calculateCombinedWinrate(teamBData, 'team-b');
+
+    displayTeamWinrates(teamAData, teamACombinedWinrate, 'team-a');
+    displayTeamWinrates(teamBData, teamBCombinedWinrate, 'team-b');
+
+    displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBName, teamBCombinedWinrate);
+}
+
+function getTeamData(selectedChamps, teamType, teamName) {
+    let totalWinrate = 0;
+    let countValidWinrates = 0;
+    const teamData = [];
+
+    selectedChamps.forEach((champ, index) => {
         const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
         if (champData) {
             const winrate = champData.winrate >= 0 ? champData.winrate : 0;
             if (champData.winrate >= 0) {
-                totalWinrateTeamB += champData.winrate;
-                countValidWinratesTeamB++;
+                totalWinrate += champData.winrate;
+                countValidWinrates++;
             }
-            const result = document.createElement('div');
-            result.className = 'champion-container-horizontal';
-            const imgName = getFormattedChampionName(champ).imageName;
-            result.innerHTML = `
-                <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                <div class="champion-info">${champData.name} - Winrate League: ${winrate}% | Wins: ${champData.wins} | Losses: ${champData.losses}</div>
-                <div class="champion-info">Winrate Player With Champion: ${selectedChampionsWinrate.teamB[index]}%</div>`; // Adicionando o winrate selecionado
-            teamBDetails.appendChild(result);
+            const playerWinrate = selectedChampionsWinrate[teamType][index] || 0;
+            teamData.push({
+                name: champData.name,
+                imgName: getFormattedChampionName(champ).imageName,
+                winrate: champData.winrate,
+                wins: champData.wins,
+                losses: champData.losses,
+                playerWinrate: playerWinrate
+            });
         } else {
             console.error(`Champion data not found for ${champ}`);
         }
     });
 
-    let averageWinrateTeamB = 0;
-    if (countValidWinratesTeamB > 0) {
-        averageWinrateTeamB = totalWinrateTeamB / countValidWinratesTeamB;
-    }
+    const averageWinrate = countValidWinrates > 0 ? totalWinrate / countValidWinrates : 0;
+    return { teamName, averageWinrate, teamData };
+}
 
-    let selectedChampsTeamBWinrate = selectedChampionsWinrate.teamB.reduce((sum, winrate) => sum + parseFloat(winrate), 0) / selectedChampionsWinrate.teamB.length;
-    if (!selectedChampsTeamBWinrate) {
-        selectedChampsTeamBWinrate = 0;
-    }
+function displayResultsTable(resultsDiv, teamAData, teamBData) {
+    const teamASection = createTeamSection(teamAData, 'team-a');
+    const teamBSection = createTeamSection(teamBData, 'team-b');
 
-    let teamBCombinedAndAverageResult = document.createElement('div');
-    teamBCombinedAndAverageResult.innerHTML = `<div style="margin-top: 20px"><strong>Team B Combined Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
-    teamBCombinedAndAverageResult.innerHTML += `<div><strong>Team B Average Champion Winrate: ${averageWinrateTeamB.toFixed(2)}%</strong></div>`;
-    teamBCombinedAndAverageResult.innerHTML += `<div><strong>Team B Average Champion/Player Winrate: ${selectedChampsTeamBWinrate.toFixed(2)}%</strong></div>`;
-    teamBDetails.appendChild(teamBCombinedAndAverageResult);
+    resultsDiv.appendChild(teamASection);
+    resultsDiv.appendChild(teamBSection);
+}
 
-    const teamAWinrate = parseFloat(document.getElementById('team-a-winrate').value) || 0;
-    const teamARecentWinrate = parseFloat(document.getElementById('team-a-recent-winrate').value) || 0;
-    const teamBWinrate = parseFloat(document.getElementById('team-b-winrate').value) || 0;
-    const teamBRecentWinrate = parseFloat(document.getElementById('team-b-recent-winrate').value) || 0;
+function createTeamSection(teamData, teamPrefix) {
+    const section = document.createElement('div');
+    section.className = `${teamPrefix}-section team-section team-details`;
+    section.innerHTML = `<h3>${teamData.teamName} Champions Winrates</h3>`;
 
-    const teamACombinedWinrate = (weightChampionWinrate * averageWinrateTeamA) + (weightTeamWinrate * teamAWinrate) + (weightRecentWinrate * teamARecentWinrate) + (selectedChampsTeamAWinrate * weightChampionPlayerWinrate);
-    const teamBCombinedWinrate = (weightChampionWinrate * averageWinrateTeamB) + (weightTeamWinrate * teamBWinrate) + (weightRecentWinrate * teamBRecentWinrate) + (selectedChampsTeamBWinrate * weightChampionPlayerWinrate);
+    const table = createResultsTable(teamData);
+    section.appendChild(table);
 
-    const teamAConsecutiveLosses = document.getElementById('team-a-derretidos').checked ? detractorPercentage : 0;
-    const teamBConsecutiveLosses = document.getElementById('team-b-derretidos').checked ? detractorPercentage : 0;
+    return section;
+}
 
-    const finalTeamACombinedWinrate = teamACombinedWinrate * (1 - teamAConsecutiveLosses);
-    const finalTeamBCombinedWinrate = teamBCombinedWinrate * (1 - teamBConsecutiveLosses);
+function createResultsTable(teamData) {
+    const table = document.createElement('table');
+    table.className = 'results-table';
 
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+        <tr>
+            <th>Champion</th>
+            <th>Winrate League</th>
+            <th>Wins League</th>
+            <th>Losses League</th>
+            <th>Player Winrate</th>
+        </tr>
+    `;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    teamData.teamData.forEach(champ => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>
+                <img src="/images/${champ.imgName}.png" alt="${champ.name}" class="champion-icon">
+                ${champ.name}
+            </td>
+            <td>${champ.winrate}%</td>
+            <td>${champ.wins}</td>
+            <td>${champ.losses}</td>
+            <td>${champ.playerWinrate}%</td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+    return table;
+}
+
+function calculateCombinedWinrate(teamData, teamPrefix) {
+    const weightChampionWinrate = 0.3;
+    const weightTeamWinrate = 0.1;
+    const weightChampionPlayerWinrate = 0.3;
+    const weightRecentWinrate = 0.3;
+
+    const detractorPercentage = 0.1;
+
+    const teamWinrate = parseFloat(document.getElementById(`${teamPrefix}-winrate`).value) || 0;
+    const teamRecentWinrate = parseFloat(document.getElementById(`${teamPrefix}-recent-winrate`).value) || 0;
+
+    const teamCombinedWinrate = (weightChampionWinrate * teamData.averageWinrate) + 
+                                (weightTeamWinrate * teamWinrate) + 
+                                (weightRecentWinrate * teamRecentWinrate) + 
+                                (weightChampionPlayerWinrate * teamData.teamData.reduce((sum, champ) => sum + parseFloat(champ.playerWinrate), 0) / teamData.teamData.length);
+
+    const teamConsecutiveLosses = document.getElementById(`${teamPrefix}-derretidos`).checked ? detractorPercentage : 0;
+
+    return teamCombinedWinrate * (1 - teamConsecutiveLosses);
+}
+
+function displayTeamWinrates(teamData, teamCombinedWinrate, teamPrefix) {
+    const section = document.querySelector(`.${teamPrefix}-section`);
+
+    const combinedAndAverageResult = document.createElement('div');
+    combinedAndAverageResult.innerHTML = `
+        <div style="margin-top: 20px"><strong>${teamData.teamName} Combined Winrate: ${teamCombinedWinrate.toFixed(2)}%</strong></div>
+        <div><strong>${teamData.teamName} Average Champion Winrate: ${teamData.averageWinrate.toFixed(2)}%</strong></div>
+        <div><strong>${teamData.teamName} Average Champion/Player Winrate: ${(teamData.teamData.reduce((sum, champ) => sum + parseFloat(champ.playerWinrate), 0) / teamData.teamData.length).toFixed(2)}%</strong></div>
+    `;
+
+    section.appendChild(combinedAndAverageResult);
+}
+
+function displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBName, teamBCombinedWinrate) {
     let betterTeamResult = document.createElement('div');
     betterTeamResult.className = 'team-details';
     betterTeamResult.innerHTML = '<h3>Better Team</h3>';
 
-    if (finalTeamACombinedWinrate > finalTeamBCombinedWinrate) {
-        betterTeamResult.innerHTML += `<strong>${teamAName} with a combined winrate of <span class="highlight">${finalTeamACombinedWinrate.toFixed(2)}%</span></strong>`;
-    } else if (finalTeamBCombinedWinrate > finalTeamACombinedWinrate) {
-        betterTeamResult.innerHTML += `<strong>${teamBName} with a combined winrate of <span class="highlight">${finalTeamBCombinedWinrate.toFixed(2)}%</span></strong>`;
+    if (teamACombinedWinrate > teamBCombinedWinrate) {
+        betterTeamResult.innerHTML += `<strong>${teamAName} with a combined winrate of <span class="highlight">${teamACombinedWinrate.toFixed(2)}%</span></strong>`;
+    } else if (teamBCombinedWinrate > teamACombinedWinrate) {
+        betterTeamResult.innerHTML += `<strong>${teamBName} with a combined winrate of <span class="highlight">${teamBCombinedWinrate.toFixed(2)}%</span></strong>`;
     } else {
-        betterTeamResult.innerHTML += `<strong>Both teams are equally good with a combined winrate of <span class="highlight">${finalTeamACombinedWinrate.toFixed(2)}%</span></strong>`;
+        betterTeamResult.innerHTML += `<strong>Both teams are equally good with a combined winrate of <span class="highlight">${teamACombinedWinrate.toFixed(2)}%</span></strong>`;
     }
 
-    resultsDiv.appendChild(teamADetails);
-    resultsDiv.appendChild(teamBDetails);
     resultsDiv.appendChild(betterTeamResult);
 }
+
 
 
 

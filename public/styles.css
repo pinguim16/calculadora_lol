@@ -46,11 +46,6 @@ label {
     text-align: center;
 }
 
-.highlight {
-    color: rgba(255, 0, 0, 0.87);
-    font-weight: bold;
-}
-
 section {
     border: 2px solid #ccc;
     padding: 10px;
@@ -85,11 +80,6 @@ section {
 .game-results img {
     background-color: transparent;
     border: none;
-}
-
-/* Estilo para ocultar os detalhes do evento por padrão */
-.event-details {
-    display: none;
 }
 
 /* Estilo para exibir os detalhes do evento quando ativo */
@@ -268,4 +258,102 @@ section {
 
 .event-details.active {
     display: block;
+}
+
+/* styles.css */
+
+/* Estilos para a tabela de resultados */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: 'Arial', sans-serif;
+}
+
+.results-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.results-table th, .results-table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+}
+
+.results-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.results-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.results-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.team-details {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+.highlight {
+    color: #983d00;
+    font-weight: bold;
+}
+
+
+/* styles.css */
+
+/* Estilos para a tabela de resultados */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: 'Arial', sans-serif;
+}
+
+.results-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.results-table th, .results-table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+}
+
+.results-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.results-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.results-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.champion-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* .team-details {
+    margin-top: 20px;
+    font-size: 1.2em;
+} */
+
+
+.team-section {
+    margin-bottom: 30px;
 }
