@@ -243,7 +243,7 @@ app.get('/scrapePlayers', async (req, res) => {
                 const playerCell = $(element).find('td').first().find('a');
                 const name = playerCell.text().trim();
                 let profileLink = playerCell.attr('href');
-                console.log(`Name: ${name}, Profile Link: ${profileLink}`);  // Log each player's name and profile link for debugging
+                //console.log(`Name: ${name}, Profile Link: ${profileLink}`);  // Log each player's name and profile link for debugging
                 if (name && profileLink) {
                     profileLink = profileLink.startsWith('.') ? profileLink.substring(1) : profileLink;
                     const fullProfileLink = `https://gol.gg/players${profileLink}`;
@@ -258,7 +258,7 @@ app.get('/scrapePlayers', async (req, res) => {
             });
 
             const playersWithChampions = await Promise.all(playerPromises);
-            console.log(`Total players scraped: ${playersWithChampions.length}`);  // Log the total number of players scraped
+            //console.log(`Total players scraped: ${playersWithChampions.length}`);  // Log the total number of players scraped
             winratePlayersChampios = playersWithChampions; // Cache
             res.json(playersWithChampions);
         }

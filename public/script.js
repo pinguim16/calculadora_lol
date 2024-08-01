@@ -113,7 +113,13 @@ function getChampionWinrate(playerName, championId) {
     if (playerWinrate) {
         const championData = playerWinrate.champions.find(champ => champ.champion.toLowerCase().trim() === championId.toLowerCase().trim());
         if (championData) {
-            return championData.winRate;
+            let win = championData.winRate;
+            let nb = championData.nbGames;
+            games = {
+                winRate : win,
+                nbGames : nb
+            }
+            return games;
         }
     }
     return '-1';
@@ -194,13 +200,6 @@ function checkWinrates() {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = '';
 
-    const weightChampionWinrate = 0.3;
-    const weightTeamWinrate = 0.1;
-    const weightChampionPlayerWinrate = 0.3;
-    const weightRecentWinrate = 0.3;
-
-    const detractorPercentage = 0.1;
-
     const teamAName = document.getElementById('team-a-name').value;
     const teamBName = document.getElementById('team-b-name').value;
 
@@ -232,6 +231,7 @@ function checkWinrates() {
     displayTeamWinrates(teamBData, teamBCombinedWinrate, 'team-b');
 
     displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBName, teamBCombinedWinrate);
+    captureAndSendToWebhook();
 }
 
 function getTeamData(selectedChamps, teamType, teamName) {
@@ -296,12 +296,14 @@ function createResultsTable(teamData) {
             <th>Wins League</th>
             <th>Losses League</th>
             <th>Player Winrate</th>
+            <th>Games Played</th>
         </tr>
     `;
     table.appendChild(thead);
 
     const tbody = document.createElement('tbody');
     teamData.teamData.forEach(champ => {
+        console.log(champ)
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>
@@ -311,7 +313,8 @@ function createResultsTable(teamData) {
             <td>${champ.winrate}%</td>
             <td>${champ.wins}</td>
             <td>${champ.losses}</td>
-            <td>${champ.playerWinrate}%</td>
+            <td>${champ.playerWinrate.winRate !== undefined ? champ.playerWinrate.winRate : 0}%</td>
+            <td>${champ.playerWinrate.nbGames !== undefined ? champ.playerWinrate.nbGames : 0}</td>
         `;
         tbody.appendChild(row);
     });
@@ -331,10 +334,16 @@ function calculateCombinedWinrate(teamData, teamPrefix) {
     const teamWinrate = parseFloat(document.getElementById(`${teamPrefix}-winrate`).value) || 0;
     const teamRecentWinrate = parseFloat(document.getElementById(`${teamPrefix}-recent-winrate`).value) || 0;
 
+    
     const teamCombinedWinrate = (weightChampionWinrate * teamData.averageWinrate) + 
                                 (weightTeamWinrate * teamWinrate) + 
                                 (weightRecentWinrate * teamRecentWinrate) + 
-                                (weightChampionPlayerWinrate * teamData.teamData.reduce((sum, champ) => sum + parseFloat(champ.playerWinrate), 0) / teamData.teamData.length);
+                                (weightChampionPlayerWinrate * (teamData.teamData.reduce((sum, champ) => {
+                                    const winRate = parseFloat(champ.playerWinrate.winRate);
+                                    return sum + (isNaN(winRate) ? 0 : winRate);
+                                }, 0) / teamData.teamData.length));
+
+    console.log(teamCombinedWinrate)
 
     const teamConsecutiveLosses = document.getElementById(`${teamPrefix}-derretidos`).checked ? detractorPercentage : 0;
 
@@ -348,7 +357,7 @@ function displayTeamWinrates(teamData, teamCombinedWinrate, teamPrefix) {
     combinedAndAverageResult.innerHTML = `
         <div style="margin-top: 20px"><strong>${teamData.teamName} Combined Winrate: ${teamCombinedWinrate.toFixed(2)}%</strong></div>
         <div><strong>${teamData.teamName} Average Champion Winrate: ${teamData.averageWinrate.toFixed(2)}%</strong></div>
-        <div><strong>${teamData.teamName} Average Champion/Player Winrate: ${(teamData.teamData.reduce((sum, champ) => sum + parseFloat(champ.playerWinrate), 0) / teamData.teamData.length).toFixed(2)}%</strong></div>
+        <div><strong>${teamData.teamName} Average Champion/Player Winrate: ${(teamData.teamData.reduce((sum, champ) => sum + parseFloat(champ.playerWinrate.winRate), 0) / teamData.teamData.length).toFixed(2)}%</strong></div>
     `;
 
     section.appendChild(combinedAndAverageResult);
@@ -499,13 +508,14 @@ function displayGames(games) {
                                             ${gameDetail.gameMetadata?.blueTeamMetadata?.participantMetadata.map(player => {
                                                 const formattedName = getFormattedChampionName(player.championId);
                                                 const playerName = player.summonerName;
-                                                const winrate = getChampionWinrate(playerName, player.championId);
+                                                const champion = getChampionWinrate(playerName, player.championId);
                                                 return `
                                                     <div class="champion-container">
                                                         <img src="/images/${formattedName.imageName}.png" alt="${player.championId}" class="game-results">
                                                         <div class="champion-info">
                                                             <span>${playerName}</span>
-                                                            <span>Winrate: ${winrate}%</span>
+                                                            <span>Winrate: ${champion.winRate !== undefined ? champion.winRate : 0 }%</span>
+                                                            <span>Games: ${champion.nbGames !== undefined ? champion.nbGames : 0 } </span>
                                                         </div>
                                                     </div>`;
                                             }).join('') || 'N/A'}
@@ -515,13 +525,14 @@ function displayGames(games) {
                                             ${gameDetail.gameMetadata?.redTeamMetadata?.participantMetadata.map(player => {
                                                 const formattedName = getFormattedChampionName(player.championId);
                                                 const playerName = player.summonerName;
-                                                const winrate = getChampionWinrate(playerName, player.championId);
+                                                const champion = getChampionWinrate(playerName, player.championId);
                                                 return `
                                                     <div class="champion-container">
                                                         <img src="/images/${formattedName.imageName}.png" alt="${player.championId}" class="game-results">
                                                         <div class="champion-info">
                                                             <span>${playerName}</span>
-                                                            <span>Winrate: ${winrate}%</span>
+                                                            <span>Winrate: ${champion.winRate !== undefined ? champion.winRate : 0 }%</span>
+                                                            <span>Games: ${champion.nbGames !== undefined ? champion.nbGames : 0 } </span>
                                                         </div>
                                                     </div>`;
                                             }).join('') || 'N/A'}
@@ -597,6 +608,7 @@ async function loadPlayers() {
         playersWinrate = await response.json();
         console.log(`Loaded ${playersWinrate.length} players`);
         console.log('All players have been loaded!');
+        console.log(playersWinrate);
     } catch (error) {
         console.error('Failed to load players:', error);
     }
