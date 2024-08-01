@@ -171,15 +171,23 @@ section {
     background-color: #f9f9f9;
 }
 
+/* Diminuição do tamanho das imagens e ajustes nos contêineres */
 .champion-container-horizontal {
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
     text-align: center;
+    width: 120px; /* Ajuste a largura conforme necessário */
 }
 
 .champion-container-horizontal img {
+    width: 30px; /* Redução do tamanho da imagem */
+    height: 30px;
     display: block;
     margin: 0 auto;
+}
+
+.champion-info {
+    font-size: 0.8em; /* Redução do tamanho do texto */
 }
 
 .game.unstarted {

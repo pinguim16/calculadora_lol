@@ -16,37 +16,43 @@ const leagueUrls = {
     ],
     "LCK": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LCK%20Summer%202024/",
-        // Adicione mais URLs aqui se necessário
     ],
     "LCK CL": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LCK%20CL%20Summer%202024/",
     ],
     "TCL": [
         "https://gol.gg/champion/list/season-S14/split-ALL/tournament-TCL%20Summer%202024/",
+        "https://gol.gg/tournament/tournament-stats/TCL%20Summer%20Playoffs%202024/"
     ],
     "Ultraliga": [
         "https://gol.gg/champion/list/season-S14/split-ALL/tournament-Ultraliga%20Summer%202024/",
+        "https://gol.gg/tournament/tournament-stats/Ultraliga%20Summer%20Playoffs%202024/"
     ],
     "NLC": [
         "https://gol.gg/champion/list/season-S14/split-ALL/tournament-NLC%20Summer%202024/",
+        "https://gol.gg/tournament/tournament-stats/NLC%20Summer%20Playoffs%202024/"
     ],
     "Prime_League": [
         "https://gol.gg/champion/list/season-S14/split-ALL/tournament-Prime%20League%20Summer%202024/",
     ],
     "LFL": [
         "https://gol.gg/champion/list/season-S14/split-ALL/tournament-LFL%20Summer%202024/",
+        "https://gol.gg/tournament/tournament-stats/LFL%20Summer%20Playoffs%202024/"
     ],
     "LVP": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LVP%20SL%20Summer%202024/",
+        "https://gol.gg/tournament/tournament-stats/LVP%20SL%20Summer%20Playoffs%202024/"
     ],
     "PCS": [
         "https://gol.gg/tournament/tournament-stats/PCS%20Summer%202024/",
     ],
     "LEC": [
         "https://gol.gg/tournament/tournament-stats/LEC%20Summer%20Season%202024/",
+        "https://gol.gg/tournament/tournament-stats/LEC%20Summer%20Playoffs%202024/"
     ],
     "LIT": [
         "https://gol.gg/tournament/tournament-stats/LIT%20Summer%202024/",
+        "https://gol.gg/tournament/tournament-stats/LIT%20Summer%20Playoffs%202024/"
     ],
     "CBLOL": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Split%202%202024/",
@@ -58,6 +64,13 @@ const leagueUrls = {
     "CBLOL_Academy": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Academy%20Split%202%202024/",
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Academy%20Split%202%20Playoffs%202024/"
+    ],
+    "VCS": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-VCS%20Summer%202024/",
+    ],
+    "Elite_Series": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-Elite%20Series%20Summer%202024/",
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-Elite%20Series%20Summer%20Playoffs%202024/"
     ],
 };
 
@@ -266,12 +279,14 @@ app.get('/scrape', async (req, res) => {
         let allChampions = [];
 
         for (const url of urls) {
+            console.log(urls)
             const response = await fetchWithRetry(url);
             const champions = await parseChampions(response.data);
             allChampions = combineChampions(allChampions, champions);
         }
 
         console.log(`Scraped and combined champions for league ${league}`);
+        
         saveChampionsToFile(league, allChampions);
         res.json(allChampions);
     } catch (error) {
@@ -279,25 +294,6 @@ app.get('/scrape', async (req, res) => {
         res.status(500).send('Error occurred while scraping data');
     }
 });
-
-function combineChampions(existingChampions, newChampions) {
-    const championMap = {};
-
-    existingChampions.forEach(champion => {
-        championMap[champion.name] = champion;
-    });
-
-    newChampions.forEach(champion => {
-        if (championMap[champion.name]) {
-            // Combine data
-            championMap[champion.name].winrate = (championMap[champion.name].winrate + champion.winrate) / 2;
-        } else {
-            championMap[champion.name] = champion;
-        }
-    });
-
-    return Object.values(championMap);
-}
 
 async function parseChampions(html) {
     const $ = cheerio.load(html);
@@ -335,6 +331,8 @@ async function parseChampions(html) {
         const name = nameElement ? nameElement.trim() : null;
         const winrateElement = $(element).find('td:nth-child(7)');
         let winrate = winrateElement.text().trim().replace('%', '');
+        const wins = parseInt($(element).find('td:nth-child(5)').text().trim());
+        const losses = parseInt($(element).find('td:nth-child(6)').text().trim());
         if (!winrate) {
             winrate = -1; // Set negative winrate for champions without a winrate
         }
@@ -352,13 +350,39 @@ async function parseChampions(html) {
                     .catch(err => console.error(`Failed to download image for ${name} from ${fullImgUrl}`, err));
                 downloadPromises.push(downloadPromise);
             }
-            champions.push({ name, winrate: parseFloat(winrate), imgUrl: fullImgUrl });
+            champions.push({ name, winrate: parseFloat(winrate), wins, losses, imgUrl: fullImgUrl });
         }
     });
 
     await Promise.all(downloadPromises);
     return champions;
 }
+
+function combineChampions(existingChampions, newChampions) {
+    const championMap = {};
+
+    existingChampions.forEach(champion => {
+        championMap[champion.name] = champion;
+    });
+
+    newChampions.forEach(champion => {
+        if (championMap[champion.name]) {
+            console.log(champion)
+            // Combine data
+            const existing = championMap[champion.name];
+            existing.wins += champion.wins ? champion.wins : 0;
+            existing.losses += champion.losses ? champion.losses : 0;
+            if(champion.winrate){
+                existing.winrate = (existing.winrate + champion.winrate) / 2;
+            }
+        } else {
+            championMap[champion.name] = champion;
+        }
+    });
+
+    return Object.values(championMap);
+}
+
 
 function saveChampionsToFile(league, champions) {
     const dir = path.join(__dirname, 'public', 'data');

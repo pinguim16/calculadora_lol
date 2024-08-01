@@ -27,11 +27,13 @@
                     <option value="LFL">LFL</option>
                     <option value="LVP">LVP</option>
                     <option value="PCS">PCS</option>
-                    <option value="LEC">LEC</option>CBLOL Academy
+                    <option value="LEC">LEC</option>
                     <option value="LIT">LIT</option>
-                    <option value="LIT">CBLOL</option>
+                    <option value="CBLOL">CBLOL</option>
                     <option value="LLA">LLA - Liga Latinoamérica</option>
                     <option value="CBLOL_Academy">CBLOL Academy</option>
+                    <option value="VCS">VCS</option>
+                    <option value="Elite_Series">Elite Series - EMEA Masters</option>
                 </select>
                 <div class="input-group-append">
                     <button class="btn btn-primary" onclick="scrapeData()">Scrape Data</button>
@@ -140,6 +142,7 @@
             <button class="btn btn-info d-inline-block" onclick="loadGamesOfDay()">Load Games of the Day</button>
             <button class="btn btn-warning d-inline-block" onclick="swapTeams()">Swap Teams</button>
             <button class="btn btn-secondary d-inline-block" onclick="printCache()">Print Cache</button>
+            <button class="btn btn-primary" onclick="captureAndSendToWebhook()">Capture and Send Screenshot</button>
         </div>
         
         <div id="results" class="mt-4 text-center">
@@ -149,17 +152,9 @@
         <div id="games" class="mt-4 text-center">
             <!-- Jogos do dia serão exibidos aqui -->
         </div>
-
-        <!-- Removido ou comentado a seção de jogadores -->
-        <!--
-        <div class="text-center mt-4">
-            <button class="btn btn-primary" onclick="loadPlayers()">Load Players</button>
-        </div>
-        <div id="players" class="mt-4 text-center">
-            <!-- Lista de jogadores será exibida aqui -->
-        <!-- </div> -->
     </div>
     <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();   

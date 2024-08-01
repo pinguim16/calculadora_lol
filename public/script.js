@@ -198,9 +198,12 @@ function checkWinrates() {
     const weightTeamWinrate = 0.1;
     const weightChampionPlayerWinrate = 0.3;
     const weightRecentWinrate = 0.3;
-    
+
     const detractorPercentage = 0.1;
-    
+
+    const teamAName = document.getElementById('team-a-name').value;
+    const teamBName = document.getElementById('team-b-name').value;
+
     const selectedChampsTeamA = [
         document.getElementById('team-a-champ-1').value,
         document.getElementById('team-a-champ-2').value,
@@ -213,7 +216,7 @@ function checkWinrates() {
     let countValidWinratesTeamA = 0;
     let teamADetails = document.createElement('div');
     teamADetails.className = 'team-details';
-    teamADetails.innerHTML = '<h3>Team A Champions Winrates</h3>';
+    teamADetails.innerHTML = `<h3>${teamAName} Champions Winrates</h3>`;
 
     selectedChampsTeamA.forEach((champ, index) => {
         const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
@@ -228,8 +231,8 @@ function checkWinrates() {
             const imgName = getFormattedChampionName(champ).imageName;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                <div class="champion-info">${champData.name} - Winrate League: ${winrate}%</div>
-                <div class="champion-info">Winrate Player With Champion : ${selectedChampionsWinrate.teamA[index]}%</div>`; // Adicionando o winrate selecionado
+                <div class="champion-info">${champData.name} - Winrate League: ${winrate}% | Wins: ${champData.wins} | Losses: ${champData.losses}</div>
+                <div class="champion-info">Winrate Player With Champion: ${selectedChampionsWinrate.teamA[index]}%</div>`; // Adicionando o winrate selecionado
             teamADetails.appendChild(result);
         } else {
             console.error(`Champion data not found for ${champ}`);
@@ -264,7 +267,7 @@ function checkWinrates() {
     let countValidWinratesTeamB = 0;
     let teamBDetails = document.createElement('div');
     teamBDetails.className = 'team-details';
-    teamBDetails.innerHTML = '<h3>Team B Champions Winrates</h3>';
+    teamBDetails.innerHTML = `<h3>${teamBName} Champions Winrates</h3>`;
 
     selectedChampsTeamB.forEach((champ, index) => {
         const champData = champions.find(c => c.name === getFormattedChampionName(champ).displayName);
@@ -279,7 +282,7 @@ function checkWinrates() {
             const imgName = getFormattedChampionName(champ).imageName;
             result.innerHTML = `
                 <img src="/images/${imgName}.png" alt="${champData.name}" class="game-results">
-                <div class="champion-info">${champData.name} - Winrate League: ${winrate}%</div>
+                <div class="champion-info">${champData.name} - Winrate League: ${winrate}% | Wins: ${champData.wins} | Losses: ${champData.losses}</div>
                 <div class="champion-info">Winrate Player With Champion: ${selectedChampionsWinrate.teamB[index]}%</div>`; // Adicionando o winrate selecionado
             teamBDetails.appendChild(result);
         } else {
@@ -307,9 +310,6 @@ function checkWinrates() {
     const teamARecentWinrate = parseFloat(document.getElementById('team-a-recent-winrate').value) || 0;
     const teamBWinrate = parseFloat(document.getElementById('team-b-winrate').value) || 0;
     const teamBRecentWinrate = parseFloat(document.getElementById('team-b-recent-winrate').value) || 0;
-
-    const teamAName = document.getElementById('team-a-name').value;
-    const teamBName = document.getElementById('team-b-name').value;
 
     const teamACombinedWinrate = (weightChampionWinrate * averageWinrateTeamA) + (weightTeamWinrate * teamAWinrate) + (weightRecentWinrate * teamARecentWinrate) + (selectedChampsTeamAWinrate * weightChampionPlayerWinrate);
     const teamBCombinedWinrate = (weightChampionWinrate * averageWinrateTeamB) + (weightTeamWinrate * teamBWinrate) + (weightRecentWinrate * teamBRecentWinrate) + (selectedChampsTeamBWinrate * weightChampionPlayerWinrate);
@@ -427,12 +427,10 @@ function displayGames(games) {
     const gamesDiv = document.getElementById('games');
     gamesDiv.innerHTML = '<h2>Games of the Day</h2>';
 
-    // Filter and group games by status
     const inProgressGames = games.filter(game => game.state === 'inProgress');
     const unstartedGames = games.filter(game => game.state === 'unstarted');
     const completedGames = games.filter(game => game.state === 'completed');
 
-    // Function to create game elements
     const createGameElement = (game) => {
         const gameDiv = document.createElement('div');
         gameDiv.className = `game ${game.state.replace(' ', '-')}`;
@@ -510,7 +508,6 @@ function displayGames(games) {
         return gameDiv;
     };
 
-    // Display grouped games
     const sections = [
         { title: 'In Progress', games: inProgressGames, className: 'inProgress' },
         { title: 'Unstarted', games: unstartedGames, className: 'unstarted' },
@@ -527,6 +524,7 @@ function displayGames(games) {
         gamesDiv.appendChild(sectionDiv);
     });
 }
+
 
 
 function printCache() {
@@ -617,6 +615,39 @@ function swapTeams() {
     console.log('Teams swapped');
 }
 
+async function captureAndSendToWebhook() {
+    // Selecione a área que deseja capturar
+    const elementToCapture = document.getElementById('results');
+
+    // Capture a área usando html2canvas
+    const canvas = await html2canvas(elementToCapture);
+
+    // Converta o canvas para um blob
+    canvas.toBlob(async function(blob) {
+        // Crie um FormData para enviar a imagem
+        const formData = new FormData();
+        formData.append('file', blob, 'screenshot.png');
+
+        // URL do webhook (substitua com o URL do seu webhook)
+        const webhookUrl = 'https://discord.com/api/webhooks/1267741529267769355/Of_Lj_ZEaNxInzIioxyeWmYNdI8i9QGe3t1m3KGoWCMk6_uZ4ESIi1vMOgTyjtV0972H';
+
+        // Envie a imagem para o webhook
+        try {
+            const response = await fetch(webhookUrl, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                console.log('Screenshot sent to webhook successfully.');
+            } else {
+                console.error('Failed to send screenshot to webhook.');
+            }
+        } catch (error) {
+            console.error('Error sending screenshot to webhook:', error);
+        }
+    });
+}
 
 
 // Adicione a chamada dessa função em window.onload para garantir que os campos estejam no estado correto quando a página carregar
