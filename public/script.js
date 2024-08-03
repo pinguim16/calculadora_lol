@@ -261,7 +261,7 @@ function getTeamData(selectedChamps, teamType, teamName) {
         }
     });
 
-    const averageWinrate = countValidWinrates > 0 ? totalWinrate / countValidWinrates : 0;
+    const averageWinrate = countValidWinrates > 0 && !isNaN(totalWinrate) ? totalWinrate / countValidWinrates : 0;
     return { teamName, averageWinrate, teamData };
 }
 
@@ -311,8 +311,8 @@ function createResultsTable(teamData) {
                 ${champ.name}
             </td>
             <td>${champ.winrate}%</td>
-            <td>${champ.wins}</td>
-            <td>${champ.losses}</td>
+            <td>${champ.wins != undefined || null ? champ.wins : -1 }</td>
+            <td>${champ.losses != undefined || null ? champ.losses : -1 }</td>
             <td>${champ.playerWinrate.winRate !== undefined ? champ.playerWinrate.winRate : 0}%</td>
             <td>${champ.playerWinrate.nbGames !== undefined ? champ.playerWinrate.nbGames : 0}</td>
         `;
@@ -324,26 +324,28 @@ function createResultsTable(teamData) {
 }
 
 function calculateCombinedWinrate(teamData, teamPrefix) {
-    const weightChampionWinrate = 0.3;
+    const weightChampionWinrate = 0.4;
     const weightTeamWinrate = 0.1;
     const weightChampionPlayerWinrate = 0.3;
-    const weightRecentWinrate = 0.3;
+    const weightRecentWinrate = 0.2;
 
     const detractorPercentage = 0.1;
 
     const teamWinrate = parseFloat(document.getElementById(`${teamPrefix}-winrate`).value) || 0;
     const teamRecentWinrate = parseFloat(document.getElementById(`${teamPrefix}-recent-winrate`).value) || 0;
 
+    const averageWinrate = teamData.teamData.reduce((sum, champ) => {
+        const winRate = parseFloat(champ.playerWinrate.winRate);
+        return sum + (isNaN(winRate) ? 0 : winRate);
+    }, 0) / teamData.teamData.length;
+
+    console.log("averageWinrate",averageWinrate)
     
     const teamCombinedWinrate = (weightChampionWinrate * teamData.averageWinrate) + 
                                 (weightTeamWinrate * teamWinrate) + 
                                 (weightRecentWinrate * teamRecentWinrate) + 
-                                (weightChampionPlayerWinrate * (teamData.teamData.reduce((sum, champ) => {
-                                    const winRate = parseFloat(champ.playerWinrate.winRate);
-                                    return sum + (isNaN(winRate) ? 0 : winRate);
-                                }, 0) / teamData.teamData.length));
+                                (weightChampionPlayerWinrate * averageWinrate);
 
-    console.log(teamCombinedWinrate)
 
     const teamConsecutiveLosses = document.getElementById(`${teamPrefix}-derretidos`).checked ? detractorPercentage : 0;
 
@@ -357,7 +359,13 @@ function displayTeamWinrates(teamData, teamCombinedWinrate, teamPrefix) {
     combinedAndAverageResult.innerHTML = `
         <div style="margin-top: 20px"><strong>${teamData.teamName} Combined Winrate: ${teamCombinedWinrate.toFixed(2)}%</strong></div>
         <div><strong>${teamData.teamName} Average Champion Winrate: ${teamData.averageWinrate.toFixed(2)}%</strong></div>
-        <div><strong>${teamData.teamName} Average Champion/Player Winrate: ${(teamData.teamData.reduce((sum, champ) => sum + parseFloat(champ.playerWinrate.winRate), 0) / teamData.teamData.length).toFixed(2)}%</strong></div>
+       <div><strong>${teamData.teamName} Average Champion/Player Winrate: ${(teamData.teamData.reduce((sum, champ) => {
+           const winRate = parseFloat(champ.playerWinrate.winRate);
+           return sum + (isNaN(winRate) ? 0 : winRate);
+       }, 0) / teamData.teamData.reduce((count, champ) => {
+           const winRate = parseFloat(champ.playerWinrate.winRate);
+           return count + (isNaN(winRate) ? 0 : 1);
+       }, 0) || 1).toFixed(2)}%</strong></div>
     `;
 
     section.appendChild(combinedAndAverageResult);

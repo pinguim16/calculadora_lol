@@ -1,58 +1,58 @@
 [
   {
     "name": "Rumble",
-    "winrate": 64,
-    "wins": 9,
-    "losses": 5,
+    "winrate": 67,
+    "wins": 12,
+    "losses": 6,
     "imgUrl": "https://gol.gg/_img/champions_icon/Rumble.png"
   },
   {
-    "name": "Leona",
-    "winrate": 47,
-    "wins": 23,
-    "losses": 26,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Leona.png"
-  },
-  {
     "name": "Ezreal",
-    "winrate": 66,
-    "wins": 25,
+    "winrate": 69,
+    "wins": 29,
     "losses": 13,
     "imgUrl": "https://gol.gg/_img/champions_icon/Ezreal.png"
   },
   {
     "name": "Ashe",
-    "winrate": 47,
-    "wins": 7,
-    "losses": 8,
+    "winrate": 50,
+    "wins": 9,
+    "losses": 9,
     "imgUrl": "https://gol.gg/_img/champions_icon/Ashe.png"
   },
   {
-    "name": "Corki",
-    "winrate": 60,
-    "wins": 28,
-    "losses": 19,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Corki.png"
+    "name": "Leona",
+    "winrate": 42,
+    "wins": 24,
+    "losses": 33,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Leona.png"
   },
   {
     "name": "Kalista",
-    "winrate": 50,
-    "wins": 5,
-    "losses": 5,
+    "winrate": 47,
+    "wins": 7,
+    "losses": 8,
     "imgUrl": "https://gol.gg/_img/champions_icon/Kalista.png"
   },
   {
     "name": "Nidalee",
-    "winrate": 60,
+    "winrate": 56,
     "wins": 9,
-    "losses": 6,
+    "losses": 7,
     "imgUrl": "https://gol.gg/_img/champions_icon/Nidalee.png"
   },
   {
+    "name": "Corki",
+    "winrate": 62,
+    "wins": 34,
+    "losses": 21,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Corki.png"
+  },
+  {
     "name": "Maokai",
-    "winrate": 52,
-    "wins": 12,
-    "losses": 11,
+    "winrate": 53,
+    "wins": 16,
+    "losses": 14,
     "imgUrl": "https://gol.gg/_img/champions_icon/Maokai.png"
   },
   {
@@ -63,39 +63,46 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Tristana.png"
   },
   {
+    "name": "Lucian",
+    "winrate": 47,
+    "wins": 17,
+    "losses": 19,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Lucian.png"
+  },
+  {
+    "name": "Zyra",
+    "winrate": 25,
+    "wins": 4,
+    "losses": 12,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Zyra.png"
+  },
+  {
     "name": "Kaisa",
-    "winrate": 57,
-    "wins": 16,
+    "winrate": 61,
+    "wins": 19,
     "losses": 12,
     "imgUrl": "https://gol.gg/_img/champions_icon/Kaisa.png"
   },
   {
-    "name": "Lucian",
-    "winrate": 58,
-    "wins": 15,
-    "losses": 11,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Lucian.png"
-  },
-  {
     "name": "Sejuani",
-    "winrate": 42,
-    "wins": 8,
-    "losses": 11,
+    "winrate": 39,
+    "wins": 9,
+    "losses": 14,
     "imgUrl": "https://gol.gg/_img/champions_icon/Sejuani.png"
   },
   {
     "name": "KSante",
-    "winrate": 48,
-    "wins": 14,
-    "losses": 15,
+    "winrate": 50,
+    "wins": 16,
+    "losses": 16,
     "imgUrl": "https://gol.gg/_img/champions_icon/KSante.png"
   },
   {
-    "name": "Zyra",
-    "winrate": 15,
-    "wins": 2,
-    "losses": 11,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Zyra.png"
+    "name": "Braum",
+    "winrate": 62,
+    "wins": 8,
+    "losses": 5,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Braum.png"
   },
   {
     "name": "Alistar",
@@ -105,11 +112,32 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Alistar.png"
   },
   {
-    "name": "Braum",
-    "winrate": 55,
+    "name": "Nautilus",
+    "winrate": 33,
+    "wins": 8,
+    "losses": 16,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Nautilus.png"
+  },
+  {
+    "name": "Rell",
+    "winrate": 56,
+    "wins": 14,
+    "losses": 11,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Rell.png"
+  },
+  {
+    "name": "Jax",
+    "winrate": 40,
     "wins": 6,
-    "losses": 5,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Braum.png"
+    "losses": 9,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Jax.png"
+  },
+  {
+    "name": "Gnar",
+    "winrate": 68,
+    "wins": 17,
+    "losses": 8,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Gnar.png"
   },
   {
     "name": "Skarner",
@@ -119,11 +147,18 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Skarner.png"
   },
   {
-    "name": "Nautilus",
-    "winrate": 33,
-    "wins": 6,
-    "losses": 12,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Nautilus.png"
+    "name": "Zeri",
+    "winrate": 30,
+    "wins": 8,
+    "losses": 19,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Zeri.png"
+  },
+  {
+    "name": "Kennen",
+    "winrate": 40,
+    "wins": 4,
+    "losses": 6,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Kennen.png"
   },
   {
     "name": "Taliyah",
@@ -133,95 +168,67 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Taliyah.png"
   },
   {
-    "name": "Jax",
-    "winrate": 33,
-    "wins": 4,
-    "losses": 8,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Jax.png"
-  },
-  {
-    "name": "Rell",
-    "winrate": 53,
-    "wins": 10,
-    "losses": 9,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Rell.png"
-  },
-  {
-    "name": "Gnar",
-    "winrate": 61,
-    "wins": 11,
-    "losses": 7,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Gnar.png"
-  },
-  {
-    "name": "Zeri",
-    "winrate": 27,
-    "wins": 6,
-    "losses": 16,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Zeri.png"
-  },
-  {
-    "name": "Kennen",
-    "winrate": 44,
-    "wins": 4,
-    "losses": 5,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Kennen.png"
-  },
-  {
     "name": "Lee Sin",
-    "winrate": 60,
-    "wins": 3,
-    "losses": 2,
+    "winrate": 57,
+    "wins": 4,
+    "losses": 3,
     "imgUrl": "https://gol.gg/_img/champions_icon/LeeSin.png"
   },
   {
     "name": "Renekton",
     "winrate": 50,
-    "wins": 7,
-    "losses": 7,
+    "wins": 9,
+    "losses": 9,
     "imgUrl": "https://gol.gg/_img/champions_icon/Renekton.png"
   },
   {
     "name": "Lillia",
-    "winrate": 43,
+    "winrate": 38,
     "wins": 6,
-    "losses": 8,
+    "losses": 10,
     "imgUrl": "https://gol.gg/_img/champions_icon/Lillia.png"
   },
   {
-    "name": "Brand",
-    "winrate": 64,
-    "wins": 9,
-    "losses": 5,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Brand.png"
-  },
-  {
-    "name": "Yone",
-    "winrate": 42,
-    "wins": 5,
-    "losses": 7,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Yone.png"
-  },
-  {
     "name": "LeBlanc",
-    "winrate": 40,
+    "winrate": 33,
     "wins": 2,
-    "losses": 3,
+    "losses": 4,
     "imgUrl": "https://gol.gg/_img/champions_icon/LeBlanc.png"
   },
   {
-    "name": "Twisted Fate",
-    "winrate": 100,
-    "wins": 3,
-    "losses": 0,
-    "imgUrl": "https://gol.gg/_img/champions_icon/TwistedFate.png"
+    "name": "Brand",
+    "winrate": 60,
+    "wins": 9,
+    "losses": 6,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Brand.png"
   },
   {
     "name": "Senna",
-    "winrate": 60,
-    "wins": 3,
+    "winrate": 67,
+    "wins": 4,
     "losses": 2,
     "imgUrl": "https://gol.gg/_img/champions_icon/Senna.png"
+  },
+  {
+    "name": "Twisted Fate",
+    "winrate": 75,
+    "wins": 3,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/TwistedFate.png"
+  },
+  {
+    "name": "Yone",
+    "winrate": 38,
+    "wins": 5,
+    "losses": 8,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Yone.png"
+  },
+  {
+    "name": "Miss Fortune",
+    "winrate": 27,
+    "wins": 3,
+    "losses": 8,
+    "imgUrl": "https://gol.gg/_img/champions_icon/MissFortune.png"
   },
   {
     "name": "Vi",
@@ -231,6 +238,34 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Vi.png"
   },
   {
+    "name": "Caitlyn",
+    "winrate": 63,
+    "wins": 5,
+    "losses": 3,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Caitlyn.png"
+  },
+  {
+    "name": "Draven",
+    "winrate": 73,
+    "wins": 8,
+    "losses": 3,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Draven.png"
+  },
+  {
+    "name": "Ziggs",
+    "winrate": 17,
+    "wins": 1,
+    "losses": 5,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Ziggs.png"
+  },
+  {
+    "name": "Renata Glasc",
+    "winrate": 64,
+    "wins": 7,
+    "losses": 4,
+    "imgUrl": "https://gol.gg/_img/champions_icon/RenataGlasc.png"
+  },
+  {
     "name": "Hwei",
     "winrate": 71,
     "wins": 5,
@@ -238,46 +273,46 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Hwei.png"
   },
   {
-    "name": "Miss Fortune",
-    "winrate": 25,
-    "wins": 2,
-    "losses": 6,
-    "imgUrl": "https://gol.gg/_img/champions_icon/MissFortune.png"
-  },
-  {
-    "name": "Caitlyn",
-    "winrate": 60,
-    "wins": 3,
-    "losses": 2,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Caitlyn.png"
-  },
-  {
     "name": "Karthus",
-    "winrate": 44,
+    "winrate": 40,
     "wins": 4,
-    "losses": 5,
+    "losses": 6,
     "imgUrl": "https://gol.gg/_img/champions_icon/Karthus.png"
   },
   {
     "name": "Rakan",
-    "winrate": 50,
+    "winrate": 46,
     "wins": 6,
-    "losses": 6,
+    "losses": 7,
     "imgUrl": "https://gol.gg/_img/champions_icon/Rakan.png"
   },
   {
-    "name": "Draven",
-    "winrate": 88,
-    "wins": 7,
-    "losses": 1,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Draven.png"
+    "name": "Kindred",
+    "winrate": 50,
+    "wins": 4,
+    "losses": 4,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Kindred.png"
   },
   {
-    "name": "Ziggs",
-    "winrate": 20,
-    "wins": 1,
+    "name": "Ivern",
+    "winrate": 83,
+    "wins": 5,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Ivern.png"
+  },
+  {
+    "name": "Viego",
+    "winrate": 43,
+    "wins": 3,
     "losses": 4,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Ziggs.png"
+    "imgUrl": "https://gol.gg/_img/champions_icon/Viego.png"
+  },
+  {
+    "name": "Jayce",
+    "winrate": 50,
+    "wins": 3,
+    "losses": 3,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Jayce.png"
   },
   {
     "name": "Camille",
@@ -287,18 +322,18 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Camille.png"
   },
   {
-    "name": "Kindred",
-    "winrate": 57,
-    "wins": 4,
-    "losses": 3,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Kindred.png"
+    "name": "Shyvana",
+    "winrate": 75,
+    "wins": 6,
+    "losses": 2,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Shyvana.png"
   },
   {
-    "name": "Viego",
-    "winrate": 33,
-    "wins": 2,
-    "losses": 4,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Viego.png"
+    "name": "Jhin",
+    "winrate": 13,
+    "wins": 1,
+    "losses": 7,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Jhin.png"
   },
   {
     "name": "Aatrox",
@@ -308,52 +343,10 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Aatrox.png"
   },
   {
-    "name": "Jayce",
-    "winrate": 33,
-    "wins": 1,
-    "losses": 2,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Jayce.png"
-  },
-  {
-    "name": "Jhin",
-    "winrate": 17,
-    "wins": 1,
-    "losses": 5,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Jhin.png"
-  },
-  {
-    "name": "Ivern",
-    "winrate": 75,
-    "wins": 3,
-    "losses": 1,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Ivern.png"
-  },
-  {
-    "name": "Renata Glasc",
-    "winrate": 50,
-    "wins": 4,
-    "losses": 4,
-    "imgUrl": "https://gol.gg/_img/champions_icon/RenataGlasc.png"
-  },
-  {
-    "name": "Shyvana",
-    "winrate": 71,
-    "wins": 5,
-    "losses": 2,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Shyvana.png"
-  },
-  {
-    "name": "Poppy",
-    "winrate": 80,
-    "wins": 4,
-    "losses": 1,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Poppy.png"
-  },
-  {
     "name": "Ornn",
-    "winrate": 50,
+    "winrate": 38,
     "wins": 3,
-    "losses": 3,
+    "losses": 5,
     "imgUrl": "https://gol.gg/_img/champions_icon/Ornn.png"
   },
   {
@@ -364,18 +357,32 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Dr.Mundo.png"
   },
   {
+    "name": "Poppy",
+    "winrate": 83,
+    "wins": 5,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Poppy.png"
+  },
+  {
+    "name": "Xayah",
+    "winrate": 33,
+    "wins": 2,
+    "losses": 4,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Xayah.png"
+  },
+  {
+    "name": "Milio",
+    "winrate": 83,
+    "wins": 5,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Milio.png"
+  },
+  {
     "name": "Varus",
     "winrate": 0,
     "wins": 0,
     "losses": 3,
     "imgUrl": "https://gol.gg/_img/champions_icon/Varus.png"
-  },
-  {
-    "name": "Xayah",
-    "winrate": 25,
-    "wins": 1,
-    "losses": 3,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Xayah.png"
   },
   {
     "name": "Ahri",
@@ -390,6 +397,13 @@
     "wins": 0,
     "losses": 1,
     "imgUrl": "https://gol.gg/_img/champions_icon/Blitzcrank.png"
+  },
+  {
+    "name": "Nilah",
+    "winrate": 100,
+    "wins": 3,
+    "losses": 0,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Nilah.png"
   },
   {
     "name": "Diana",
@@ -420,11 +434,18 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Mordekaiser.png"
   },
   {
-    "name": "Milio",
-    "winrate": 100,
-    "wins": 3,
-    "losses": 0,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Milio.png"
+    "name": "Udyr",
+    "winrate": 33,
+    "wins": 1,
+    "losses": 2,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Udyr.png"
+  },
+  {
+    "name": "Gwen",
+    "winrate": 50,
+    "wins": 2,
+    "losses": 2,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Gwen.png"
   },
   {
     "name": "Sivir",
@@ -434,11 +455,11 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Sivir.png"
   },
   {
-    "name": "Udyr",
+    "name": "Vayne",
     "winrate": 50,
     "wins": 1,
     "losses": 1,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Udyr.png"
+    "imgUrl": "https://gol.gg/_img/champions_icon/Vayne.png"
   },
   {
     "name": "Azir",
@@ -446,13 +467,6 @@
     "wins": 0,
     "losses": 2,
     "imgUrl": "https://gol.gg/_img/champions_icon/Azir.png"
-  },
-  {
-    "name": "Nilah",
-    "winrate": 100,
-    "wins": 3,
-    "losses": 0,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Nilah.png"
   },
   {
     "name": "Akali",
@@ -476,6 +490,13 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Irelia.png"
   },
   {
+    "name": "Karma",
+    "winrate": 0,
+    "wins": 0,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Karma.png"
+  },
+  {
     "name": "Nasus",
     "winrate": 0,
     "wins": 0,
@@ -490,13 +511,6 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Olaf.png"
   },
   {
-    "name": "Vayne",
-    "winrate": 100,
-    "wins": 1,
-    "losses": 0,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Vayne.png"
-  },
-  {
     "name": "Wukong",
     "winrate": 50,
     "wins": 1,
@@ -504,11 +518,32 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Wukong.png"
   },
   {
-    "name": "Gwen",
+    "name": "Yasuo",
     "winrate": 0,
     "wins": 0,
     "losses": 2,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Gwen.png"
+    "imgUrl": "https://gol.gg/_img/champions_icon/Yasuo.png"
+  },
+  {
+    "name": "Neeko",
+    "winrate": 0,
+    "wins": 0,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Neeko.png"
+  },
+  {
+    "name": "Smolder",
+    "winrate": 50,
+    "wins": 1,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Smolder.png"
+  },
+  {
+    "name": "Amumu",
+    "winrate": 100,
+    "wins": 1,
+    "losses": 0,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Amumu.png"
   },
   {
     "name": "Chogath",
@@ -518,11 +553,11 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Chogath.png"
   },
   {
-    "name": "Karma",
+    "name": "Gangplank",
     "winrate": 0,
     "wins": 0,
     "losses": 1,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Karma.png"
+    "imgUrl": "https://gol.gg/_img/champions_icon/Gangplank.png"
   },
   {
     "name": "KhaZix",
@@ -537,6 +572,13 @@
     "wins": 0,
     "losses": 1,
     "imgUrl": "https://gol.gg/_img/champions_icon/Lissandra.png"
+  },
+  {
+    "name": "Morgana",
+    "winrate": 0,
+    "wins": 0,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Morgana.png"
   },
   {
     "name": "Orianna",
@@ -574,25 +616,18 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Taric.png"
   },
   {
+    "name": "Volibear",
+    "winrate": 0,
+    "wins": 0,
+    "losses": 1,
+    "imgUrl": "https://gol.gg/_img/champions_icon/Volibear.png"
+  },
+  {
     "name": "Xin Zhao",
     "winrate": -1,
     "wins": null,
     "losses": null,
     "imgUrl": "https://gol.gg/_img/champions_icon/XinZhao.png"
-  },
-  {
-    "name": "Yasuo",
-    "winrate": 0,
-    "wins": 0,
-    "losses": 1,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Yasuo.png"
-  },
-  {
-    "name": "Neeko",
-    "winrate": 0,
-    "wins": 0,
-    "losses": 1,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Neeko.png"
   },
   {
     "name": "Sylas",
@@ -602,18 +637,11 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Sylas.png"
   },
   {
-    "name": "Smolder",
+    "name": "Aphelios",
     "winrate": 100,
     "wins": 1,
     "losses": 0,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Smolder.png"
-  },
-  {
-    "name": "Amumu",
-    "winrate": -1,
-    "wins": null,
-    "losses": null,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Amumu.png"
+    "imgUrl": "https://gol.gg/_img/champions_icon/Aphelios.png"
   },
   {
     "name": "Anivia",
@@ -677,13 +705,6 @@
     "wins": null,
     "losses": null,
     "imgUrl": "https://gol.gg/_img/champions_icon/Fizz.png"
-  },
-  {
-    "name": "Gangplank",
-    "winrate": -1,
-    "wins": null,
-    "losses": null,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Gangplank.png"
   },
   {
     "name": "Garen",
@@ -789,13 +810,6 @@
     "wins": null,
     "losses": null,
     "imgUrl": "https://gol.gg/_img/champions_icon/MasterYi.png"
-  },
-  {
-    "name": "Morgana",
-    "winrate": -1,
-    "wins": null,
-    "losses": null,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Morgana.png"
   },
   {
     "name": "Nami",
@@ -966,13 +980,6 @@
     "imgUrl": "https://gol.gg/_img/champions_icon/Vladimir.png"
   },
   {
-    "name": "Volibear",
-    "winrate": -1,
-    "wins": null,
-    "losses": null,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Volibear.png"
-  },
-  {
     "name": "Warwick",
     "winrate": -1,
     "wins": null,
@@ -1104,13 +1111,6 @@
     "wins": null,
     "losses": null,
     "imgUrl": "https://gol.gg/_img/champions_icon/Qiyana.png"
-  },
-  {
-    "name": "Aphelios",
-    "winrate": -1,
-    "wins": null,
-    "losses": null,
-    "imgUrl": "https://gol.gg/_img/champions_icon/Aphelios.png"
   },
   {
     "name": "Sett",
