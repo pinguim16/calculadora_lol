@@ -535,7 +535,6 @@ async function loadGamesOfDay() {
                 return cache;
             }, []);
         });
-        console.log(games);
         displayGames(games);
     } catch (error) {
         console.error('Failed to load games:', error);
@@ -548,9 +547,9 @@ function displayGames(games) {
     const gamesDiv = document.getElementById('games');
     gamesDiv.innerHTML = '<h2>Games of the Day</h2>';
 
-    const inProgressGames = games.filter(game => game.state === 'inProgress');
-    const unstartedGames = games.filter(game => game.state === 'unstarted');
-    const completedGames = games.filter(game => game.state === 'completed');
+    const inProgressGames = games.filter(game => game.state === 'inProgress').sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+    const unstartedGames = games.filter(game => game.state === 'unstarted').sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+    const completedGames = games.filter(game => game.state === 'completed').sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
 
     const createGameElement = (game) => {
         const gameDiv = document.createElement('div');
@@ -572,6 +571,7 @@ function displayGames(games) {
             <div class="btn-group" role="group">
                 <button class="btn btn-info" onclick="toggleDetails('${game.id}')">Show Details</button>
                 <button class="btn btn-secondary ml-2" onclick="copyTeamNames('${game.id}')">Copy Team Names</button>
+                <button class="btn btn-primary" onclick="reloadGameData('${game.id}')">Reload Game Data</button>
             </div>
             <div id="details-${game.id}" class="event-details">
                 <div>
