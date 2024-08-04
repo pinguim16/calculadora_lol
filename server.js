@@ -72,7 +72,18 @@ const leagueUrls = {
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-Elite%20Series%20Summer%202024/",
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-Elite%20Series%20Summer%20Playoffs%202024/"
     ],
+    "Hit": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-Hitpoint%20Masters%20Summer%202024/",
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-Hitpoint%20Masters%20Summer%20Playoffs%202024/"
+    ],
+    "LCS": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LCS%20Summer%202024/"
+    ],
+    "NACL": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-NACL%20Summer%202024/"
+    ],
 };
+
 
 
 const TEMP_DIR = path.join(__dirname, 'temp');
@@ -110,15 +121,23 @@ const playerCache = {};
 async function parseGames(data) {
     const games = [];
     const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    const todayStr = `${yyyy}-${mm}-${dd}`;
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const formatDateString = (date) => {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
+    const todayStr = formatDateString(today);
+    const tomorrowStr = formatDateString(tomorrow);
 
     for (const event of data.data.schedule.events) {
         const startTime = new Date(event.startTime);
         const startDateString = startTime.toISOString().split('T')[0];
-        if (startDateString === todayStr && event.type === 'match') {
+        if ((startDateString === todayStr || startDateString === tomorrowStr) && event.type === 'match') {
             const gameDetails = await fetchEventDetails(event.match.id);
             const game = {
                 id: event.match.id,
@@ -189,6 +208,7 @@ async function parseGames(data) {
 
     return games;
 }
+
 
 async function scrapePlayerProfile(profileUrl) {
     try {

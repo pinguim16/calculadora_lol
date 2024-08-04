@@ -8,6 +8,62 @@ let selectedChampionsWinrate = {
     teamB: []
 };
 
+const gameStages = {
+    early_game_champions: [
+        "Lee Sin", "Elise", "Pantheon", "Renekton", "Nidalee", "Draven", "Lucian", "Graves", "Darius", "Rek'Sai", "Xin Zhao",
+        "Olaf", "Blitzcrank", "Thresh", "Jarvan IV", "Syndra", "Talon", "Leona", "Zed"
+    ],
+    mid_game_champions: [
+        "Akali", "Ekko", "Kai'Sa", "Yasuo", "Katarina", "Sylas", "Fizz", "Qiyana", "Viktor", "Irelia", "Renekton", "Diana",
+        "Zoe", "Corki", "Lucian", "Twisted Fate", "Kled", "Tristana", "Rumble", "Jhin", "Orianna", "Ahri", "Galio", "Rengar",
+        "Xin Zhao", "LeBlanc", "Nocturne", "Volibear", "Syndra", "Kassadin", "Aatrox", "Cassiopeia", "Talon", "Yone",
+        "Seraphine", "Hecarim", "Zed", "Thresh", "Nautilus", "Rakan", "Pyke", "Alistar", "Blitzcrank", "Nidalee", "Elise",
+        "Rek'Sai", "Gragas", "Jarvan IV", "Kha'Zix", "Pantheon", "Graves", "Sett", "Taliyah", "Twitch", "Kalista", "Senna",
+        "Aphelios", "Ezreal", "Miss Fortune", "Jinx", "Vayne", "Draven", "Samira", "Sivir", "Ziggs", "Veigar", "Vladimir",
+        "Heimerdinger", "Swain", "Fiora", "Riven", "Kayle", "Camille", "Gwen", "Nasus", "Kennen", "Jayce", "Ryze", "Viktor",
+        "Tryndamere", "Master Yi", "Shaco", "Warwick", "Udyr", "Ivern", "Kindred", "Lillia", "Darius", "Garen", "Mordekaiser",
+        "Sion", "Singed", "Urgot", "Ornn", "Tahm Kench", "Cho'Gath", "Poppy", "Sejuani", "Nunu & Willump", "Rammus", "Amumu",
+        "Zac", "Malphite", "Maokai", "Dr. Mundo", "Skarner", "Shyvana", "Volibear", "KSante"
+    ],
+    late_game_champions: [
+        "Vayne", "Kassadin", "Jax", "Kayle", "Azir", "Twitch", "Kog'Maw", "Ryze", "Veigar", "Sivir", "Tristana", "Master Yi",
+        "Gangplank", "Senna", "Yasuo", "Nasus", "Ornn", "Aatrox", "Cassiopeia", "Malzahar", "Viktor", "Vladimir", "Jinx",
+        "Ezreal", "Aphelios", "Samira", "Kalista", "Draven", "Jhin", "Miss Fortune", "Ashe", "Ziggs", "Xayah", "Seraphine",
+        "Syndra", "Swain", "Heimerdinger", "Zoe", "Lux", "Anivia", "Orianna", "Ahri", "Ekko", "Katarina", "Sylas", "Diana",
+        "Qiyana", "Galio", "Vel'Koz", "Zilean", "LeBlanc", "Lissandra", "Twisted Fate", "Taliyah", "Neeko", "Morgana", "Brand",
+        "Xerath", "Fiddlesticks", "Teemo", "Annie", "Rumble", "Zyra", "Karthus", "Aurelion Sol", "Lulu", "Nami", "Janna", "Karma",
+        "Braum", "Yuumi", "Taric", "Thresh", "Rakan", "Leona", "Nautilus", "Blitzcrank", "Alistar", "Pyke", "Tahm Kench", "Bard",
+        "Rell", "Maokai", "Shen", "Ivern", "Soraka", "Zac", "Rammus", "Skarner", "Amumu", "Nunu & Willump", "Sejuani", "Volibear",
+        "Poppy", "Singed", "Cho'Gath", "Malphite", "Dr. Mundo", "Sion", "Mordekaiser", "Yorick", "Trundle", "Warwick", "Olaf", "Udyr",
+        "Shyvana", "Rengar", "Lee Sin", "Nocturne", "Xin Zhao", "Jarvan IV", "Rek'Sai", "Graves", "Kindred", "Elise", "Kha'Zix",
+        "Nidalee", "Twitch", "Lucian", "Sivir", "Kai'Sa", "Varus", "Caitlyn", "Kennen", "Graves", "Gnar", "Quinn", "Fiora", "Kled",
+        "Pantheon", "Garen", "Shen", "Vladimir", "Wukong", "Akali", "Camille", "Gwen", "Irelia", "Jarvan IV", "Kayle", "Lillia",
+        "Malphite", "Mordekaiser", "Sett", "Tahm Kench", "Urgot", "Wukong", "Yone", "Yuumi", "Zeri","KSante", 
+    ]
+};
+
+function getGameStageComposition(teamChampions) {
+    const stageCounts = { early: 0, mid: 0, late: 0 };
+
+    teamChampions.forEach(champion => {
+        if (gameStages.early_game_champions.includes(champion)) {
+            stageCounts.early++;
+        } else if (gameStages.mid_game_champions.includes(champion)) {
+            stageCounts.mid++;
+        } else if (gameStages.late_game_champions.includes(champion)) {
+            stageCounts.late++;
+        }
+    });
+
+    const maxStage = Object.keys(stageCounts).reduce((a, b) => stageCounts[a] > stageCounts[b] ? a : b);
+    const totalChampions = stageCounts.early + stageCounts.mid + stageCounts.late;
+
+    return {
+        predominantStage: maxStage,
+        compositionPercentage: ((stageCounts[maxStage] / totalChampions) * 100).toFixed(2) + '%'
+    };
+}
+
 function showSpinner() {
     const spinnerContainer = document.getElementById('spinner-container');
     spinnerContainer.style.display = 'block';
@@ -230,8 +286,25 @@ function checkWinrates() {
     displayTeamWinrates(teamAData, teamACombinedWinrate, 'team-a');
     displayTeamWinrates(teamBData, teamBCombinedWinrate, 'team-b');
 
+    const teamAComposition = getGameStageComposition(selectedChampsTeamA);
+    const teamBComposition = getGameStageComposition(selectedChampsTeamB);
+
+    displayTeamComposition(resultsDiv, teamAName, teamAComposition, 'team-a');
+    displayTeamComposition(resultsDiv, teamBName, teamBComposition, 'team-b');
+
     displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBName, teamBCombinedWinrate);
-    captureAndSendToWebhook();
+}
+
+function displayTeamComposition(resultsDiv, teamName, composition, teamPrefix) {
+    const section = document.querySelector(`.${teamPrefix}-section`);
+
+    const compositionResult = document.createElement('div');
+    compositionResult.innerHTML = `
+        <div style="margin-top: 20px"><strong>${teamName} Predominant Stage: ${composition.predominantStage}</strong></div>
+        <div><strong>${teamName} Composition Percentage: ${composition.compositionPercentage}</strong></div>
+    `;
+
+    section.appendChild(compositionResult);
 }
 
 function getTeamData(selectedChamps, teamType, teamName) {
@@ -303,7 +376,6 @@ function createResultsTable(teamData) {
 
     const tbody = document.createElement('tbody');
     teamData.teamData.forEach(champ => {
-        console.log(champ)
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>
@@ -386,8 +458,6 @@ function displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBNam
 
     resultsDiv.appendChild(betterTeamResult);
 }
-
-
 
 
 async function scrapeData() {
@@ -616,7 +686,6 @@ async function loadPlayers() {
         playersWinrate = await response.json();
         console.log(`Loaded ${playersWinrate.length} players`);
         console.log('All players have been loaded!');
-        console.log(playersWinrate);
     } catch (error) {
         console.error('Failed to load players:', error);
     }
