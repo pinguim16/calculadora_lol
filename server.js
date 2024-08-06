@@ -44,7 +44,8 @@ const leagueUrls = {
         "https://gol.gg/tournament/tournament-stats/LVP%20SL%20Summer%20Playoffs%202024/"
     ],
     "PCS": [
-        "https://gol.gg/tournament/tournament-stats/PCS%20Summer%202024/",
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-PCS%20Summer%202024/",
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-PCS%20Summer%20Playoffs%202024/"
     ],
     "LEC": [
         "https://gol.gg/tournament/tournament-stats/LEC%20Summer%20Season%202024/",
@@ -81,6 +82,10 @@ const leagueUrls = {
     ],
     "NACL": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-NACL%20Summer%202024/"
+    ],
+    "EMEA": [
+        "https://gol.gg/tournament/tournament-picksandbans/EMEA%20Masters%20Summer%20LCQ%202024/",
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-EMEA%20Masters%20Summer%202024/"
     ],
 };
 

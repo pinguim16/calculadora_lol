@@ -144,6 +144,7 @@ function getFormattedChampionName(champion) {
         'MonkeyKing': 'Wukong',
         'JarvanIV': 'Jarvan IV',
         'XinZhao': 'Xin Zhao',
+        'TahmKench': 'Tahm Kench',    
 
         // Add more mappings as needed
     };
@@ -156,6 +157,8 @@ function getFormattedChampionName(champion) {
         'Lee Sin': 'Lee_Sin',
         'Jarvan IV': 'Jarvan_IV',
         'Xin Zhao': 'Xin_Zhao',
+        'Tahm Kench': 'Tahm_Kench',
+        'Wukong': 'Wukong',
         // Add more mappings as needed
     };
     return {
@@ -293,6 +296,7 @@ function checkWinrates() {
     displayTeamComposition(resultsDiv, teamBName, teamBComposition, 'team-b');
 
     displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBName, teamBCombinedWinrate);
+    captureAndSendToWebhook();
 }
 
 function displayTeamComposition(resultsDiv, teamName, composition, teamPrefix) {
@@ -431,14 +435,10 @@ function displayTeamWinrates(teamData, teamCombinedWinrate, teamPrefix) {
     combinedAndAverageResult.innerHTML = `
         <div style="margin-top: 20px"><strong>${teamData.teamName} Combined Winrate: ${teamCombinedWinrate.toFixed(2)}%</strong></div>
         <div><strong>${teamData.teamName} Average Champion Winrate: ${teamData.averageWinrate.toFixed(2)}%</strong></div>
-       <div><strong>${teamData.teamName} Average Champion/Player Winrate: ${(teamData.teamData.reduce((sum, champ) => {
-           const winRate = parseFloat(champ.playerWinrate.winRate);
-           return sum + (isNaN(winRate) ? 0 : winRate);
-       }, 0) / teamData.teamData.reduce((count, champ) => {
-           const winRate = parseFloat(champ.playerWinrate.winRate);
-           return count + (isNaN(winRate) ? 0 : 1);
-       }, 0) || 1).toFixed(2)}%</strong></div>
-    `;
+       <div><strong>${teamData.teamName} Average Champion/Player Winrate: ${ (teamData.teamData.reduce((sum, champ) => {
+        const winRate = parseFloat(champ.playerWinrate.winRate);
+        return sum + (isNaN(winRate) ? 0 : winRate);
+    }, 0) / teamData.teamData.length).toFixed(2)}%</strong></div>`;
 
     section.appendChild(combinedAndAverageResult);
 }
