@@ -357,3 +357,10 @@ section {
 .team-section {
     margin-bottom: 30px;
 }
+
+.small-select {
+    width: 100%;
+}
+.smaller-input {
+    width: 100%;
+}

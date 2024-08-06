@@ -485,6 +485,126 @@ async function fetchEventDetails(eventId) {
     }
 }
 
+// Cache temporário para armazenar os dados dos times
+const teamsCache = [];
+const baseUrl = 'https://gol.gg';
+const profileBaseUrl = 'https://gol.gg/teams/team-stats';
+const matchListBaseUrl = 'https://gol.gg/teams/team-matchlist';
+
+app.get('/scrapeTeams', async (req, res) => {
+    const url = 'https://gol.gg/teams/list/season-S14/split-Summer/tournament-ALL/';
+    try {
+        if (teamsCache.length > 0) {
+            res.json(teamsCache);
+        } else {
+            const response = await fetchWithRetry(url);
+            const $ = cheerio.load(response.data);
+            const teams = [];
+
+            const teamPromises = [];
+
+            $('table.playerslist tbody tr').each((index, element) => {
+                let teamData = {};
+                teamData.name = $(element).find('td:nth-child(1)').text().trim();
+                teamData.season = $(element).find('td:nth-child(2)').text().trim();
+                teamData.region = $(element).find('td:nth-child(3)').text().trim();
+                teamData.games = $(element).find('td:nth-child(4)').text().trim();
+                teamData.winRate = $(element).find('td:nth-child(5)').text().trim();
+                teamData.kd = $(element).find('td:nth-child(6)').text().trim();
+                teamData.gpm = $(element).find('td:nth-child(7)').text().trim();
+                teamData.gdm = $(element).find('td:nth-child(8)').text().trim();
+                teamData.gameDuration = $(element).find('td:nth-child(9)').text().trim();
+                teamData.killsPerGame = $(element).find('td:nth-child(10)').text().trim();
+                teamData.deathsPerGame = $(element).find('td:nth-child(11)').text().trim();
+                teamData.towersKilled = $(element).find('td:nth-child(12)').text().trim();
+                teamData.towersLost = $(element).find('td:nth-child(13)').text().trim();
+                teamData.firstBloodRate = $(element).find('td:nth-child(14)').text().trim();
+                teamData.firstTowerRate = $(element).find('td:nth-child(15)').text().trim();
+                teamData.dragonsKilledPerGame = $(element).find('td:nth-child(16)').text().trim();
+                teamData.dragonRate = $(element).find('td:nth-child(17)').text().trim();
+                teamData.voidgrubsKilledPerGame = $(element).find('td:nth-child(18)').text().trim();
+                teamData.heraldKilledPerGame = $(element).find('td:nth-child(19)').text().trim();
+                teamData.heraldRate = $(element).find('td:nth-child(20)').text().trim();
+                teamData.dragonsAt15 = $(element).find('td:nth-child(21)').text().trim();
+                teamData.towerDifferentialAt15 = $(element).find('td:nth-child(22)').text().trim();
+                teamData.goldDifferentialAt15 = $(element).find('td:nth-child(23)').text().trim();
+                teamData.towerPlatesDestroyedPerGame = $(element).find('td:nth-child(24)').text().trim();
+                teamData.baronNashorKilledPerGame = $(element).find('td:nth-child(25)').text().trim();
+                teamData.baronNashorRate = $(element).find('td:nth-child(26)').text().trim();
+                teamData.creepsPerMinute = $(element).find('td:nth-child(27)').text().trim();
+                teamData.damageToChampionsPerMinute = $(element).find('td:nth-child(28)').text().trim();
+                teamData.wardsPerMinute = $(element).find('td:nth-child(29)').text().trim();
+                teamData.visionWardsPerMinute = $(element).find('td:nth-child(30)').text().trim();
+                teamData.wardsClearedPerMinute = $(element).find('td:nth-child(31)').text().trim();
+
+                const profileLink = $(element).find('td:nth-child(1) a').attr('href');
+                const teamIdMatch = profileLink ? profileLink.match(/\/(\d+)\//) : null;
+                teamData.teamId = teamIdMatch ? teamIdMatch[1] : null;
+                teamData.profileLink = teamData.teamId ? `${profileBaseUrl}/${teamData.teamId}/split-Summer/tournament-ALL/` : null;
+
+                if (teamData.name && teamData.teamId) {
+                    teams.push(teamData);
+                    teamPromises.push(fetchAndCalculateWinRate(teamData));
+                }
+            });
+
+            await Promise.all(teamPromises);
+
+            teamsCache.push(...teams); // Cache os dados
+            res.json(teams);
+        }
+    } catch (error) {
+        console.error('Failed to scrape teams data:', error);
+        res.status(500).send('Error occurred while scraping teams data');
+    }
+});
+
+async function fetchAndCalculateWinRate(teamData) {
+    try {
+        const matchListUrl = `${matchListBaseUrl}/${teamData.teamId}/split-Summer/tournament-ALL/`;
+        const matchListResponse = await fetchWithRetry(matchListUrl);
+        const match$ = cheerio.load(matchListResponse.data);
+
+        let wins = 0;
+        let losses = 0;
+
+        match$('table tbody tr').each((index, element) => {
+            if (index < 16) {
+                const result = match$(element).find('td:nth-child(1)').text().trim();
+                if (result === 'WIN') {
+                    wins++;
+                } else if (result === 'LOSS') {
+                    losses++;
+                }
+            }
+        });
+
+        const totalMatches = wins + losses;
+        console.log(totalMatches)
+        if (totalMatches > 0) {
+            teamData.averageMatchWinRate = ((wins / totalMatches) * 100).toFixed(2);
+        } else {
+            teamData.averageMatchWinRate = 'N/A';
+        }
+    } catch (error) {
+        console.error(`Failed to fetch match list data from ${teamData.profileLink}`, error);
+    }
+}
+
+async function fetchWithRetry(url, options = {}, retries = 3, delay = 1000) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            return await axios.get(url, options);
+        } catch (error) {
+            if (i < retries - 1) {
+                console.error(`Failed to fetch ${url}. Retrying in ${delay}ms...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+                throw error;
+            }
+        }
+    }
+}
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

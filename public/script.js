@@ -1,4 +1,6 @@
-let champions = [];
+let championsCache = {};
+let teamAChampions = [];
+let teamBChampions = [];
 let gamesCache = {};
 let playerCache = {};
 let players = [];
@@ -7,6 +9,13 @@ let selectedChampionsWinrate = {
     teamA: [],
     teamB: []
 };
+
+const leagues = [
+    "LPL", "LCK", "LCK CL", "TCL", "Ultraliga", "NLC", "Prime_League",
+    "LFL - La Ligue Française", "LVP", "PCS", "LEC", "LIT", "CBLOL",
+    "LLA - Liga Latinoamérica", "CBLOL Academy", "VCS", "Elite Series - EMEA Masters",
+    "Hitpoint Masters Summer", "LCS", "NACL", "EMEA Masters"
+];
 
 const gameStages = {
     early_game_champions: [
@@ -42,6 +51,77 @@ const gameStages = {
     ]
 };
 
+// #####################################Funcionalidade de popular selects##############################################################
+
+function populateLeagueSelects() {
+    const leagueSelect = document.getElementById('league-select');
+    const leagueSelectTeamA = document.getElementById('league-select-team-a');
+    const leagueSelectTeamB = document.getElementById('league-select-team-b');
+
+    leagues.forEach(league => {
+        const option = document.createElement('option');
+        option.value = league;
+        option.textContent = league;
+        leagueSelect.appendChild(option.cloneNode(true));
+        leagueSelectTeamA.appendChild(option.cloneNode(true));
+        leagueSelectTeamB.appendChild(option.cloneNode(true));
+    });
+}
+
+function toggleLeagueSelection() {
+    const sameLeagueCheckbox = document.getElementById('same-league-checkbox');
+    const leagueSelectGroup = document.getElementById('league-select-group');
+    const leagueSelectGroupTeamA = document.getElementById('league-select-group-team-a');
+    const leagueSelectGroupTeamB = document.getElementById('league-select-group-team-b');
+
+    if (sameLeagueCheckbox.checked) {
+        leagueSelectGroup.classList.remove('d-none');
+        leagueSelectGroupTeamA.classList.add('d-none');
+        leagueSelectGroupTeamB.classList.add('d-none');
+        loadChampions(document.getElementById('league-select').value, 'both');
+    } else {
+        leagueSelectGroup.classList.add('d-none');
+        leagueSelectGroupTeamA.classList.remove('d-none');
+        leagueSelectGroupTeamB.classList.remove('d-none');
+        loadChampions(document.getElementById('league-select-team-a').value, 'teamA');
+        loadChampions(document.getElementById('league-select-team-b').value, 'teamB');
+    }
+}
+
+function toggleLeagueSelection() {
+    const sameLeagueCheckbox = document.getElementById('same-league-checkbox');
+    const leagueSelectGroup = document.getElementById('league-select-group');
+    const leagueSelectGroupTeamA = document.getElementById('league-select-group-team-a');
+    const leagueSelectGroupTeamB = document.getElementById('league-select-group-team-b');
+
+    if (sameLeagueCheckbox.checked) {
+        leagueSelectGroup.classList.remove('d-none');
+        leagueSelectGroupTeamA.classList.add('d-none');
+        leagueSelectGroupTeamB.classList.add('d-none');
+    } else {
+        leagueSelectGroup.classList.add('d-none');
+        leagueSelectGroupTeamA.classList.remove('d-none');
+        leagueSelectGroupTeamB.classList.remove('d-none');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    populateLeagueSelects();
+    document.getElementById('league-select').addEventListener('change', function () {
+        loadChampions(this.value);
+    });
+    document.getElementById('league-select-team-a').addEventListener('change', function () {
+        loadChampions(this.value);
+    });
+    document.getElementById('league-select-team-b').addEventListener('change', function () {
+        loadChampions(this.value);
+    });
+});
+
+// ########################################################################################################
+
+
+
 function getGameStageComposition(teamChampions) {
     const stageCounts = { early: 0, mid: 0, late: 0 };
 
@@ -74,27 +154,60 @@ function hideSpinner() {
     spinnerContainer.style.display = 'none';
 }
 
-async function loadChampions(league) {
-    showSpinner();
-    try {
-        const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
-        console.log(response)
-        if (!response.ok) {
-            await scrapeData();
-        }else{
-            champions = await response.json();
-            console.log(`Loaded ${champions.length} champions for league ${league}`);
-            updateChampionSelects();
+async function loadChampions(league, team) {
+    console.log(league, team);
+    if (team === 'both') {
+        if (championsCache[league]) {
+            champions = championsCache[league];
+            updateChampionSelects('both');
+        } else {
+            const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
+            if (response.ok) {
+                championsCache[league] = await response.json();
+                champions = championsCache[league];
+                updateChampionSelects('both');
+            }
         }
-    } catch (error) {
-        console.error('Failed to load champions:', error);
-    } finally {
-        hideSpinner();
+    } else {
+        if (team === 'teamA') {
+            if (championsCache[league]) {
+                teamAChampions = championsCache[league];
+                updateChampionSelects('teamA');
+            } else {
+                const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
+                if (response.ok) {
+                    championsCache[league] = await response.json();
+                    teamAChampions = championsCache[league];
+                    updateChampionSelects('teamA');
+                }
+            }
+        } else if (team === 'teamB') {
+            if (championsCache[league]) {
+                teamBChampions = championsCache[league];
+                updateChampionSelects('teamB');
+            } else {
+                const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
+                if (response.ok) {
+                    championsCache[league] = await response.json();
+                    teamBChampions = championsCache[league];
+                    updateChampionSelects('teamB');
+                }
+            }
+        }
     }
 }
 
-function updateChampionSelects() {
-    champions.sort((a, b) => a.name.localeCompare(b.name));
+function updateChampionSelects(team) {
+    let championsList = [];
+    if (team === 'both') {
+        championsList = champions;
+    } else if (team === 'teamA') {
+        championsList = teamAChampions;
+    } else if (team === 'teamB') {
+        championsList = teamBChampions;
+    }
+
+    championsList.sort((a, b) => a.name.localeCompare(b.name));
 
     const championSelectsTeamA = [
         document.getElementById('team-a-champ-1'),
@@ -112,25 +225,29 @@ function updateChampionSelects() {
         document.getElementById('team-b-champ-5')
     ];
 
-    championSelectsTeamA.forEach(select => {
-        select.innerHTML = '<option value="">Select Champion</option>';
-        champions.forEach(champ => {
-            const option = document.createElement('option');
-            option.value = champ.name;
-            option.textContent = champ.name;
-            select.appendChild(option);
+    if (team === 'both' || team === 'teamA') {
+        championSelectsTeamA.forEach(select => {
+            select.innerHTML = '<option value="">Select Champion</option>';
+            championsList.forEach(champ => {
+                const option = document.createElement('option');
+                option.value = champ.name;
+                option.textContent = champ.name;
+                select.appendChild(option);
+            });
         });
-    });
+    }
 
-    championSelectsTeamB.forEach(select => {
-        select.innerHTML = '<option value="">Select Champion</option>';
-        champions.forEach(champ => {
-            const option = document.createElement('option');
-            option.value = champ.name;
-            option.textContent = champ.name;
-            select.appendChild(option);
+    if (team === 'both' || team === 'teamB') {
+        championSelectsTeamB.forEach(select => {
+            select.innerHTML = '<option value="">Select Champion</option>';
+            championsList.forEach(champ => {
+                const option = document.createElement('option');
+                option.value = champ.name;
+                option.textContent = champ.name;
+                select.appendChild(option);
+            });
         });
-    });
+    }
 }
 
 function getFormattedChampionName(champion) {
@@ -460,23 +577,27 @@ function displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBNam
 }
 
 
-async function scrapeData() {
+function scrapeData() {
     const league = document.getElementById('league-select').value;
     showSpinner();
-    try {
-        const response = await fetch(`/scrape?league=${encodeURIComponent(league)}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const champions = await response.json();
-        console.log(`Scraped ${champions.length} champions for league ${league}`);
-        alert('Data scraped and loaded!');
-        loadChampions(league); // Load champions from the newly scraped data
-    } catch (error) {
-        console.error('Failed to scrape data:', error);
-    } finally {
-        hideSpinner();
-    }
+    fetch(`/scrape?league=${encodeURIComponent(league)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            championsCache[league] = data;
+            loadChampions(league, 'both'); // Load champions from the newly scraped data
+            alert('Data scraped and loaded!');
+        })
+        .catch(error => {
+            console.error('Failed to scrape data:', error);
+        })
+        .finally(() => {
+            hideSpinner();
+        });
 }
 
 async function loadGamesOfDay() {
@@ -655,6 +776,8 @@ function printCache() {
     console.log('Player Cache:', playerCache);
     console.log('Player :', players);
     console.log('PlayerWinrate :', playersWinrate);
+    console.log('PlayerWinrate :', playersWinrate);
+    console.log('PlayerWinrate :', playersWinrate);
 }
 
 async function loadGameDetails(gameId) {
@@ -773,14 +896,124 @@ async function captureAndSendToWebhook() {
 }
 
 
+// ##############################################################################
+async function scrapeTeams() {
+    showSpinner();
+    try {
+        const response = await fetch('/scrapeTeams');
+        if (response.ok) {
+            const teams = await response.json();
+            displayTeams(teams);
+        } else {
+            console.error('Failed to scrape teams');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        hideSpinner();
+    }
+}
+
+function displayTeams(teams) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+
+    const table = document.createElement('table');
+    table.className = 'results-table';
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+        <tr>
+            <th>Team Name</th>
+            <th>Season</th>
+            <th>Region</th>
+            <th>Games</th>
+            <th>Win Rate</th>
+            <th>K/D</th>
+            <th>GPM</th>
+            <th>GDM</th>
+            <th>Game Duration</th>
+            <th>Kills / Game</th>
+            <th>Deaths / Game</th>
+            <th>Towers Killed</th>
+            <th>Towers Lost</th>
+            <th>First Blood Rate</th>
+            <th>First Tower Rate</th>
+            <th>Dragons Killed / Game</th>
+            <th>Dragon Rate</th>
+            <th>Voidgrubs Killed / Game</th>
+            <th>Herald Killed / Game</th>
+            <th>Herald Rate</th>
+            <th>Dragons at 15</th>
+            <th>Tower Differential at 15</th>
+            <th>Gold Differential at 15</th>
+            <th>Tower Plates Destroyed / Game</th>
+            <th>Baron Nashor Killed / Game</th>
+            <th>Baron Nashor Rate</th>
+            <th>Creeps / Minute</th>
+            <th>Damage to Champions / Minute</th>
+            <th>Wards / Minute</th>
+            <th>Vision Wards / Minute</th>
+            <th>Wards Cleared / Minute</th>
+            <th>Average Match Win Rate</th>
+        </tr>
+    `;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    teams.forEach(team => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${team.name}</td>
+            <td>${team.season}</td>
+            <td>${team.region}</td>
+            <td>${team.games}</td>
+            <td>${team.winRate}</td>
+            <td>${team.kd}</td>
+            <td>${team.gpm}</td>
+            <td>${team.gdm}</td>
+            <td>${team.gameDuration}</td>
+            <td>${team.killsPerGame}</td>
+            <td>${team.deathsPerGame}</td>
+            <td>${team.towersKilled}</td>
+            <td>${team.towersLost}</td>
+            <td>${team.firstBloodRate}</td>
+            <td>${team.firstTowerRate}</td>
+            <td>${team.dragonsKilledPerGame}</td>
+            <td>${team.dragonRate}</td>
+            <td>${team.voidgrubsKilledPerGame}</td>
+            <td>${team.heraldKilledPerGame}</td>
+            <td>${team.heraldRate}</td>
+            <td>${team.dragonsAt15}</td>
+            <td>${team.towerDifferentialAt15}</td>
+            <td>${team.goldDifferentialAt15}</td>
+            <td>${team.towerPlatesDestroyedPerGame}</td>
+            <td>${team.baronNashorKilledPerGame}</td>
+            <td>${team.baronNashorRate}</td>
+            <td>${team.creepsPerMinute}</td>
+            <td>${team.damageToChampionsPerMinute}</td>
+            <td>${team.wardsPerMinute}</td>
+            <td>${team.visionWardsPerMinute}</td>
+            <td>${team.wardsClearedPerMinute}</td>
+            <td>${team.averageMatchWinRate}</td>
+        `;
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+
+    resultsDiv.appendChild(table);
+}
+
+
+
 // Adicione a chamada dessa função em window.onload para garantir que os campos estejam no estado correto quando a página carregar
 window.onload = async () => {
     const leagueSelect = document.getElementById('league-select');
     leagueSelect.onchange = async () => {
         const league = leagueSelect.value;
-        await loadChampions(league);
+        //await loadChampions(league);
     };
-    await loadChampions(leagueSelect.value);
+    //await loadChampions(leagueSelect.value);
     await loadPlayers();
 
     // Inicializar os campos desativados se os checkboxes estiverem marcados

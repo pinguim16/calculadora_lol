@@ -10,47 +10,42 @@
 <body>
     <div class="container mt-4">
         <h1 class="text-center">League of Legends Winrate Checker</h1>
-        <div id="spinner-container" class="spinner-border text-primary" role="status" style="display:none;">
-            <span class="sr-only">Loading...</span>
-        </div>
+        
         <div class="form-group">
+            <label for="same-league-checkbox">Same League for both teams:</label>
+            <input type="checkbox" id="same-league-checkbox" checked onclick="toggleLeagueSelection()">
+        </div>
+
+        <div class="form-group" id="league-select-group">
             <label for="league-select">Select League:</label>
             <div class="input-group">
-                <select class="form-control" id="league-select">
-                    <option value="LPL">LPL</option>
-                    <option value="LCK">LCK</option>
-                    <option value="LCK CL">LCK CL</option>
-                    <option value="TCL">TCL</option>
-                    <option value="Ultraliga">Ultraliga</option>
-                    <option value="NLC">NLC</option>
-                    <option value="Prime_League">Prime League</option>
-                    <option value="LFL">LFL - La Ligue Française</option>
-                    <option value="LVP">LVP</option>
-                    <option value="PCS">PCS</option>
-                    <option value="LEC">LEC</option>
-                    <option value="LIT">LIT</option>
-                    <option value="CBLOL">CBLOL</option>
-                    <option value="LLA">LLA - Liga Latinoamérica</option>
-                    <option value="CBLOL_Academy">CBLOL Academy</option>
-                    <option value="VCS">VCS</option>
-                    <option value="Elite_Series">Elite Series - EMEA Masters</option>
-                    <option value="Hit">Hitpoint Masters Summer</option>
-                    <option value="LCS">LCS</option>
-                    <option value="NACL">NACL</option>
-                    <option value="EMEA">EMEA Masters </option>
-                </select>
+                <select class="form-control" id="league-select"></select>
                 <div class="input-group-append">
                     <button class="btn btn-primary" onclick="scrapeData()">Scrape Data</button>
                 </div>
             </div>
         </div>
 
+        <div class="form-group d-none" id="league-select-group-team-a">
+            <label for="league-select-team-a">Select League for Team A:</label>
+            <div class="input-group">
+                <select class="form-control" id="league-select-team-a"></select>
+            </div>
+        </div>
+
+        <div class="form-group d-none" id="league-select-group-team-b">
+            <label for="league-select-team-b">Select League for Team B:</label>
+            <div class="input-group">
+                <select class="form-control" id="league-select-team-b"></select>
+            </div>
+        </div>
+
         <div class="team-section">
             <h2 class="text-center">Team A</h2>
-            <div class="form-row">
-                <div class="form-group col-md-3">
+            <div class="form-row align-items-end">
+                <div class="form-group col-md-2">
                     <label for="team-a-name">Team A Name:</label>
-                    <input type="text" class="form-control" id="team-a-name" name="team-a-name">
+                    <input type="text" class="form-control smaller-input" id="team-a-name" name="team-a-name">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="team-a-winrate">Winrate:</label>
@@ -64,7 +59,7 @@
                     <label for="team-a-derretidos" data-toggle="tooltip" title="Usar em MD5">Derretidos</label>
                     <input type="checkbox" id="team-a-derretidos" name="team-a-derretidos">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="team-a-disable-fields" data-toggle="tooltip" title="Desativar campos">Desativar Campos</label>
                     <input type="checkbox" id="team-a-disable-fields" name="team-a-disable-fields" onchange="toggleTeamFields('team-a')">
                 </div>
@@ -95,10 +90,10 @@
 
         <div class="team-section">
             <h2 class="text-center">Team B</h2>
-            <div class="form-row">
-                <div class="form-group col-md-3">
+            <div class="form-row align-items-end">
+                <div class="form-group col-md-2">
                     <label for="team-b-name">Team B Name:</label>
-                    <input type="text" class="form-control" id="team-b-name" name="team-b-name">
+                    <input type="text" class="form-control smaller-input" id="team-b-name" name="team-b-name">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="team-b-winrate">Winrate:</label>
@@ -112,7 +107,7 @@
                     <label for="team-b-derretidos" data-toggle="tooltip" title="Usar em MD5">Derretidos</label>
                     <input type="checkbox" id="team-b-derretidos" name="team-b-derretidos">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="team-b-disable-fields" data-toggle="tooltip" title="Desativar campos">Desativar Campos</label>
                     <input type="checkbox" id="team-b-disable-fields" name="team-b-disable-fields" onchange="toggleTeamFields('team-b')">
                 </div>
@@ -140,13 +135,17 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="text-center mt-4">
+            <div id="spinner-container" class="spinner-border text-primary" role="status" style="display:none;">
+                <span class="sr-only">Loading...</span>
+            </div>
             <button class="btn btn-success d-inline-block" onclick="checkWinrates()">Check Winrates</button>
             <button class="btn btn-info d-inline-block" onclick="loadGamesOfDay()">Load Games of the Day</button>
             <button class="btn btn-warning d-inline-block" onclick="swapTeams()">Swap Teams</button>
             <button class="btn btn-secondary d-inline-block" onclick="printCache()">Print Cache</button>
             <button class="btn btn-primary" onclick="captureAndSendToWebhook()">Capture and Send Screenshot</button>
+            <button class="btn btn-primary" onclick="scrapeTeams()">Scrape Teams</button>
         </div>
 
         <div id="results" class="mt-4 text-center">
