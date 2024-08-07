@@ -83,12 +83,15 @@ const leagueUrls = {
     "NACL": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-NACL%20Summer%202024/"
     ],
-    "EMEA": [
-        "https://gol.gg/tournament/tournament-picksandbans/EMEA%20Masters%20Summer%20LCQ%202024/",
+    "EMEA_Masters": [
+        "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-EMEA%20Masters%20Summer%20LCQ%202024/",
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-EMEA%20Masters%20Summer%202024/"
     ],
 };
 
+const gamesCache = { data: [], timestamp: 0 };
+const playerCache = { data: [], timestamp: 0 };
+const teamsCache = { data: [], timestamp: 0 };
 
 
 const TEMP_DIR = path.join(__dirname, 'temp');
@@ -96,6 +99,24 @@ const TEMP_DIR = path.join(__dirname, 'temp');
 if (!fs.existsSync(TEMP_DIR)) {
     fs.mkdirSync(TEMP_DIR);
 }
+
+//Cache validação
+const CACHE_VALIDITY_DURATION = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+
+function isCacheValid(timestamp) {
+    const now = Date.now();
+    return (now - timestamp) < CACHE_VALIDITY_DURATION;
+}
+
+function isFileValid(filePath) {
+    if (fs.existsSync(filePath)) {
+        const stats = fs.statSync(filePath);
+        const fileAge = Date.now() - new Date(stats.mtime).getTime();
+        return fileAge < CACHE_VALIDITY_DURATION;
+    }
+    return false;
+}
+
 
 async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
     for (let i = 0; i < retries; i++) {
@@ -119,9 +140,6 @@ async function fetchAndSave(url, options, filename) {
     //fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
     return data;
 }
-
-const gamesCache = {};
-const playerCache = {};
 
 async function parseGames(data) {
     const games = [];
@@ -307,11 +325,10 @@ app.get('/scrape', async (req, res) => {
             console.log(urls)
             const response = await fetchWithRetry(url);
             const champions = await parseChampions(response.data);
+            console.log(champions)
             allChampions = combineChampions(allChampions, champions);
         }
-
         console.log(`Scraped and combined champions for league ${league}`);
-        
         saveChampionsToFile(league, allChampions);
         res.json(allChampions);
     } catch (error) {
@@ -368,7 +385,7 @@ async function parseChampions(html) {
             const fullImgUrl = new URL(imgUrl, 'https://gol.gg').href; // Use the URL constructor to resolve the full URL
             const imgName = name.replace(/\s+/g, '_'); // Replace spaces with underscores for the file name
             const imgPath = path.join(imgDir, `${imgName}.png`);
-            console.log(`Attempting to download image from: ${fullImgUrl} as ${imgPath}`); // Log the image URL
+            //console.log(`Attempting to download image from: ${fullImgUrl} as ${imgPath}`); // Log the image URL
             if (!fs.existsSync(imgPath)) {
                 const downloadPromise = downloadImage(fullImgUrl, imgPath)
                     .then(() => console.log(`Downloaded image for ${name}`))
@@ -423,22 +440,27 @@ app.get('/champions', (req, res) => {
     const league = req.query.league;
     const filePath = path.join(__dirname, 'public', 'data', `${league.replace(/\s+/g, '_')}.json`);
     if (fs.existsSync(filePath)) {
-        const champions = fs.readFileSync(filePath);
-        res.json(JSON.parse(champions));
-    } else {
-        res.status(404).send('File not found');
+        const stats = fs.statSync(filePath);
+        const fileAge = Date.now() - new Date(stats.mtime).getTime();
+        if (fileAge < CACHE_VALIDITY_DURATION) {
+            const champions = fs.readFileSync(filePath);
+            return res.json(JSON.parse(champions));
+        }
     }
+    res.status(404).send('File not found or data expired');
 });
 
 app.get('/games', async (req, res) => {
+    // if (isCacheValid(gamesCache.timestamp)) {
+    //     return res.json(gamesCache.data);
+    // }
+
     const url = 'https://esports-api.lolesports.com/persisted/gw/getSchedule?hl=pt-BR';
     try {
-        const response = await axios.get(url, {
-            headers: {
-                'x-api-key': API_KEY
-            }
-        });
+        const response = await axios.get(url, { headers: { 'x-api-key': API_KEY } });
         const games = await parseGames(response.data);
+        gamesCache.data = games;
+        gamesCache.timestamp = Date.now();
         res.json(games);
     } catch (error) {
         console.error(error);
@@ -486,12 +508,13 @@ async function fetchEventDetails(eventId) {
 }
 
 // Cache temporário para armazenar os dados dos times
-const teamsCache = [];
-const baseUrl = 'https://gol.gg';
 const profileBaseUrl = 'https://gol.gg/teams/team-stats';
 const matchListBaseUrl = 'https://gol.gg/teams/team-matchlist';
 
 app.get('/scrapeTeams', async (req, res) => {
+    if (isCacheValid(teamsCache.timestamp)) {
+        return res.json(teamsCache.data);
+    }
     const url = 'https://gol.gg/teams/list/season-S14/split-Summer/tournament-ALL/';
     try {
         if (teamsCache.length > 0) {
@@ -550,7 +573,8 @@ app.get('/scrapeTeams', async (req, res) => {
 
             await Promise.all(teamPromises);
 
-            teamsCache.push(...teams); // Cache os dados
+            teamsCache.data = teams;
+            teamsCache.timestamp = Date.now();
             res.json(teams);
         }
     } catch (error) {
@@ -580,7 +604,6 @@ async function fetchAndCalculateWinRate(teamData) {
         });
 
         const totalMatches = wins + losses;
-        console.log(totalMatches)
         if (totalMatches > 0) {
             teamData.averageMatchWinRate = ((wins / totalMatches) * 100).toFixed(2);
         } else {

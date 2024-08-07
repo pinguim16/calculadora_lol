@@ -1,125 +1,3 @@
-let championsCache = {};
-let teamAChampions = [];
-let teamBChampions = [];
-let gamesCache = {};
-let playerCache = {};
-let players = [];
-let playersWinrate = [];
-let selectedChampionsWinrate = {
-    teamA: [],
-    teamB: []
-};
-
-const leagues = [
-    "LPL", "LCK", "LCK CL", "TCL", "Ultraliga", "NLC", "Prime_League",
-    "LFL - La Ligue Française", "LVP", "PCS", "LEC", "LIT", "CBLOL",
-    "LLA - Liga Latinoamérica", "CBLOL Academy", "VCS", "Elite Series - EMEA Masters",
-    "Hitpoint Masters Summer", "LCS", "NACL", "EMEA Masters"
-];
-
-const gameStages = {
-    early_game_champions: [
-        "Lee Sin", "Elise", "Pantheon", "Renekton", "Nidalee", "Draven", "Lucian", "Graves", "Darius", "Rek'Sai", "Xin Zhao",
-        "Olaf", "Blitzcrank", "Thresh", "Jarvan IV", "Syndra", "Talon", "Leona", "Zed"
-    ],
-    mid_game_champions: [
-        "Akali", "Ekko", "Kai'Sa", "Yasuo", "Katarina", "Sylas", "Fizz", "Qiyana", "Viktor", "Irelia", "Renekton", "Diana",
-        "Zoe", "Corki", "Lucian", "Twisted Fate", "Kled", "Tristana", "Rumble", "Jhin", "Orianna", "Ahri", "Galio", "Rengar",
-        "Xin Zhao", "LeBlanc", "Nocturne", "Volibear", "Syndra", "Kassadin", "Aatrox", "Cassiopeia", "Talon", "Yone",
-        "Seraphine", "Hecarim", "Zed", "Thresh", "Nautilus", "Rakan", "Pyke", "Alistar", "Blitzcrank", "Nidalee", "Elise",
-        "Rek'Sai", "Gragas", "Jarvan IV", "Kha'Zix", "Pantheon", "Graves", "Sett", "Taliyah", "Twitch", "Kalista", "Senna",
-        "Aphelios", "Ezreal", "Miss Fortune", "Jinx", "Vayne", "Draven", "Samira", "Sivir", "Ziggs", "Veigar", "Vladimir",
-        "Heimerdinger", "Swain", "Fiora", "Riven", "Kayle", "Camille", "Gwen", "Nasus", "Kennen", "Jayce", "Ryze", "Viktor",
-        "Tryndamere", "Master Yi", "Shaco", "Warwick", "Udyr", "Ivern", "Kindred", "Lillia", "Darius", "Garen", "Mordekaiser",
-        "Sion", "Singed", "Urgot", "Ornn", "Tahm Kench", "Cho'Gath", "Poppy", "Sejuani", "Nunu & Willump", "Rammus", "Amumu",
-        "Zac", "Malphite", "Maokai", "Dr. Mundo", "Skarner", "Shyvana", "Volibear", "KSante"
-    ],
-    late_game_champions: [
-        "Vayne", "Kassadin", "Jax", "Kayle", "Azir", "Twitch", "Kog'Maw", "Ryze", "Veigar", "Sivir", "Tristana", "Master Yi",
-        "Gangplank", "Senna", "Yasuo", "Nasus", "Ornn", "Aatrox", "Cassiopeia", "Malzahar", "Viktor", "Vladimir", "Jinx",
-        "Ezreal", "Aphelios", "Samira", "Kalista", "Draven", "Jhin", "Miss Fortune", "Ashe", "Ziggs", "Xayah", "Seraphine",
-        "Syndra", "Swain", "Heimerdinger", "Zoe", "Lux", "Anivia", "Orianna", "Ahri", "Ekko", "Katarina", "Sylas", "Diana",
-        "Qiyana", "Galio", "Vel'Koz", "Zilean", "LeBlanc", "Lissandra", "Twisted Fate", "Taliyah", "Neeko", "Morgana", "Brand",
-        "Xerath", "Fiddlesticks", "Teemo", "Annie", "Rumble", "Zyra", "Karthus", "Aurelion Sol", "Lulu", "Nami", "Janna", "Karma",
-        "Braum", "Yuumi", "Taric", "Thresh", "Rakan", "Leona", "Nautilus", "Blitzcrank", "Alistar", "Pyke", "Tahm Kench", "Bard",
-        "Rell", "Maokai", "Shen", "Ivern", "Soraka", "Zac", "Rammus", "Skarner", "Amumu", "Nunu & Willump", "Sejuani", "Volibear",
-        "Poppy", "Singed", "Cho'Gath", "Malphite", "Dr. Mundo", "Sion", "Mordekaiser", "Yorick", "Trundle", "Warwick", "Olaf", "Udyr",
-        "Shyvana", "Rengar", "Lee Sin", "Nocturne", "Xin Zhao", "Jarvan IV", "Rek'Sai", "Graves", "Kindred", "Elise", "Kha'Zix",
-        "Nidalee", "Twitch", "Lucian", "Sivir", "Kai'Sa", "Varus", "Caitlyn", "Kennen", "Graves", "Gnar", "Quinn", "Fiora", "Kled",
-        "Pantheon", "Garen", "Shen", "Vladimir", "Wukong", "Akali", "Camille", "Gwen", "Irelia", "Jarvan IV", "Kayle", "Lillia",
-        "Malphite", "Mordekaiser", "Sett", "Tahm Kench", "Urgot", "Wukong", "Yone", "Yuumi", "Zeri","KSante", 
-    ]
-};
-
-// #####################################Funcionalidade de popular selects##############################################################
-
-function populateLeagueSelects() {
-    const leagueSelect = document.getElementById('league-select');
-    const leagueSelectTeamA = document.getElementById('league-select-team-a');
-    const leagueSelectTeamB = document.getElementById('league-select-team-b');
-
-    leagues.forEach(league => {
-        const option = document.createElement('option');
-        option.value = league;
-        option.textContent = league;
-        leagueSelect.appendChild(option.cloneNode(true));
-        leagueSelectTeamA.appendChild(option.cloneNode(true));
-        leagueSelectTeamB.appendChild(option.cloneNode(true));
-    });
-}
-
-function toggleLeagueSelection() {
-    const sameLeagueCheckbox = document.getElementById('same-league-checkbox');
-    const leagueSelectGroup = document.getElementById('league-select-group');
-    const leagueSelectGroupTeamA = document.getElementById('league-select-group-team-a');
-    const leagueSelectGroupTeamB = document.getElementById('league-select-group-team-b');
-
-    if (sameLeagueCheckbox.checked) {
-        leagueSelectGroup.classList.remove('d-none');
-        leagueSelectGroupTeamA.classList.add('d-none');
-        leagueSelectGroupTeamB.classList.add('d-none');
-        loadChampions(document.getElementById('league-select').value, 'both');
-    } else {
-        leagueSelectGroup.classList.add('d-none');
-        leagueSelectGroupTeamA.classList.remove('d-none');
-        leagueSelectGroupTeamB.classList.remove('d-none');
-        loadChampions(document.getElementById('league-select-team-a').value, 'teamA');
-        loadChampions(document.getElementById('league-select-team-b').value, 'teamB');
-    }
-}
-
-function toggleLeagueSelection() {
-    const sameLeagueCheckbox = document.getElementById('same-league-checkbox');
-    const leagueSelectGroup = document.getElementById('league-select-group');
-    const leagueSelectGroupTeamA = document.getElementById('league-select-group-team-a');
-    const leagueSelectGroupTeamB = document.getElementById('league-select-group-team-b');
-
-    if (sameLeagueCheckbox.checked) {
-        leagueSelectGroup.classList.remove('d-none');
-        leagueSelectGroupTeamA.classList.add('d-none');
-        leagueSelectGroupTeamB.classList.add('d-none');
-    } else {
-        leagueSelectGroup.classList.add('d-none');
-        leagueSelectGroupTeamA.classList.remove('d-none');
-        leagueSelectGroupTeamB.classList.remove('d-none');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    populateLeagueSelects();
-    document.getElementById('league-select').addEventListener('change', function () {
-        loadChampions(this.value);
-    });
-    document.getElementById('league-select-team-a').addEventListener('change', function () {
-        loadChampions(this.value);
-    });
-    document.getElementById('league-select-team-b').addEventListener('change', function () {
-        loadChampions(this.value);
-    });
-});
-
-// ########################################################################################################
-
 
 
 function getGameStageComposition(teamChampions) {
@@ -141,146 +19,6 @@ function getGameStageComposition(teamChampions) {
     return {
         predominantStage: maxStage,
         compositionPercentage: ((stageCounts[maxStage] / totalChampions) * 100).toFixed(2) + '%'
-    };
-}
-
-function showSpinner() {
-    const spinnerContainer = document.getElementById('spinner-container');
-    spinnerContainer.style.display = 'block';
-}
-
-function hideSpinner() {
-    const spinnerContainer = document.getElementById('spinner-container');
-    spinnerContainer.style.display = 'none';
-}
-
-async function loadChampions(league, team) {
-    console.log(league, team);
-    if (team === 'both') {
-        if (championsCache[league]) {
-            champions = championsCache[league];
-            updateChampionSelects('both');
-        } else {
-            const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
-            if (response.ok) {
-                championsCache[league] = await response.json();
-                champions = championsCache[league];
-                updateChampionSelects('both');
-            }
-        }
-    } else {
-        if (team === 'teamA') {
-            if (championsCache[league]) {
-                teamAChampions = championsCache[league];
-                updateChampionSelects('teamA');
-            } else {
-                const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
-                if (response.ok) {
-                    championsCache[league] = await response.json();
-                    teamAChampions = championsCache[league];
-                    updateChampionSelects('teamA');
-                }
-            }
-        } else if (team === 'teamB') {
-            if (championsCache[league]) {
-                teamBChampions = championsCache[league];
-                updateChampionSelects('teamB');
-            } else {
-                const response = await fetch(`/champions?league=${encodeURIComponent(league)}`);
-                if (response.ok) {
-                    championsCache[league] = await response.json();
-                    teamBChampions = championsCache[league];
-                    updateChampionSelects('teamB');
-                }
-            }
-        }
-    }
-}
-
-function updateChampionSelects(team) {
-    let championsList = [];
-    if (team === 'both') {
-        championsList = champions;
-    } else if (team === 'teamA') {
-        championsList = teamAChampions;
-    } else if (team === 'teamB') {
-        championsList = teamBChampions;
-    }
-
-    championsList.sort((a, b) => a.name.localeCompare(b.name));
-
-    const championSelectsTeamA = [
-        document.getElementById('team-a-champ-1'),
-        document.getElementById('team-a-champ-2'),
-        document.getElementById('team-a-champ-3'),
-        document.getElementById('team-a-champ-4'),
-        document.getElementById('team-a-champ-5')
-    ];
-
-    const championSelectsTeamB = [
-        document.getElementById('team-b-champ-1'),
-        document.getElementById('team-b-champ-2'),
-        document.getElementById('team-b-champ-3'),
-        document.getElementById('team-b-champ-4'),
-        document.getElementById('team-b-champ-5')
-    ];
-
-    if (team === 'both' || team === 'teamA') {
-        championSelectsTeamA.forEach(select => {
-            select.innerHTML = '<option value="">Select Champion</option>';
-            championsList.forEach(champ => {
-                const option = document.createElement('option');
-                option.value = champ.name;
-                option.textContent = champ.name;
-                select.appendChild(option);
-            });
-        });
-    }
-
-    if (team === 'both' || team === 'teamB') {
-        championSelectsTeamB.forEach(select => {
-            select.innerHTML = '<option value="">Select Champion</option>';
-            championsList.forEach(champ => {
-                const option = document.createElement('option');
-                option.value = champ.name;
-                option.textContent = champ.name;
-                select.appendChild(option);
-            });
-        });
-    }
-}
-
-function getFormattedChampionName(champion) {
-    const nameMappings = {
-        'Leblanc': 'LeBlanc',
-        'Renata': 'Renata Glasc',
-        'MissFortune': 'Miss Fortune',
-        'TwistedFate': 'Twisted Fate',
-        'DrMundo': 'Dr. Mundo',
-        'LeeSin': 'Lee Sin',
-        'MonkeyKing': 'Wukong',
-        'JarvanIV': 'Jarvan IV',
-        'XinZhao': 'Xin Zhao',
-        'TahmKench': 'Tahm Kench',    
-
-        // Add more mappings as needed
-    };
-    const imageMappings = {
-        'LeBlanc': 'LeBlanc',
-        'Renata Glasc': 'Renata_Glasc',
-        'Miss Fortune': 'Miss_Fortune',
-        'Twisted Fate': 'Twisted_Fate',
-        'Dr. Mundo': 'Dr._Mundo',
-        'Lee Sin': 'Lee_Sin',
-        'Jarvan IV': 'Jarvan_IV',
-        'Xin Zhao': 'Xin_Zhao',
-        'Tahm Kench': 'Tahm_Kench',
-        'Wukong': 'Wukong',
-        // Add more mappings as needed
-    };
-    return {
-        displayName: nameMappings[champion] || champion,
-        imageName: imageMappings[nameMappings[champion] || champion] || champion,
     };
 }
 
@@ -328,6 +66,7 @@ function copyChampionsToSelect(gameId, gameIndex) {
     });
 
     console.log('Selected Champions Winrate:', selectedChampionsWinrate);
+    copyTeamNames(gameId);
 }
 
 function copyChampionsToSelectInverse(gameId, gameIndex) {
@@ -357,6 +96,7 @@ function copyChampionsToSelectInverse(gameId, gameIndex) {
     });
 
     console.log('Selected Champions Winrate:', selectedChampionsWinrate);
+    copyTeamNames(gameId);
 }
 
 function copyTeamNames(gameId) {
@@ -370,6 +110,28 @@ function copyTeamNames(gameId) {
 
     document.getElementById('team-a-name').value = teamAName;
     document.getElementById('team-b-name').value = teamBName;
+
+    let teamDataA = findTeamInArray(teamAName, teamCache);
+    let teamDataB = findTeamInArray(teamBName, teamCache);
+
+    console.log(teamDataA);
+    console.log(teamDataB);
+
+    document.getElementById('team-a-winrate').value = teamDataA.winRate.replace("%","");;
+    document.getElementById('team-a-recent-winrate').value = teamDataA.averageMatchWinRate.replace("%","");
+
+    document.getElementById('team-b-winrate').value = teamDataB.winRate.replace("%","");;
+    document.getElementById('team-b-recent-winrate').value = teamDataB.averageMatchWinRate.replace("%","");;
+}
+
+// Função para obter o nome oficial do time
+function getOfficialTeamName(teamName) {
+    return teamNameMapping[teamName] || teamName;
+}
+
+function findTeamInArray(teamName, teamArray) {
+    const officialTeamName = getOfficialTeamName(teamName);
+    return teamArray.find(team => team.name === teamName || team.name === officialTeamName);
 }
 
 function checkWinrates() {
@@ -395,8 +157,8 @@ function checkWinrates() {
         document.getElementById('team-b-champ-5').value
     ].filter(champ => champ !== '');
 
-    const teamAData = getTeamData(selectedChampsTeamA, 'teamA', teamAName);
-    const teamBData = getTeamData(selectedChampsTeamB, 'teamB', teamBName);
+    const teamAData = getTeamData(selectedChampsTeamA, 'teamA', teamAName, championsTeamA);
+    const teamBData = getTeamData(selectedChampsTeamB, 'teamB', teamBName, championsTeamB);
 
     displayResultsTable(resultsDiv, teamAData, teamBData);
 
@@ -428,7 +190,7 @@ function displayTeamComposition(resultsDiv, teamName, composition, teamPrefix) {
     section.appendChild(compositionResult);
 }
 
-function getTeamData(selectedChamps, teamType, teamName) {
+function getTeamData(selectedChamps, teamType, teamName, champions) {
     let totalWinrate = 0;
     let countValidWinrates = 0;
     const teamData = [];
@@ -577,28 +339,7 @@ function displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBNam
 }
 
 
-function scrapeData() {
-    const league = document.getElementById('league-select').value;
-    showSpinner();
-    fetch(`/scrape?league=${encodeURIComponent(league)}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            championsCache[league] = data;
-            loadChampions(league, 'both'); // Load champions from the newly scraped data
-            alert('Data scraped and loaded!');
-        })
-        .catch(error => {
-            console.error('Failed to scrape data:', error);
-        })
-        .finally(() => {
-            hideSpinner();
-        });
-}
+
 
 async function loadGamesOfDay() {
     showSpinner();
@@ -769,15 +510,14 @@ function displayGames(games) {
     });
 }
 
-
-
 function printCache() {
     console.log('Games Cache:', gamesCache);
     console.log('Player Cache:', playerCache);
     console.log('Player :', players);
     console.log('PlayerWinrate :', playersWinrate);
-    console.log('PlayerWinrate :', playersWinrate);
-    console.log('PlayerWinrate :', playersWinrate);
+    console.log('Team A :', championsTeamA);
+    console.log('Team B :', championsTeamB);
+    console.log('Team Cache :', teamCache);
 }
 
 async function loadGameDetails(gameId) {
@@ -794,10 +534,7 @@ async function loadGameDetails(gameId) {
     }
 }
 
-function toggleDetails(gameId) {
-    const detailsDiv = document.getElementById(`details-${gameId}`);
-    detailsDiv.classList.toggle('active');
-}
+
 
 // Função para carregar os jogadores e armazená-los em cache
 async function loadPlayers() {
@@ -814,18 +551,7 @@ async function loadPlayers() {
     }
 }
 
-function toggleTeamFields(team) {
-    const disableFieldsCheckbox = document.getElementById(`${team}-disable-fields`);
-    const isDisabled = disableFieldsCheckbox.checked;
 
-    const teamNameInput = document.getElementById(`${team}-name`);
-    const teamWinrateInput = document.getElementById(`${team}-winrate`);
-    const teamRecentWinrateInput = document.getElementById(`${team}-recent-winrate`);
-
-    teamNameInput.disabled = isDisabled;
-    teamWinrateInput.disabled = isDisabled;
-    teamRecentWinrateInput.disabled = isDisabled;
-}
 
 function swapTeams() {
     // Trocar valores dos comboboxes de campeões
@@ -896,127 +622,6 @@ async function captureAndSendToWebhook() {
 }
 
 
-// ##############################################################################
-async function scrapeTeams() {
-    showSpinner();
-    try {
-        const response = await fetch('/scrapeTeams');
-        if (response.ok) {
-            const teams = await response.json();
-            displayTeams(teams);
-        } else {
-            console.error('Failed to scrape teams');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    } finally {
-        hideSpinner();
-    }
-}
-
-function displayTeams(teams) {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '';
-
-    const table = document.createElement('table');
-    table.className = 'results-table';
-
-    const thead = document.createElement('thead');
-    thead.innerHTML = `
-        <tr>
-            <th>Team Name</th>
-            <th>Season</th>
-            <th>Region</th>
-            <th>Games</th>
-            <th>Win Rate</th>
-            <th>K/D</th>
-            <th>GPM</th>
-            <th>GDM</th>
-            <th>Game Duration</th>
-            <th>Kills / Game</th>
-            <th>Deaths / Game</th>
-            <th>Towers Killed</th>
-            <th>Towers Lost</th>
-            <th>First Blood Rate</th>
-            <th>First Tower Rate</th>
-            <th>Dragons Killed / Game</th>
-            <th>Dragon Rate</th>
-            <th>Voidgrubs Killed / Game</th>
-            <th>Herald Killed / Game</th>
-            <th>Herald Rate</th>
-            <th>Dragons at 15</th>
-            <th>Tower Differential at 15</th>
-            <th>Gold Differential at 15</th>
-            <th>Tower Plates Destroyed / Game</th>
-            <th>Baron Nashor Killed / Game</th>
-            <th>Baron Nashor Rate</th>
-            <th>Creeps / Minute</th>
-            <th>Damage to Champions / Minute</th>
-            <th>Wards / Minute</th>
-            <th>Vision Wards / Minute</th>
-            <th>Wards Cleared / Minute</th>
-            <th>Average Match Win Rate</th>
-        </tr>
-    `;
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    teams.forEach(team => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${team.name}</td>
-            <td>${team.season}</td>
-            <td>${team.region}</td>
-            <td>${team.games}</td>
-            <td>${team.winRate}</td>
-            <td>${team.kd}</td>
-            <td>${team.gpm}</td>
-            <td>${team.gdm}</td>
-            <td>${team.gameDuration}</td>
-            <td>${team.killsPerGame}</td>
-            <td>${team.deathsPerGame}</td>
-            <td>${team.towersKilled}</td>
-            <td>${team.towersLost}</td>
-            <td>${team.firstBloodRate}</td>
-            <td>${team.firstTowerRate}</td>
-            <td>${team.dragonsKilledPerGame}</td>
-            <td>${team.dragonRate}</td>
-            <td>${team.voidgrubsKilledPerGame}</td>
-            <td>${team.heraldKilledPerGame}</td>
-            <td>${team.heraldRate}</td>
-            <td>${team.dragonsAt15}</td>
-            <td>${team.towerDifferentialAt15}</td>
-            <td>${team.goldDifferentialAt15}</td>
-            <td>${team.towerPlatesDestroyedPerGame}</td>
-            <td>${team.baronNashorKilledPerGame}</td>
-            <td>${team.baronNashorRate}</td>
-            <td>${team.creepsPerMinute}</td>
-            <td>${team.damageToChampionsPerMinute}</td>
-            <td>${team.wardsPerMinute}</td>
-            <td>${team.visionWardsPerMinute}</td>
-            <td>${team.wardsClearedPerMinute}</td>
-            <td>${team.averageMatchWinRate}</td>
-        `;
-        tbody.appendChild(row);
-    });
-    table.appendChild(tbody);
-
-    resultsDiv.appendChild(table);
-}
 
 
 
-// Adicione a chamada dessa função em window.onload para garantir que os campos estejam no estado correto quando a página carregar
-window.onload = async () => {
-    const leagueSelect = document.getElementById('league-select');
-    leagueSelect.onchange = async () => {
-        const league = leagueSelect.value;
-        //await loadChampions(league);
-    };
-    //await loadChampions(leagueSelect.value);
-    await loadPlayers();
-
-    // Inicializar os campos desativados se os checkboxes estiverem marcados
-    toggleTeamFields('team-a');
-    toggleTeamFields('team-b');
-};

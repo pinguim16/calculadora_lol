@@ -364,3 +364,27 @@ section {
 .smaller-input {
     width: 100%;
 }
+
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+}
+
+.tooltip-custom {
+    position: absolute;
+    z-index: 999;
+    background: #e90101;
+    color: #f71313;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    display: none;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

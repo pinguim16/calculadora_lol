@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>League of Legends Winrate Checker</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container mt-4">
         <h1 class="text-center">League of Legends Winrate Checker</h1>
-        
+        <div class="toast-container" id="toast-container"></div>
         <div class="form-group">
             <label for="same-league-checkbox">Same League for both teams:</label>
             <input type="checkbox" id="same-league-checkbox" checked onclick="toggleLeagueSelection()">
@@ -20,9 +20,6 @@
             <label for="league-select">Select League:</label>
             <div class="input-group">
                 <select class="form-control" id="league-select"></select>
-                <div class="input-group-append">
-                    <button class="btn btn-primary" onclick="scrapeData()">Scrape Data</button>
-                </div>
             </div>
         </div>
 
@@ -39,13 +36,17 @@
                 <select class="form-control" id="league-select-team-b"></select>
             </div>
         </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" onclick="scrapeData()">Scrape Data</button>
+        </div>
+
 
         <div class="team-section">
             <h2 class="text-center">Team A</h2>
-            <div class="form-row align-items-end">
-                <div class="form-group col-md-2">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="team-a-name">Team A Name:</label>
-                    <input type="text" class="form-control smaller-input" id="team-a-name" name="team-a-name">
+                    <input type="text" class="form-control" id="team-a-name" name="team-a-name">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="team-a-winrate">Winrate:</label>
@@ -56,11 +57,11 @@
                     <input type="number" class="form-control small-input" id="team-a-recent-winrate" name="team-a-recent-winrate" min="0" max="100" step="0.01">
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="team-a-derretidos" data-toggle="tooltip" title="Usar em MD5">Derretidos</label>
+                    <label for="team-a-derretidos" class="tooltip-target" title="Usar em MD5">Derretidos</label>
                     <input type="checkbox" id="team-a-derretidos" name="team-a-derretidos">
                 </div>
-                <div class="form-group col-md-2">
-                    <label for="team-a-disable-fields" data-toggle="tooltip" title="Desativar campos">Desativar Campos</label>
+                <div class="form-group col-md-3">
+                    <label for="team-a-disable-fields" class="tooltip-target" title="Desativar campos">Desativar Campos</label>
                     <input type="checkbox" id="team-a-disable-fields" name="team-a-disable-fields" onchange="toggleTeamFields('team-a')">
                 </div>
             </div>
@@ -90,10 +91,10 @@
 
         <div class="team-section">
             <h2 class="text-center">Team B</h2>
-            <div class="form-row align-items-end">
-                <div class="form-group col-md-2">
+            <div class="form-row">
+                <div class="form-group col-md-3">
                     <label for="team-b-name">Team B Name:</label>
-                    <input type="text" class="form-control smaller-input" id="team-b-name" name="team-b-name">
+                    <input type="text" class="form-control" id="team-b-name" name="team-b-name">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="team-b-winrate">Winrate:</label>
@@ -104,11 +105,11 @@
                     <input type="number" class="form-control small-input" id="team-b-recent-winrate" name="team-b-recent-winrate" min="0" max="100" step="0.01">
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="team-b-derretidos" data-toggle="tooltip" title="Usar em MD5">Derretidos</label>
+                    <label for="team-b-derretidos" class="tooltip-target" title="Usar em MD5">Derretidos</label>
                     <input type="checkbox" id="team-b-derretidos" name="team-b-derretidos">
                 </div>
-                <div class="form-group col-md-2">
-                    <label for="team-b-disable-fields" data-toggle="tooltip" title="Desativar campos">Desativar Campos</label>
+                <div class="form-group col-md-3">
+                    <label for="team-b-disable-fields" class="tooltip-target" title="Desativar campos">Desativar Campos</label>
                     <input type="checkbox" id="team-b-disable-fields" name="team-b-disable-fields" onchange="toggleTeamFields('team-b')">
                 </div>
             </div>
@@ -135,7 +136,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="text-center mt-4">
             <div id="spinner-container" class="spinner-border text-primary" role="status" style="display:none;">
                 <span class="sr-only">Loading...</span>
@@ -156,11 +157,28 @@
             <!-- Jogos do dia serão exibidos aqui -->
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
+    <script src="cache.js"></script>
+    <script src="utils.js"></script>
+    <script src="loading.js"></script>
+    <script src="scrapeTeams.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();   
+            $('.tooltip-target').hover(function(){
+                var tooltipText = $(this).attr('data-tooltip');
+                var tooltip = $('<div class="tooltip-custom"></div>').text(tooltipText);
+                $('body').append(tooltip);
+                tooltip.css({
+                    top: $(this).offset().top - tooltip.outerHeight() - 10,
+                    left: $(this).offset().left + ($(this).outerWidth() / 2) - (tooltip.outerWidth() / 2)
+                }).fadeIn();
+            }, function(){
+                $('.tooltip-custom').remove();
+            });
         });
     </script>
 </body>
