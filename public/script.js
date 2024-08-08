@@ -160,10 +160,12 @@ function checkWinrates() {
     const teamAData = getTeamData(selectedChampsTeamA, 'teamA', teamAName, championsTeamA);
     const teamBData = getTeamData(selectedChampsTeamB, 'teamB', teamBName, championsTeamB);
 
-    displayResultsTable(resultsDiv, teamAData, teamBData);
-
     const teamACombinedWinrate = calculateCombinedWinrate(teamAData, 'team-a');
     const teamBCombinedWinrate = calculateCombinedWinrate(teamBData, 'team-b');
+
+    displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBName, teamBCombinedWinrate);
+
+    displayResultsTable(resultsDiv, teamAData, teamBData);
 
     displayTeamWinrates(teamAData, teamACombinedWinrate, 'team-a');
     displayTeamWinrates(teamBData, teamBCombinedWinrate, 'team-b');
@@ -173,8 +175,7 @@ function checkWinrates() {
 
     displayTeamComposition(resultsDiv, teamAName, teamAComposition, 'team-a');
     displayTeamComposition(resultsDiv, teamBName, teamBComposition, 'team-b');
-
-    displayBetterTeam(resultsDiv, teamAName, teamACombinedWinrate, teamBName, teamBCombinedWinrate);
+    
     captureAndSendToWebhook();
 }
 
@@ -564,23 +565,6 @@ function swapTeams() {
         teamBChamp.value = tempValue;
     }
 
-    // Trocar valores das outras informações das equipes
-    // const teamAName = document.getElementById('team-a-name');
-    // const teamAWinrate = document.getElementById('team-a-winrate');
-    // const teamARecentWinrate = document.getElementById('team-a-recent-winrate');
-    // const teamADerretidos = document.getElementById('team-a-derretidos');
-
-    // const teamBName = document.getElementById('team-b-name');
-    // const teamBWinrate = document.getElementById('team-b-winrate');
-    // const teamBRecentWinrate = document.getElementById('team-b-recent-winrate');
-    // const teamBDerretidos = document.getElementById('team-b-derretidos');
-
-    // [teamAName.value, teamBName.value] = [teamBName.value, teamAName.value];
-    // [teamAWinrate.value, teamBWinrate.value] = [teamBWinrate.value, teamAWinrate.value];
-    // [teamARecentWinrate.value, teamBRecentWinrate.value] = [teamBRecentWinrate.value, teamARecentWinrate.value];
-    // [teamADerretidos.checked, teamBDerretidos.checked] = [teamBDerretidos.checked, teamADerretidos.checked];
-
-    // Trocar valores nas variáveis selectedChampionsWinrate
     [selectedChampionsWinrate.teamA, selectedChampionsWinrate.teamB] = [selectedChampionsWinrate.teamB, selectedChampionsWinrate.teamA];
 
     console.log(selectedChampionsWinrate);

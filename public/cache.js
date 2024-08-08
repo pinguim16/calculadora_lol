@@ -102,6 +102,8 @@ const teamNameMapping = {
     "BoostGate Esports": "BoostGate Espor",
     "INFINITY": "Infinity eSports",
     "Infinity eSports": "INFINITY",
+    "NONGSHIM ESPORTS ACADEMY": "NS Challengers",
+    "NS Challengers": "NONGSHIM ESPORTS ACADEMY",
     
     
     
