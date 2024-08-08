@@ -67,6 +67,7 @@ function toggleLeagueSelection() {
 //#######################################
 //Carregar campeoes
 async function scrapeData() {
+    showSpinner();
     const sameLeagueCheckbox = document.getElementById('same-league-checkbox');
     if(sameLeagueCheckbox.checked){
         const league = document.getElementById('league-select').value;
@@ -80,6 +81,10 @@ async function scrapeData() {
         console.log(championsTeamA);
         console.log(championsTeamB);
     }
+
+    await scrapeTeams();
+    await loadGamesOfDay();
+    hideSpinner();
 }
 
 async function getChampionsLeague(league){

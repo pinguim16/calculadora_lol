@@ -58,7 +58,7 @@ const leagueUrls = {
     "CBLOL": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-CBLOL%20Split%202%202024/",
     ],
-    "LLA": [
+    "LLA_-_Liga_Latinoamérica": [
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LLA%20Closing%202024/",
         "https://gol.gg/champion/list/season-ALL/split-ALL/tournament-LLA%20Closing%20Playoffs%202024/"
     ],

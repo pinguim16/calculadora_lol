@@ -59,13 +59,13 @@ const allChampions = [
     "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Syndra", "Sylas", "Tahm Kench", "Taliyah", "Talon", "Taric",
     "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twisted Fate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Vel'Koz",
     "Vex", "Vi", "Viego", "Viktor", "Vladimir", "Volibear", "Warwick", "Wukong", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yone", "Yorick",
-    "Yuumi", "Zac", "Zed", "Zeri", "Ziggs", "Zilean", "Zoe", "Zyra", "Aurora", "Smolder", "Kaisa", "Kindred", "Milio", "Renata Glasc"
+    "Yuumi", "Zac", "Zed", "Zeri", "Ziggs", "Zilean", "Zoe", "Zyra", "Aurora", "Smolder", "Kaisa", "Kindred", "Milio", "Renata Glasc", "Seraphine"
 ].sort();
 
 const leagues = [
     "LPL", "LCK", "LCK CL", "TCL", "Ultraliga", "NLC", "Prime_League",
     "LFL - La Ligue Française", "LVP", "PCS", "LEC", "LIT", "CBLOL",
-    "LLA - Liga Latinoamérica", "CBLOL Academy", "VCS", "Elite Series - EMEA Masters",
+    "LLA_-_Liga_Latinoamérica", "CBLOL Academy", "VCS", "Elite Series - EMEA Masters",
     "Hitpoint Masters Summer", "LCS", "NACL", "EMEA_Masters"
 ];
 
@@ -100,6 +100,8 @@ const teamNameMapping = {
     "Dsyre Esports": "DSYRE",
     "BoostGate Espor": "BoostGate Esports",
     "BoostGate Esports": "BoostGate Espor",
+    "INFINITY": "Infinity eSports",
+    "Infinity eSports": "INFINITY",
     
     
     
